@@ -1,4 +1,5 @@
 """Orchestrates CaptionGenerator and PromptGenerator to produce content."""
+
 from app.features.generation.caption import CaptionGenerator
 from app.features.generation.prompt import PromptGenerator
 

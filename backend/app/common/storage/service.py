@@ -1,4 +1,5 @@
 """Persists campaign artifacts and metadata to the filesystem."""
+
 import json
 from pathlib import Path
 
@@ -7,7 +8,9 @@ from app.core.config import settings
 
 class StorageService:
     def save_metadata(self, campaign_id: str, metadata: dict) -> Path:
-        path = Path(settings.campaigns_dir) / "generated" / campaign_id / "metadata.json"
+        path = (
+            Path(settings.campaigns_dir) / "generated" / campaign_id / "metadata.json"
+        )
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(metadata, indent=2))
         return path
@@ -22,7 +25,9 @@ class StorageService:
         return pending
 
     def update_status(self, campaign_id: str, status: str) -> None:
-        path = Path(settings.campaigns_dir) / "generated" / campaign_id / "metadata.json"
+        path = (
+            Path(settings.campaigns_dir) / "generated" / campaign_id / "metadata.json"
+        )
         data = json.loads(path.read_text())
         data["status"] = status
         path.write_text(json.dumps(data, indent=2))

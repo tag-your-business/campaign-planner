@@ -1,7 +1,8 @@
 """Dispatches campaigns to platform publishers."""
+
+from app.common.storage.service import StorageService
 from app.features.publishing.publishers.facebook import FacebookPublisher
 from app.features.publishing.publishers.instagram import InstagramPublisher
-from app.common.storage.service import StorageService
 
 
 class PublisherService:

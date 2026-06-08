@@ -1,4 +1,5 @@
 """Loads and provides events from data/events/<year>.json."""
+
 import json
 from pathlib import Path
 

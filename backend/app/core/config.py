@@ -20,8 +20,8 @@ class Settings(BaseSettings):
     logs_dir: str = "data/logs"
 
     # Scheduler
-    generate_cron: str = "0 8 * * *"   # daily 8 AM
-    publish_cron: str = "0 10 * * *"   # daily 10 AM
+    generate_cron: str = "0 8 * * *"  # daily 8 AM
+    publish_cron: str = "0 10 * * *"  # daily 10 AM
 
     # Social
     facebook_access_token: str = ""
