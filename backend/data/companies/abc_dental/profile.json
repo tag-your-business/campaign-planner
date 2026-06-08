@@ -1,0 +1,11 @@
+{
+  "slug": "abc_dental",
+  "name": "ABC Dental",
+  "industry": "dental",
+  "tone": "professional",
+  "brand_colors": ["#0057B7", "#FFFFFF"],
+  "social": {
+    "facebook_page_id": "",
+    "instagram_account_id": ""
+  }
+}
