@@ -1,0 +1,204 @@
+# Campaign Planner - AI Assistant Rules
+
+## Project Context
+
+This is an AI-powered social media campaign automation system. The system generates branded content (captions and images) for businesses using OpenAI's GPT and DALL-E models.
+
+## Key Information
+
+- **Language**: Python 3.13+
+- **Framework**: FastAPI
+- **Architecture**: Feature-based organization
+- **Storage**: JSON files (no database)
+- **AI Integration**: OpenAI GPT for text, DALL-E for images
+
+## Documentation
+
+Read these files for context:
+1. `.claude/PROJECT_CONTEXT.md` - Comprehensive project overview
+2. `ARCHITECTURE.md` - System design and components
+3. `DEVELOPMENT.md` - Development workflow
+4. `.claude/QUICK_REFERENCE.md` - Quick reference guide
+
+## Code Standards
+
+### Style
+- **Formatter**: Black (line length: 100)
+- **Linter**: Ruff
+- **Type hints**: Encouraged
+- **Docstrings**: Google-style
+
+### File Structure
+```python
+# Import order:
+# 1. Standard library
+# 2. Third-party
+# 3. Local application
+
+# Naming:
+# - Files: snake_case.py
+# - Classes: PascalCase
+# - Functions: snake_case
+# - Constants: UPPER_SNAKE_CASE
+```
+
+## Important Directories
+
+```
+backend/app/
+├── core/           # Configuration (settings, logging)
+├── features/       # Business logic by domain
+│   ├── companies/  # Company profile management
+│   ├── events/     # Event calendar
+│   ├── generation/ # AI content generation
+│   └── publishing/ # Social media publishing
+└── main.py         # FastAPI entry point
+
+backend/data/
+├── companies/      # Company profiles (JSON)
+├── events/         # Event calendars (JSON)
+└── campaigns/      # Generated campaigns (JSON)
+```
+
+## Core Principles
+
+1. **Read before editing**: Always read files before proposing changes
+2. **Feature-based**: Organize code by business domain, not technical layer
+3. **Type safety**: Use Pydantic models for data validation
+4. **Async by default**: Use async/await for I/O operations
+5. **Test coverage**: Add tests for new features
+6. **Configuration**: Use environment variables for settings
+
+## Common Tasks
+
+### Accessing Configuration
+```python
+from app.core.config import settings
+
+api_key = settings.openai_api_key
+data_dir = settings.data_dir
+```
+
+### Working with Companies
+```python
+# Company profiles: backend/data/companies/{slug}/profile.json
+# Load via: CompanyService().load_company(slug)
+```
+
+### Working with Events
+```python
+# Event data: backend/data/events/{year}.json
+# Load via: EventService().load_events(year)
+```
+
+### Generation Features
+```python
+# Caption generation: features/generation/caption.py
+# Image generation: features/generation/image.py
+# Prompt templates: features/generation/prompt.py
+```
+
+## Testing
+
+```bash
+# Run tests
+poetry run pytest
+
+# Run with coverage
+poetry run pytest --cov=app
+
+# Format and lint
+poetry run black .
+poetry run ruff check --fix .
+```
+
+## Data Schemas
+
+### Company Profile (JSON)
+```json
+{
+  "slug": "string",
+  "name": "string",
+  "industry": "string",
+  "tone": "professional|casual|friendly",
+  "brand_colors": ["#HEX"],
+  "social": {
+    "facebook_page_id": "string",
+    "instagram_account_id": "string"
+  }
+}
+```
+
+### Event (JSON)
+```json
+{
+  "date": "YYYY-MM-DD",
+  "name": "string",
+  "description": "string",
+  "tags": ["string"]
+}
+```
+
+## When Making Changes
+
+1. Check if environment variables are needed (add to `core/config.py`)
+2. Follow existing patterns in the codebase
+3. Add tests for new functionality
+4. Update documentation if adding features
+5. Run pre-commit hooks before committing
+
+## Error Handling
+
+```python
+# Raise descriptive errors
+raise ValueError(f"Company not found: {company_slug}")
+
+# Log with context
+logger.error(f"Operation failed for {entity}", exc_info=True)
+```
+
+## External APIs
+
+- **OpenAI**: GPT for captions, DALL-E for images (API key required)
+- **Facebook Graph API**: Publishing to Facebook (token in .env)
+- **Instagram Graph API**: Publishing to Instagram (token in .env)
+
+## Known TODOs
+
+- Scheduler integration in `app/main.py` (lines 12-14)
+- API endpoint development (`app/api/v1/routes/`)
+
+## Questions to Ask
+
+Before implementing features:
+- "Which company should this apply to?"
+- "Should this be configurable?"
+- "Do you need tests for this?"
+- "Should I update documentation?"
+
+## Development Workflow
+
+1. Create feature branch
+2. Make changes following standards
+3. Add tests
+4. Run `poetry run pre-commit run --all-files`
+5. Commit with conventional commit messages
+6. Create pull request
+
+## File Reading Priority
+
+When exploring:
+1. `backend/app/core/config.py` - Settings
+2. Feature module you're working on
+3. Related test files
+4. Documentation files
+
+## Additional Notes
+
+- No database currently - all data in JSON files
+- Single-process scheduler (APScheduler)
+- Multi-company support with isolated profiles
+- Brand-aware content generation
+- Scheduled automation (generation + publishing)
+
+For detailed information, see `.claude/PROJECT_CONTEXT.md`.
