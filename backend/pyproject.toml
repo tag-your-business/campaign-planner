@@ -6,7 +6,7 @@ authors = [
     {name = "Abhay", email = "abhay.30121997@gmail.com"},
     {name = "Gautam", email = "gautamr347@gmail.com"}
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 dependencies = [
     "openai (>=2.41.0,<3.0.0)",
     "fastapi (>=0.136.3,<0.137.0)",
@@ -39,9 +39,9 @@ build-backend = "poetry.core.masonry.api"
 [dependency-groups]
 dev = [
     "pytest (>=9.0.3,<10.0.0)",
-    "pytest-asyncio (>=1.4.0,<2.0.0)",
+    "pytest-asyncio (>=1.1.0,<2.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
     "ruff (>=0.15.16,<0.16.0)",
     "black (>=26.5.1,<27.0.0)",
-    "pre-commit (>=3.4.0,<4.0.0)"
+    "pre-commit (>=4.0.0,<5.0.0)"
 ]
