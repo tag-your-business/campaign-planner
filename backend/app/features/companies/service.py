@@ -1,4 +1,5 @@
 """Reads company profiles from data/companies/<slug>/profile.json."""
+
 import json
 from pathlib import Path
 

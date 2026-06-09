@@ -1,4 +1,5 @@
 """Cron job: pick up pending campaigns from storage and publish them."""
+
 import logging
 
 from app.common.storage.service import StorageService

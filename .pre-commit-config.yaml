@@ -8,18 +8,19 @@ repos:
       - id: check-json
       - id: check-toml
       - id: detect-aws-credentials
+        args: [--allow-missing-credentials]
       - id: detect-private-key
-      - id: trim-trailing-whitespace
+      - id: trailing-whitespace
 
-  - repo: https://github.com/pre-commit/mirrors-autoflake
-    rev: v1.5.7
+  - repo: https://github.com/PyCQA/autoflake
+    rev: v2.3.1
     hooks:
       - id: autoflake
         args: [--remove-all-unused-imports, --remove-unused-variables, --in-place]
         files: \.(py)$
 
-  - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.12.0
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
     hooks:
       - id: isort
         args: [--profile=black]
@@ -34,4 +35,3 @@ repos:
     rev: 26.5.1
     hooks:
       - id: black
-        language_version: python3.11

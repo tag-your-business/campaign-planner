@@ -1,10 +1,10 @@
 """Generates images via OpenAI DALL-E and saves to campaigns dir."""
-import httpx
+
 from pathlib import Path
 
-from openai import OpenAI
-
+import httpx
 from app.core.config import settings
+from openai import OpenAI
 
 
 class ImageService:
