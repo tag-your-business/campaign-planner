@@ -12,6 +12,19 @@ repos:
       - id: detect-private-key
       - id: trailing-whitespace
 
+  - repo: https://github.com/PyCQA/autoflake
+    rev: v2.3.1
+    hooks:
+      - id: autoflake
+        args: [--remove-all-unused-imports, --remove-unused-variables, --in-place]
+        files: \.(py)$
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [--profile=black]
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.16
     hooks:
@@ -22,4 +35,3 @@ repos:
     rev: 26.5.1
     hooks:
       - id: black
-        language_version: python3.13

@@ -3,9 +3,8 @@
 from pathlib import Path
 
 import httpx
-from openai import OpenAI
-
 from app.core.config import settings
+from openai import OpenAI
 
 
 class ImageService:

@@ -3,7 +3,8 @@ name = "campaign-planner"
 version = "0.1.0"
 description = "AI-powered campaign planner backend"
 authors = [
-    {name = "Abhay",email = "abhay.30121997@gmail.com"}
+    {name = "Abhay", email = "abhay.30121997@gmail.com"},
+    {name = "Gautam", email = "gautamr347@gmail.com"}
 ]
 requires-python = ">=3.13"
 dependencies = [
@@ -22,7 +23,7 @@ dependencies = [
 line-length = 100
 
 [tool.ruff.lint]
-select = ["E", "F", "I"]
+select = ["E", "F"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
