@@ -3,12 +3,10 @@
 import json
 import logging
 from pathlib import Path
-from typing import Optional
-
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
 
 from app.core.config import settings
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
@@ -72,14 +70,10 @@ def get_company(slug: str):
     brand colors, and social media account IDs.
     """
     try:
-        profile_path = (
-            Path(settings.companies_dir) / slug / "profile.json"
-        )
+        profile_path = Path(settings.companies_dir) / slug / "profile.json"
 
         if not profile_path.exists():
-            raise HTTPException(
-                status_code=404, detail=f"Company {slug} not found"
-            )
+            raise HTTPException(status_code=404, detail=f"Company {slug} not found")
 
         profile = json.loads(profile_path.read_text())
 

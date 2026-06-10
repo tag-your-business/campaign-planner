@@ -1,10 +1,10 @@
 """Generate social media captions using GPT-4o-mini."""
 
 import logging
-from openai import OpenAI
-from tenacity import retry, stop_after_attempt, wait_exponential
 
 from app.core.config import settings
+from openai import OpenAI
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +12,10 @@ logger = logging.getLogger(__name__)
 class CaptionGenerator:
     """Generates engaging social media captions using GPT-4o-mini with retry logic."""
 
-    CAPTION_SYSTEM_PROMPT = """You are a professional social media content creator specializing in creating engaging, brand-appropriate captions for business social media posts.
+    CAPTION_SYSTEM_PROMPT = (
+        """You are a professional social media content creator """
+        """specializing in creating engaging, brand-appropriate captions """
+        """for business social media posts.
 
 Your captions should:
 - Be 150-300 characters long
@@ -23,6 +26,7 @@ Your captions should:
 - Be professional and on-brand
 
 Format: Write the caption text followed by hashtags on the same or next line."""
+    )
 
     def __init__(self):
         """Initialize the caption generator with OpenAI client."""
@@ -89,11 +93,10 @@ Format: Write the caption text followed by hashtags on the same or next line."""
         tone = campaign_spec.get("tone", "professional")
         event_tags = campaign_spec.get("event_tags", [])
 
-        tags_context = (
-            f" (Event type: {', '.join(event_tags)})" if event_tags else ""
-        )
+        tags_context = f" (Event type: {', '.join(event_tags)})" if event_tags else ""
 
-        prompt = f"""Create a social media caption for {company_name}, a {industry} business, celebrating {event_name}{tags_context}.
+        prompt = f"""Create a social media caption for {company_name}, a {industry} business, \
+celebrating {event_name}{tags_context}.
 
 Brand tone: {tone}
 

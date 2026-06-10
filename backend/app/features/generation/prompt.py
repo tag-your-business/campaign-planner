@@ -24,7 +24,8 @@ Color palette: {brand_colors}
 Composition: Clean, uncluttered design suitable for social media posts
 Style: Professional marketing material with celebratory {event_name} theme
 
-The image should be visually appealing, on-brand, and immediately convey the {event_name} celebration while relating to the {industry} industry."""
+The image should be visually appealing, on-brand, and immediately convey the {event_name} \
+celebration while relating to the {industry} industry."""
 
     def generate(self, campaign_spec: dict) -> str:
         """

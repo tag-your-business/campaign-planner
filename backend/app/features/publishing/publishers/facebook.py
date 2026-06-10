@@ -2,10 +2,10 @@
 
 import logging
 from pathlib import Path
-import httpx
-from tenacity import retry, stop_after_attempt, wait_exponential
 
+import httpx
 from app.core.config import settings
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 logger = logging.getLogger(__name__)
 
@@ -89,9 +89,7 @@ class FacebookPublisher:
                         result = response.json()
                         post_id = result.get("id", "")
 
-                        logger.info(
-                            f"Successfully published to Facebook: {post_id}"
-                        )
+                        logger.info(f"Successfully published to Facebook: {post_id}")
 
                         return {
                             "platform": "facebook",

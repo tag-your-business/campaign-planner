@@ -1,11 +1,10 @@
 """Instagram publisher using Graph API."""
 
 import logging
-from pathlib import Path
-import httpx
-from tenacity import retry, stop_after_attempt, wait_exponential
 
+import httpx
 from app.core.config import settings
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 logger = logging.getLogger(__name__)
 
@@ -94,9 +93,7 @@ class InstagramPublisher:
             media_id = await self._publish_media(account_id, container_id)
 
             if media_id:
-                logger.info(
-                    f"Successfully published to Instagram: {media_id}"
-                )
+                logger.info(f"Successfully published to Instagram: {media_id}")
                 return {
                     "platform": "instagram",
                     "post_id": media_id,
@@ -144,7 +141,8 @@ class InstagramPublisher:
                     return container_id
                 else:
                     logger.error(
-                        f"Failed to create media container: {response.status_code} - {response.text}"
+                        f"Failed to create media container: "
+                        f"{response.status_code} - {response.text}"
                     )
                     return None
 
@@ -152,9 +150,7 @@ class InstagramPublisher:
             logger.error(f"Error creating media container: {e}")
             return None
 
-    async def _publish_media(
-        self, account_id: str, container_id: str
-    ) -> str | None:
+    async def _publish_media(self, account_id: str, container_id: str) -> str | None:
         """
         Step 2: Publish the media container.
 

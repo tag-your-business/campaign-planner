@@ -44,18 +44,14 @@ class PublisherService:
                 results["instagram"] = ig_result
 
             # Check if all succeeded
-            all_succeeded = all(
-                r.get("status") == "success" for r in results.values()
-            )
+            all_succeeded = all(r.get("status") == "success" for r in results.values())
 
             if all_succeeded:
                 self.storage.update_status(campaign_id, "published")
                 logger.info(f"Campaign {campaign_id} published successfully")
             else:
                 self.storage.update_status(campaign_id, "failed")
-                logger.warning(
-                    f"Campaign {campaign_id} partially failed: {results}"
-                )
+                logger.warning(f"Campaign {campaign_id} partially failed: {results}")
 
             return results
 

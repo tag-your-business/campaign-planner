@@ -1,15 +1,14 @@
 import logging
 from contextlib import asynccontextmanager
 
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from apscheduler.triggers.cron import CronTrigger
-from fastapi import FastAPI
-
 from app.api.v1.routes import campaigns, companies, events
 from app.core.config import settings
 from app.core.logging import setup_logging
 from app.schedulers.generate_scheduler import run_generate_job
 from app.schedulers.publish_scheduler import run_publish_job
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
+from fastapi import FastAPI
 
 logger = logging.getLogger(__name__)
 
@@ -36,9 +35,7 @@ async def lifespan(app: FastAPI):
         name="Generate Campaigns",
         replace_existing=True,
     )
-    logger.info(
-        f"Scheduled generate job with cron: {settings.generate_cron}"
-    )
+    logger.info(f"Scheduled generate job with cron: {settings.generate_cron}")
 
     # Add publish job
     scheduler.add_job(
@@ -48,9 +45,7 @@ async def lifespan(app: FastAPI):
         name="Publish Campaigns",
         replace_existing=True,
     )
-    logger.info(
-        f"Scheduled publish job with cron: {settings.publish_cron}"
-    )
+    logger.info(f"Scheduled publish job with cron: {settings.publish_cron}")
 
     # Start scheduler
     scheduler.start()

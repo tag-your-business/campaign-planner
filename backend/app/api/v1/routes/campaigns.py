@@ -5,13 +5,12 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-
 from app.common.storage.service import StorageService
 from app.core.config import settings
 from app.features.publishing.service import PublisherService
 from app.schedulers.generate_scheduler import run_generate_job
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
@@ -66,13 +65,9 @@ async def trigger_publish():
         for campaign in pending:
             try:
                 await publisher.publish(campaign)
-                results.append(
-                    {"campaign_id": campaign.get("id"), "status": "success"}
-                )
+                results.append({"campaign_id": campaign.get("id"), "status": "success"})
             except Exception as exc:
-                logger.error(
-                    f"Failed to publish campaign {campaign.get('id')}: {exc}"
-                )
+                logger.error(f"Failed to publish campaign {campaign.get('id')}: {exc}")
                 results.append(
                     {
                         "campaign_id": campaign.get("id"),
@@ -127,10 +122,7 @@ def get_campaign(campaign_id: str):
     """
     try:
         metadata_path = (
-            Path(settings.campaigns_dir)
-            / "generated"
-            / campaign_id
-            / "metadata.json"
+            Path(settings.campaigns_dir) / "generated" / campaign_id / "metadata.json"
         )
 
         if not metadata_path.exists():
@@ -158,10 +150,7 @@ async def publish_campaign(campaign_id: str):
     try:
         # Get campaign metadata
         metadata_path = (
-            Path(settings.campaigns_dir)
-            / "generated"
-            / campaign_id
-            / "metadata.json"
+            Path(settings.campaigns_dir) / "generated" / campaign_id / "metadata.json"
         )
 
         if not metadata_path.exists():

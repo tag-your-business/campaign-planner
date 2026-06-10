@@ -46,9 +46,7 @@ class CampaignPlanner:
 
         # Calculate dates
         event_date = datetime.fromisoformat(event.get("date"))
-        scheduled_publish_date = event_date - timedelta(
-            days=settings.publish_lead_days
-        )
+        scheduled_publish_date = event_date - timedelta(days=settings.publish_lead_days)
 
         # Build campaign specification
         campaign_spec = {
@@ -98,9 +96,7 @@ class CampaignPlanner:
             return True
 
         # Check for industry-specific relevance
-        industry_keywords = self.INDUSTRY_EVENT_MAPPING.get(
-            company_industry, []
-        )
+        industry_keywords = self.INDUSTRY_EVENT_MAPPING.get(company_industry, [])
 
         # Check if any industry keyword appears in event name or ID
         for keyword in industry_keywords:

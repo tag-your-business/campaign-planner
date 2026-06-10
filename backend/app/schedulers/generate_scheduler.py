@@ -59,16 +59,11 @@ def run_generate_job() -> None:
         logger.info(f"Loaded {len(events)} upcoming events")
 
         # 3. Filter events that should be generated now (X days before event)
-        generation_date = datetime.now() + timedelta(
-            days=settings.generation_lead_days
-        )
+        generation_date = datetime.now() + timedelta(days=settings.generation_lead_days)
         events_to_generate = [
             e
             for e in events
-            if abs(
-                (datetime.fromisoformat(e["date"]) - generation_date).days
-            )
-            <= 1
+            if abs((datetime.fromisoformat(e["date"]) - generation_date).days) <= 1
         ]
         logger.info(
             f"Found {len(events_to_generate)} events to generate "
@@ -90,13 +85,9 @@ def run_generate_job() -> None:
                         continue
 
                     # Generate campaign ID
-                    campaign_id = generate_campaign_id(
-                        company["slug"], event["id"]
-                    )
+                    campaign_id = generate_campaign_id(company["slug"], event["id"])
                     campaign_dir = (
-                        Path(settings.campaigns_dir)
-                        / "generated"
-                        / campaign_id
+                        Path(settings.campaigns_dir) / "generated" / campaign_id
                     )
                     campaign_dir.mkdir(parents=True, exist_ok=True)
 
@@ -118,9 +109,7 @@ def run_generate_job() -> None:
 
                     # Apply branding
                     logo_path = (
-                        Path(settings.companies_dir)
-                        / company["slug"]
-                        / "logo.png"
+                        Path(settings.companies_dir) / company["slug"] / "logo.png"
                     )
                     final_image_path = campaign_dir / "image.png"
                     branding_service.apply(
@@ -145,9 +134,7 @@ def run_generate_job() -> None:
                         "caption": caption,
                         "image_path": str(final_image_path),
                         "platforms": campaign_spec["platforms"],
-                        "facebook_page_id": campaign_spec.get(
-                            "facebook_page_id", ""
-                        ),
+                        "facebook_page_id": campaign_spec.get("facebook_page_id", ""),
                         "instagram_account_id": campaign_spec.get(
                             "instagram_account_id", ""
                         ),
@@ -156,9 +143,7 @@ def run_generate_job() -> None:
                     storage.save_metadata(campaign_id, metadata)
                     generated_count += 1
 
-                    logger.info(
-                        f"Successfully generated campaign {campaign_id}"
-                    )
+                    logger.info(f"Successfully generated campaign {campaign_id}")
 
                 except Exception as exc:
                     failed_count += 1
@@ -193,9 +178,7 @@ def load_active_companies() -> list[dict]:
     companies = []
     for entry in active_companies:
         slug = entry["slug"]
-        profile_path = (
-            Path(settings.companies_dir) / slug / "profile.json"
-        )
+        profile_path = Path(settings.companies_dir) / slug / "profile.json"
 
         if profile_path.exists():
             profile = json.loads(profile_path.read_text())
@@ -222,9 +205,7 @@ def load_upcoming_events(days: int = 30) -> list[dict]:
     future_date = now + timedelta(days=days)
 
     upcoming = [
-        e
-        for e in all_events
-        if now <= datetime.fromisoformat(e["date"]) <= future_date
+        e for e in all_events if now <= datetime.fromisoformat(e["date"]) <= future_date
     ]
 
     return upcoming

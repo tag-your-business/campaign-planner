@@ -36,9 +36,7 @@ async def _async_publish_job() -> None:
         try:
             await publisher.publish(campaign)
             published_count += 1
-            logger.info(
-                f"Successfully published campaign {campaign.get('id')}"
-            )
+            logger.info(f"Successfully published campaign {campaign.get('id')}")
         except Exception as exc:
             failed_count += 1
             logger.error(

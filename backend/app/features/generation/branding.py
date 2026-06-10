@@ -2,6 +2,7 @@
 
 import logging
 from pathlib import Path
+
 from PIL import Image
 
 logger = logging.getLogger(__name__)
@@ -82,13 +83,9 @@ class BrandingService:
             try:
                 base_image = Image.open(image_path).convert("RGB")
                 base_image.save(output_path, "PNG")
-                logger.warning(
-                    "Saved image without branding due to error"
-                )
+                logger.warning("Saved image without branding due to error")
             except Exception as fallback_error:
-                logger.error(
-                    f"Failed to save fallback image: {fallback_error}"
-                )
+                logger.error(f"Failed to save fallback image: {fallback_error}")
                 raise
 
             return output_path

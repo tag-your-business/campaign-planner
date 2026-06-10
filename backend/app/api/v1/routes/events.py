@@ -4,10 +4,9 @@ import json
 import logging
 from pathlib import Path
 
+from app.core.config import settings
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-
-from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
