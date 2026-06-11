@@ -1,0 +1,12 @@
+{
+  "companies": [
+    {
+      "slug": "test_dental",
+      "active": true
+    },
+    {
+      "slug": "test_restaurant",
+      "active": true
+    }
+  ]
+}

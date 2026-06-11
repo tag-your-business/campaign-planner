@@ -1,0 +1,13 @@
+{
+  "slug": "test_restaurant",
+  "name": "Test Restaurant",
+  "industry": "restaurant",
+  "tone": "friendly",
+  "brand_colors": [
+    "#ff6600",
+    "#ffffff"
+  ],
+  "facebook_page_id": "restaurant_fb_789",
+  "instagram_account_id": "restaurant_ig_012",
+  "active": true
+}
