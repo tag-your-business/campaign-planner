@@ -102,6 +102,11 @@ coverage.xml
 
 cover/
 
+# Test data - generated campaigns
+# Ignore all generated campaign files but keep the directory structure
+tests/integration/data/campaigns/generated/*
+!tests/integration/data/campaigns/generated/.gitkeep
+
 
 
 # Translations
@@ -429,4 +434,12 @@ __marimo__/
 # Streamlit
 
 .streamlit/secrets.toml
+
+
+
+# Claude Code
+
+# Personal Claude Code guidelines (should not be committed)
+
+CLAUDE.local.md
 

@@ -1,0 +1,13 @@
+{
+  "slug": "test_dental",
+  "name": "Test Dental Practice",
+  "industry": "dental",
+  "tone": "professional",
+  "brand_colors": [
+    "#0066cc",
+    "#ffffff"
+  ],
+  "facebook_page_id": "dental_fb_123",
+  "instagram_account_id": "dental_ig_456",
+  "active": true
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Valentine's Day",
+    "date": "2026-06-21",
+    "tags": [
+      "holiday",
+      "seasonal"
+    ],
+    "description": "Day of love and romance"
+  },
+  {
+    "name": "National Oral Health Month",
+    "date": "2026-06-21",
+    "tags": [
+      "health",
+      "awareness"
+    ],
+    "description": "Promoting oral health awareness"
+  },
+  {
+    "name": "National Food Day",
+    "date": "2026-06-21",
+    "tags": [
+      "culinary"
+    ],
+    "description": "Celebrating food and cuisine"
+  },
+  {
+    "name": "Auto Show Event",
+    "date": "2026-06-21",
+    "tags": [
+      "automotive"
+    ],
+    "description": "Annual automotive exhibition"
+  }
+]
