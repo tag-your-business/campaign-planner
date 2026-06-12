@@ -7,6 +7,9 @@ class Settings(BaseSettings):
     app_name: str = "Campaign Planner"
     debug: bool = False
 
+    # Text Generation Provider Selection
+    text_generation_provider: str = "openai"  # openai, nvidia, or anthropic
+
     # Anthropic
     anthropic_api_key: str = ""
     anthropic_text_model: str = "claude-opus-4-8"
@@ -15,6 +18,10 @@ class Settings(BaseSettings):
     openai_api_key: str = ""
     openai_text_model: str = "gpt-4o-mini"
     openai_image_model: str = "dall-e-3"
+
+    # NVIDIA
+    nvidia_api_key: str = ""
+    nvidia_text_model: str = "meta/llama-3.1-8b-instruct"
 
     # Data paths
     data_dir: str = "data"
