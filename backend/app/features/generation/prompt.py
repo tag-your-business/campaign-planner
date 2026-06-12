@@ -1,63 +1,88 @@
-"""Generate prompts for AI image generation based on campaign specifications."""
+"""Generate DALL-E image prompts using Claude."""
+
+import logging
+
+from anthropic import Anthropic
+from app.core.config import settings
+from tenacity import retry, stop_after_attempt, wait_exponential
+
+logger = logging.getLogger(__name__)
 
 
 class PromptGenerator:
-    """Generates DALL-E prompts for campaign images based on company and event context."""
+    """Uses Claude to generate rich, campaign-aware DALL-E image prompts."""
 
-    # Industry-specific keywords to enhance relevance
-    INDUSTRY_KEYWORDS = {
-        "dental": "teeth, smiles, oral health, dental care, bright smile, healthy teeth",
-        "healthcare": "wellness, health, care, medical, patient care, healthy living",
-        "restaurant": "food, dining, delicious, culinary, cuisine, tasty",
-        "retail": "shopping, products, deals, store, merchandise, quality",
-        "fitness": "exercise, workout, health, strength, active lifestyle, wellness",
-        "beauty": "beauty, skincare, cosmetics, makeup, radiance, self-care",
-        "default": "professional, quality, service, excellence, customer satisfaction",
-    }
+    SYSTEM_PROMPT = """You are an expert visual artist and marketing specialist who creates
+detailed image generation prompts for DALL-E.
 
-    IMAGE_PROMPT_TEMPLATE = """Create a professional, vibrant social media image for {event_name}.
+Your prompts should:
+- Be descriptive and specific (200-350 characters)
+- Specify visual style, composition, lighting, colors, and mood
+- Be tailored to the specific industry and brand tone
+- Reference artistic style (e.g., photorealistic, illustrated, minimal, bold)
+- Never include text, words, or lettering in the image
+- Be optimized for a square 1024x1024 social media post
 
-Industry: {industry}
-Brand style: {tone}, modern, eye-catching, engaging
-Visual elements: {industry_keywords}
-Color palette: {brand_colors}
-Composition: Clean, uncluttered design suitable for social media posts
-Style: Professional marketing material with celebratory {event_name} theme
+Output ONLY the prompt text with no preamble, labels, or commentary."""
 
-The image should be visually appealing, on-brand, and immediately convey the {event_name} \
-celebration while relating to the {industry} industry."""
+    def __init__(self):
+        self.client = Anthropic(api_key=settings.anthropic_api_key)
+        self.model = settings.anthropic_text_model
 
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=4, max=10),
+        reraise=True,
+    )
     def generate(self, campaign_spec: dict) -> str:
-        """
-        Generate a DALL-E image prompt from campaign specifications.
+        """Generate a DALL-E prompt for the given campaign spec via Claude.
 
         Args:
-            campaign_spec: Dictionary containing:
-                - event_name: Name of the event/holiday
-                - industry: Company industry (dental, healthcare, etc.)
-                - tone: Brand tone (professional, friendly, etc.)
-                - brand_colors: List of hex color codes
+            campaign_spec: Contains event_name, industry, tone, brand_colors, etc.
 
         Returns:
-            Formatted prompt string for DALL-E image generation
-        """
-        industry = campaign_spec.get("industry", "general")
-        industry_keywords = self.INDUSTRY_KEYWORDS.get(
-            industry, self.INDUSTRY_KEYWORDS["default"]
-        )
+            A detailed prompt string ready for DALL-E.
 
-        # Format brand colors for natural language
+        Raises:
+            Exception: If all retry attempts fail.
+        """
+        try:
+            user_prompt = self._build_user_prompt(campaign_spec)
+
+            response = self.client.messages.create(
+                model=self.model,
+                max_tokens=500,
+                system=self.SYSTEM_PROMPT,
+                messages=[{"role": "user", "content": user_prompt}],
+            )
+
+            prompt = response.content[0].text.strip()
+            logger.info(
+                f"Generated image prompt for {campaign_spec.get('company_name')} - "
+                f"{campaign_spec.get('event_name')}"
+            )
+            return prompt
+
+        except Exception as e:
+            logger.error(
+                f"Failed to generate image prompt for {campaign_spec.get('company_name')}: {e}"
+            )
+            raise
+
+    def _build_user_prompt(self, campaign_spec: dict) -> str:
+        event_name = campaign_spec.get("event_name", "Special Event")
+        industry = campaign_spec.get("industry", "business")
+        tone = campaign_spec.get("tone", "professional")
         brand_colors = campaign_spec.get("brand_colors", [])
         colors_text = (
-            ", ".join(brand_colors) if brand_colors else "vibrant, professional colors"
+            ", ".join(brand_colors) if brand_colors else "vibrant professional colors"
         )
 
-        prompt = self.IMAGE_PROMPT_TEMPLATE.format(
-            event_name=campaign_spec.get("event_name", "Special Event"),
-            industry=industry,
-            tone=campaign_spec.get("tone", "professional"),
-            industry_keywords=industry_keywords,
-            brand_colors=colors_text,
+        return (
+            f"Create a DALL-E image generation prompt for a {industry} business's "
+            f"{event_name} social media post.\n\n"
+            f"Brand tone: {tone}\n"
+            f"Brand colors: {colors_text}\n\n"
+            f"The image should immediately convey the {event_name} celebration "
+            f"while feeling relevant and authentic to the {industry} industry."
         )
-
-        return prompt.strip()
