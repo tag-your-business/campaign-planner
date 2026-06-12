@@ -2,22 +2,22 @@
 
 import logging
 
-import requests
+from openai import OpenAI
 
 from ..base import BaseTextProvider
 from ..models import TextGenerationRequest, TextGenerationResponse
 
 logger = logging.getLogger(__name__)
 
+NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
+
 
 class NvidiaProvider(BaseTextProvider):
     """NVIDIA API provider for text generation.
 
-    Uses NVIDIA's chat completion API with models like Llama.
-    Removes hardcoded API keys for better security.
+    Uses NVIDIA's OpenAI-compatible API with models like Llama.
+    The OpenAI SDK is reused with a custom base_url pointing to NVIDIA's endpoint.
     """
-
-    INVOKE_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 
     def __init__(self, api_key: str, model: str = "meta/llama-3.1-8b-instruct"):
         """Initialize NVIDIA provider.
@@ -27,9 +27,10 @@ class NvidiaProvider(BaseTextProvider):
             model: Model name (default: meta/llama-3.1-8b-instruct)
         """
         super().__init__(api_key, model)
+        self.client = OpenAI(base_url=NVIDIA_BASE_URL, api_key=api_key)
 
     def _generate_impl(self, request: TextGenerationRequest) -> TextGenerationResponse:
-        """Generate text using NVIDIA API.
+        """Generate text using NVIDIA's OpenAI-compatible API.
 
         Args:
             request: Text generation request with messages and parameters
@@ -38,80 +39,52 @@ class NvidiaProvider(BaseTextProvider):
             TextGenerationResponse with generated text
 
         Raises:
-            requests.exceptions.RequestException: NVIDIA API errors
+            Exception: NVIDIA API errors
+            ValueError: If the response contains no text content
         """
-        # Use request model or default to instance model
         model = request.model or self.model
 
-        # Convert Message dataclasses to NVIDIA format
         messages = [
             {"role": msg.role, "content": msg.content} for msg in request.messages
         ]
 
-        # Prepare API parameters
-        payload = {
+        api_params = {
             "model": model,
             "messages": messages,
-            "max_tokens": request.max_tokens,
             "temperature": request.temperature,
+            "top_p": 0.7,
+            "max_tokens": request.max_tokens,
             "stream": False,
         }
 
-        # Add NVIDIA-specific defaults and extra params
-        payload.setdefault("top_p", 0.95)
-        payload.setdefault("chat_template_kwargs", {"enable_thinking": True})
-
-        # Merge any extra provider-specific parameters
         if request.extra_params:
-            payload.update(request.extra_params)
-
-        # Prepare headers
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        }
+            api_params.update(request.extra_params)
 
         try:
-            # Call NVIDIA API
-            response = requests.post(
-                self.INVOKE_URL,
-                headers=headers,
-                json=payload,
-                timeout=30,
-            )
-            response.raise_for_status()
+            response = self.client.chat.completions.create(**api_params)
 
-            # Parse response
-            response_data = response.json()
+            content = response.choices[0].message.content
+            if content is None:
+                raise ValueError("NVIDIA API returned no text content")
 
-            # Extract generated text (similar to OpenAI format)
-            text = response_data["choices"][0]["message"]["content"].strip()
-
-            # Build usage information if available
             usage = None
-            if "usage" in response_data:
+            if response.usage:
                 usage = {
-                    "prompt_tokens": response_data["usage"].get("prompt_tokens"),
-                    "completion_tokens": response_data["usage"].get(
-                        "completion_tokens"
-                    ),
-                    "total_tokens": response_data["usage"].get("total_tokens"),
+                    "prompt_tokens": response.usage.prompt_tokens,
+                    "completion_tokens": response.usage.completion_tokens,
+                    "total_tokens": response.usage.total_tokens,
                 }
 
             logger.debug(f"NVIDIA generation successful with model {model}")
 
             return TextGenerationResponse(
-                text=text,
+                text=content.strip(),
                 provider="nvidia",
                 model=model,
                 usage=usage,
-                raw_response=response_data,
+                raw_response=response,
             )
 
-        except requests.exceptions.RequestException as e:
-            logger.error(f"NVIDIA API request failed: {e}")
+        except Exception as e:
+            logger.error(f"NVIDIA generation failed: {e}")
             raise
-        except (KeyError, IndexError) as e:
-            logger.error(f"Failed to parse NVIDIA response: {e}")
-            raise ValueError(f"Invalid NVIDIA API response format: {e}")

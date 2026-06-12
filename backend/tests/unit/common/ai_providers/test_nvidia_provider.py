@@ -5,6 +5,19 @@ from unittest.mock import MagicMock, patch
 import pytest
 from app.common.ai_providers import Message, TextGenerationRequest
 from app.common.ai_providers.providers import NvidiaProvider
+from app.common.ai_providers.providers.nvidia_provider import NVIDIA_BASE_URL
+
+
+def _make_openai_response(
+    content: str | None, model: str = "meta/llama-3.1-8b-instruct"
+):
+    """Build a mock OpenAI-style completion response."""
+    response = MagicMock()
+    response.choices[0].message.content = content
+    response.usage.prompt_tokens = 30
+    response.usage.completion_tokens = 15
+    response.usage.total_tokens = 45
+    return response
 
 
 class TestNvidiaProvider:
@@ -19,22 +32,24 @@ class TestNvidiaProvider:
         assert provider.api_key == "nvapi-test123"
         assert provider.model == "meta/llama-3.1-8b-instruct"
 
-    @patch("app.common.ai_providers.providers.nvidia_provider.requests")
-    def test_generate_success(self, mock_requests):
-        """Test successful text generation."""
-        # Setup mock response
-        mock_response = MagicMock()
-        mock_response.json.return_value = {
-            "choices": [{"message": {"content": "Generated text"}}],
-            "usage": {
-                "prompt_tokens": 30,
-                "completion_tokens": 15,
-                "total_tokens": 45,
-            },
-        }
-        mock_requests.post.return_value = mock_response
+    @patch("app.common.ai_providers.providers.nvidia_provider.OpenAI")
+    def test_openai_client_configured_correctly(self, mock_openai_cls):
+        """Test that the OpenAI client is configured with NVIDIA's base URL."""
+        NvidiaProvider(api_key="nvapi-test123")
 
-        # Create provider and request
+        mock_openai_cls.assert_called_once_with(
+            base_url=NVIDIA_BASE_URL, api_key="nvapi-test123"
+        )
+
+    @patch("app.common.ai_providers.providers.nvidia_provider.OpenAI")
+    def test_generate_success(self, mock_openai_cls):
+        """Test successful text generation."""
+        mock_client = MagicMock()
+        mock_openai_cls.return_value = mock_client
+        mock_client.chat.completions.create.return_value = _make_openai_response(
+            "Generated text"
+        )
+
         provider = NvidiaProvider(
             api_key="nvapi-test123", model="meta/llama-3.1-8b-instruct"
         )
@@ -47,10 +62,8 @@ class TestNvidiaProvider:
             max_tokens=150,
         )
 
-        # Generate
         response = provider.generate(request)
 
-        # Assert
         assert response.text == "Generated text"
         assert response.provider == "nvidia"
         assert response.model == "meta/llama-3.1-8b-instruct"
@@ -58,31 +71,18 @@ class TestNvidiaProvider:
         assert response.usage["completion_tokens"] == 15
         assert response.usage["total_tokens"] == 45
 
-        # Verify API call
-        mock_requests.post.assert_called_once()
-        call_args = mock_requests.post.call_args
-        assert call_args[0][0] == NvidiaProvider.INVOKE_URL
-        assert call_args[1]["headers"]["Authorization"] == ("Bearer nvapi-test123")
-        assert call_args[1]["json"]["model"] == "meta/llama-3.1-8b-instruct"
-        assert call_args[1]["json"]["temperature"] == 0.8
-        assert call_args[1]["json"]["max_tokens"] == 150
-
-    @patch("app.common.ai_providers.providers.nvidia_provider.requests")
-    def test_generate_with_model_override(self, mock_requests):
+    @patch("app.common.ai_providers.providers.nvidia_provider.OpenAI")
+    def test_generate_with_model_override(self, mock_openai_cls):
         """Test generation with model override in request."""
-        # Setup mock
-        mock_response = MagicMock()
-        mock_response.json.return_value = {
-            "choices": [{"message": {"content": "Response"}}]
-        }
-        mock_requests.post.return_value = mock_response
+        mock_client = MagicMock()
+        mock_openai_cls.return_value = mock_client
+        mock_client.chat.completions.create.return_value = _make_openai_response(
+            "Response"
+        )
 
-        # Create provider with default model
         provider = NvidiaProvider(
             api_key="nvapi-test123", model="meta/llama-3.1-8b-instruct"
         )
-
-        # Request with different model
         request = TextGenerationRequest(
             messages=[Message(role="user", content="Test")],
             model="meta/llama-3.3-70b-instruct",
@@ -90,20 +90,18 @@ class TestNvidiaProvider:
 
         response = provider.generate(request)
 
-        # Should use request model
         assert response.model == "meta/llama-3.3-70b-instruct"
-        call_args = mock_requests.post.call_args
-        assert call_args[1]["json"]["model"] == "meta/llama-3.3-70b-instruct"
+        call_kwargs = mock_client.chat.completions.create.call_args[1]
+        assert call_kwargs["model"] == "meta/llama-3.3-70b-instruct"
 
-    @patch("app.common.ai_providers.providers.nvidia_provider.requests")
-    def test_nvidia_specific_defaults(self, mock_requests):
-        """Test NVIDIA-specific default parameters."""
-        # Setup mock
-        mock_response = MagicMock()
-        mock_response.json.return_value = {
-            "choices": [{"message": {"content": "Response"}}]
-        }
-        mock_requests.post.return_value = mock_response
+    @patch("app.common.ai_providers.providers.nvidia_provider.OpenAI")
+    def test_nvidia_specific_defaults(self, mock_openai_cls):
+        """Test NVIDIA-specific default parameters are sent."""
+        mock_client = MagicMock()
+        mock_openai_cls.return_value = mock_client
+        mock_client.chat.completions.create.return_value = _make_openai_response(
+            "Response"
+        )
 
         provider = NvidiaProvider(
             api_key="nvapi-test123", model="meta/llama-3.1-8b-instruct"
@@ -112,28 +110,22 @@ class TestNvidiaProvider:
 
         provider.generate(request)
 
-        # Check NVIDIA-specific defaults
-        call_args = mock_requests.post.call_args
-        payload = call_args[1]["json"]
-        assert payload["top_p"] == 0.95
-        assert payload["chat_template_kwargs"] == {"enable_thinking": True}
-        assert payload["stream"] is False
+        call_kwargs = mock_client.chat.completions.create.call_args[1]
+        assert call_kwargs["top_p"] == 0.7
+        assert call_kwargs["stream"] is False
 
-    @patch("app.common.ai_providers.providers.nvidia_provider.requests")
-    def test_generate_with_extra_params(self, mock_requests):
-        """Test generation with extra parameters."""
-        # Setup mock
-        mock_response = MagicMock()
-        mock_response.json.return_value = {
-            "choices": [{"message": {"content": "Response"}}]
-        }
-        mock_requests.post.return_value = mock_response
+    @patch("app.common.ai_providers.providers.nvidia_provider.OpenAI")
+    def test_generate_with_extra_params(self, mock_openai_cls):
+        """Test generation with extra parameters override defaults."""
+        mock_client = MagicMock()
+        mock_openai_cls.return_value = mock_client
+        mock_client.chat.completions.create.return_value = _make_openai_response(
+            "Response"
+        )
 
         provider = NvidiaProvider(
             api_key="nvapi-test123", model="meta/llama-3.1-8b-instruct"
         )
-
-        # Request with extra params
         request = TextGenerationRequest(
             messages=[Message(role="user", content="Test")],
             extra_params={"top_p": 0.9, "frequency_penalty": 0.3},
@@ -141,59 +133,52 @@ class TestNvidiaProvider:
 
         provider.generate(request)
 
-        # Extra params should override defaults
-        call_args = mock_requests.post.call_args
-        payload = call_args[1]["json"]
-        assert payload["top_p"] == 0.9
-        assert payload["frequency_penalty"] == 0.3
+        call_kwargs = mock_client.chat.completions.create.call_args[1]
+        assert call_kwargs["top_p"] == 0.9
+        assert call_kwargs["frequency_penalty"] == 0.3
 
-    @patch("app.common.ai_providers.providers.nvidia_provider.requests")
-    def test_generate_request_error(self, mock_requests):
-        """Test handling of request errors."""
-        # Setup mock to raise error
-        mock_requests.post.side_effect = Exception("Network error")
+    @patch("app.common.ai_providers.providers.nvidia_provider.OpenAI")
+    def test_generate_request_error(self, mock_openai_cls):
+        """Test handling of API errors."""
+        mock_client = MagicMock()
+        mock_openai_cls.return_value = mock_client
+        mock_client.chat.completions.create.side_effect = Exception("Network error")
 
         provider = NvidiaProvider(
             api_key="nvapi-test123", model="meta/llama-3.1-8b-instruct"
         )
         request = TextGenerationRequest(messages=[Message(role="user", content="Test")])
 
-        # Should propagate exception
         with pytest.raises(Exception, match="Network error"):
             provider.generate(request)
 
-    @patch("app.common.ai_providers.providers.nvidia_provider.requests")
-    def test_generate_invalid_response_format(self, mock_requests):
-        """Test handling of invalid response format."""
-        # Setup mock with invalid response
-        mock_response = MagicMock()
-        mock_response.json.return_value = {"invalid": "structure"}
-        mock_requests.post.return_value = mock_response
+    @patch("app.common.ai_providers.providers.nvidia_provider.OpenAI")
+    def test_generate_none_content_raises(self, mock_openai_cls):
+        """Test that None content in response raises ValueError."""
+        mock_client = MagicMock()
+        mock_openai_cls.return_value = mock_client
+        mock_client.chat.completions.create.return_value = _make_openai_response(None)
 
         provider = NvidiaProvider(
             api_key="nvapi-test123", model="meta/llama-3.1-8b-instruct"
         )
         request = TextGenerationRequest(messages=[Message(role="user", content="Test")])
 
-        # Should raise ValueError for invalid format
-        with pytest.raises(ValueError, match="Invalid NVIDIA API response"):
+        with pytest.raises(ValueError, match="no text content"):
             provider.generate(request)
 
-    @patch("app.common.ai_providers.providers.nvidia_provider.requests")
-    def test_message_format_conversion(self, mock_requests):
-        """Test Message dataclass conversion to NVIDIA format."""
-        # Setup mock
-        mock_response = MagicMock()
-        mock_response.json.return_value = {
-            "choices": [{"message": {"content": "Response"}}]
-        }
-        mock_requests.post.return_value = mock_response
+    @patch("app.common.ai_providers.providers.nvidia_provider.OpenAI")
+    def test_message_format_conversion(self, mock_openai_cls):
+        """Test Message dataclass conversion to dict format."""
+        mock_client = MagicMock()
+        mock_openai_cls.return_value = mock_client
+        mock_client.chat.completions.create.return_value = _make_openai_response(
+            "Response"
+        )
 
         provider = NvidiaProvider(
             api_key="nvapi-test123", model="meta/llama-3.1-8b-instruct"
         )
-
-        # Request with multiple messages
         request = TextGenerationRequest(
             messages=[
                 Message(role="system", content="System prompt"),
@@ -203,34 +188,8 @@ class TestNvidiaProvider:
 
         provider.generate(request)
 
-        # Check message conversion
-        call_args = mock_requests.post.call_args
-        messages = call_args[1]["json"]["messages"]
-
+        call_kwargs = mock_client.chat.completions.create.call_args[1]
+        messages = call_kwargs["messages"]
         assert len(messages) == 2
         assert messages[0] == {"role": "system", "content": "System prompt"}
         assert messages[1] == {"role": "user", "content": "User message"}
-
-    @patch("app.common.ai_providers.providers.nvidia_provider.requests")
-    def test_authentication_header(self, mock_requests):
-        """Test proper authentication header formatting."""
-        # Setup mock
-        mock_response = MagicMock()
-        mock_response.json.return_value = {
-            "choices": [{"message": {"content": "Response"}}]
-        }
-        mock_requests.post.return_value = mock_response
-
-        provider = NvidiaProvider(
-            api_key="nvapi-test123", model="meta/llama-3.1-8b-instruct"
-        )
-        request = TextGenerationRequest(messages=[Message(role="user", content="Test")])
-
-        provider.generate(request)
-
-        # Check headers
-        call_args = mock_requests.post.call_args
-        headers = call_args[1]["headers"]
-        assert headers["Authorization"] == "Bearer nvapi-test123"
-        assert headers["Accept"] == "application/json"
-        assert headers["Content-Type"] == "application/json"

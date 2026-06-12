@@ -24,6 +24,35 @@
 - Shared utilities in `app/common/`
 - Storage service in `app/common/storage/`
 
+## AI Provider Abstraction
+All text generation must go through `ProviderFactory` in `app/common/ai_providers` — never import `anthropic`, `openai`, or any SDK directly in feature code.
+
+**Pattern** (used in `CaptionGenerator` and `PromptGenerator`):
+```python
+from app.common.ai_providers import Message, ProviderFactory, TextGenerationRequest
+
+class MyGenerator:
+    def __init__(self, provider_name: str | None = None):
+        self.provider = ProviderFactory.create(provider_name)
+
+    def generate(self, ...):
+        request = TextGenerationRequest(
+            messages=[
+                Message(role="system", content=SYSTEM_PROMPT),
+                Message(role="user", content=user_prompt),
+            ],
+            model=None,   # uses provider default; set explicitly to override
+            temperature=0.7,
+            max_tokens=500,
+        )
+        response = self.provider.generate(request)
+        # response.text, response.provider, response.model available
+```
+
+- Provider is selected via the `TEXT_GENERATION_PROVIDER` env var (defaults configured in settings)
+- Retry logic is handled inside the provider — do not add `tenacity` decorators on top
+- Pass `provider_name` to `__init__` to allow per-call overrides in tests or special cases
+
 ## Testing Guidelines
 - Unit tests in `tests/unit/`
 - Integration tests in `tests/integration/`
