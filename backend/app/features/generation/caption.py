@@ -1,16 +1,19 @@
-"""Generate social media captions using GPT-4o-mini."""
+"""Generate social media captions using AI providers."""
 
 import logging
 
-from app.core.config import settings
-from openai import OpenAI
-from tenacity import retry, stop_after_attempt, wait_exponential
+from app.common.ai_providers import Message, ProviderFactory, TextGenerationRequest
 
 logger = logging.getLogger(__name__)
 
 
 class CaptionGenerator:
-    """Generates engaging social media captions using GPT-4o-mini with retry logic."""
+    """Generates social media captions using configurable AI providers.
+
+    Supports multiple AI providers (OpenAI, NVIDIA, Anthropic) through
+    abstraction layer. Provider selection is configured via environment
+    variables.
+    """
 
     CAPTION_SYSTEM_PROMPT = (
         """You are a professional social media content creator """
@@ -28,19 +31,21 @@ Your captions should:
 Format: Write the caption text followed by hashtags on the same or next line."""
     )
 
-    def __init__(self):
-        """Initialize the caption generator with OpenAI client."""
-        self.client = OpenAI(api_key=settings.openai_api_key)
-        self.model = settings.openai_text_model
+    def __init__(self, provider_name: str | None = None):
+        """Initialize the caption generator with configured AI provider.
 
-    @retry(
-        stop=stop_after_attempt(3),
-        wait=wait_exponential(multiplier=1, min=4, max=10),
-        reraise=True,
-    )
-    def generate(self, campaign_spec: dict) -> str:
+        Args:
+            provider_name: Optional provider override ('openai', 'nvidia',
+                'anthropic'). If None, uses TEXT_GENERATION_PROVIDER from
+                settings. Useful for testing or special cases.
         """
-        Generate a social media caption using GPT-4o-mini with retry logic.
+        self.provider = ProviderFactory.create(provider_name)
+
+    def generate(self, campaign_spec: dict) -> str:
+        """Generate a social media caption using configured AI provider.
+
+        Uses the abstraction layer to support multiple providers. Retry
+        logic is handled automatically by the provider.
 
         Args:
             campaign_spec: Dictionary containing:
@@ -60,28 +65,33 @@ Format: Write the caption text followed by hashtags on the same or next line."""
             # Build context-rich user prompt
             user_prompt = self._build_user_prompt(campaign_spec)
 
-            # Call GPT-4o-mini
-            response = self.client.chat.completions.create(
-                model=self.model,
+            # Build request using abstraction layer
+            request = TextGenerationRequest(
                 messages=[
-                    {"role": "system", "content": self.CAPTION_SYSTEM_PROMPT},
-                    {"role": "user", "content": user_prompt},
+                    Message(role="system", content=self.CAPTION_SYSTEM_PROMPT),
+                    Message(role="user", content=user_prompt),
                 ],
+                model=None,  # Use provider's default model
                 temperature=0.7,  # Creative but consistent
                 max_tokens=200,
             )
 
-            caption = response.choices[0].message.content.strip()
+            # Generate caption using provider
+            response = self.provider.generate(request)
+            caption = response.text
+
             logger.info(
                 f"Generated caption for {campaign_spec.get('company_name')} - "
-                f"{campaign_spec.get('event_name')}"
+                f"{campaign_spec.get('event_name')} "
+                f"using {response.provider} ({response.model})"
             )
 
             return caption
 
         except Exception as e:
             logger.error(
-                f"Failed to generate caption for {campaign_spec.get('company_name')}: {e}"
+                f"Failed to generate caption for "
+                f"{campaign_spec.get('company_name')}: {e}"
             )
             raise
 
