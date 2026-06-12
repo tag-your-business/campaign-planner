@@ -14,6 +14,16 @@ def _make_openai_response(url: str = FAKE_URL) -> MagicMock:
     return MagicMock(data=[MagicMock(url=url)])
 
 
+@pytest.fixture(autouse=True)
+def disable_fallback_image():
+    """Always test the real DALL-E path regardless of .env settings."""
+    with patch("app.features.generation.image.settings") as mock_settings:
+        mock_settings.use_fallback_image = False
+        mock_settings.openai_api_key = "test-key"
+        mock_settings.openai_image_model = "dall-e-3"
+        yield mock_settings
+
+
 @pytest.fixture
 def mock_openai():
     with patch("app.features.generation.image.OpenAI") as MockCls:
