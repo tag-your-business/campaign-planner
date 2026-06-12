@@ -35,6 +35,9 @@ class Settings(BaseSettings):
     generation_lead_days: int = 10
     publish_lead_days: int = 3
 
+    # Testing — skip DALL-E and use data/assets/fallback_image.png instead
+    use_fallback_image: bool = False
+
     # Scheduler
     generate_cron: str = "0 8 * * *"  # daily 8 AM
     publish_cron: str = "0 10 * * *"  # daily 10 AM

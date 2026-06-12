@@ -22,6 +22,39 @@ def generate_campaign_id(company_slug: str, event_id: str) -> str:
     return f"{company_slug}_{event_id}_{timestamp}"
 
 
+def _already_generated(campaigns_dir: str, company_slug: str, event_id: str) -> bool:
+    """Return True only if a successful campaign exists (metadata.json present)."""
+    prefix = f"{company_slug}_{event_id}_"
+    base = Path(campaigns_dir) / "generated"
+    if not base.exists():
+        return False
+    return any(
+        (d / "metadata.json").exists()
+        for d in base.iterdir()
+        if d.is_dir() and d.name.startswith(prefix)
+    )
+
+
+def _cleanup_failed_attempts(
+    campaigns_dir: str, company_slug: str, event_id: str
+) -> None:
+    """Remove campaign folders for this pair that have no metadata.json (failed runs)."""
+    import shutil
+
+    prefix = f"{company_slug}_{event_id}_"
+    base = Path(campaigns_dir) / "generated"
+    if not base.exists():
+        return
+    for d in base.iterdir():
+        if (
+            d.is_dir()
+            and d.name.startswith(prefix)
+            and not (d / "metadata.json").exists()
+        ):
+            shutil.rmtree(d)
+            logger.info(f"Removed stale campaign folder: {d.name}")
+
+
 def run_generate_job() -> None:
     """
     Main generation job pipeline.
@@ -58,16 +91,17 @@ def run_generate_job() -> None:
         events = load_upcoming_events(days=30)
         logger.info(f"Loaded {len(events)} upcoming events")
 
-        # 3. Filter events that should be generated now (X days before event)
-        generation_date = datetime.now() + timedelta(days=settings.generation_lead_days)
+        # 3. Filter events within the generation window (today → now + lead days)
+        now = datetime.now()
+        cutoff = now + timedelta(days=settings.generation_lead_days)
         events_to_generate = [
             e
             for e in events
-            if abs((datetime.fromisoformat(e["date"]) - generation_date).days) <= 1
+            if now.date() <= datetime.fromisoformat(e["date"]).date() <= cutoff.date()
         ]
         logger.info(
             f"Found {len(events_to_generate)} events to generate "
-            f"(~{settings.generation_lead_days} days out)"
+            f"(within next {settings.generation_lead_days} days)"
         )
 
         # 4. Process each company-event pair
@@ -77,6 +111,21 @@ def run_generate_job() -> None:
         for company in companies:
             for event in events_to_generate:
                 try:
+                    # Skip if already generated for this company+event
+                    if _already_generated(
+                        settings.campaigns_dir, company["slug"], event["id"]
+                    ):
+                        logger.info(
+                            f"Skipping {company['name']} - {event['name']}: "
+                            "already generated"
+                        )
+                        continue
+
+                    # Remove any stale folders from previous failed attempts
+                    _cleanup_failed_attempts(
+                        settings.campaigns_dir, company["slug"], event["id"]
+                    )
+
                     # Plan campaign (checks relevance)
                     campaign_spec = planner.plan(company, event)
 

@@ -10,5 +10,11 @@
     "name": "National Oral Health Month",
     "date": "2026-04-01",
     "tags": ["health", "awareness"]
+  },
+  {
+    "id": "summer_social_2026",
+    "name": "Summer Social Campaign",
+    "date": "2026-06-22",
+    "tags": ["seasonal", "engagement"]
   }
 ]
