@@ -7,6 +7,10 @@ class Settings(BaseSettings):
     app_name: str = "Campaign Planner"
     debug: bool = False
 
+    # Anthropic
+    anthropic_api_key: str = ""
+    anthropic_text_model: str = "claude-opus-4-8"
+
     # OpenAI
     openai_api_key: str = ""
     openai_text_model: str = "gpt-4o-mini"
