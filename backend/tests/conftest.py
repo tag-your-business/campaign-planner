@@ -355,7 +355,7 @@ def temp_data_dir_with_structure(
     with open(registry_path, "w") as f:
         json.dump(registry, f, indent=2)
 
-    # Create events for 2026
+    # Create events for 2026, preserving any pre-existing file so git stays clean
     current_year = datetime.now().year
     events_2026 = [
         sample_event_valentines,
@@ -364,6 +364,7 @@ def temp_data_dir_with_structure(
         sample_event_irrelevant,
     ]
     events_file = events_dir / f"{current_year}.json"
+    original_events_content = events_file.read_text() if events_file.exists() else None
     with open(events_file, "w") as f:
         json.dump(events_2026, f, indent=2)
 
@@ -375,4 +376,8 @@ def temp_data_dir_with_structure(
 
     yield temp_data_dir
 
-    # Cleanup is handled by temp_data_dir fixture
+    # Restore the original events file so the working tree stays clean
+    if original_events_content is not None:
+        events_file.write_text(original_events_content)
+    elif events_file.exists():
+        events_file.unlink()
