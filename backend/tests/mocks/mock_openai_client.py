@@ -25,6 +25,7 @@ class MockChatResponse:
 
     def __init__(self, content: str):
         self.choices = [MockChatChoice(MockChatMessage(content))]
+        self.usage = None
 
 
 class MockImageData:

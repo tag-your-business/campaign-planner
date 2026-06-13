@@ -64,20 +64,19 @@ class TestAIProviderIntegration:
         assert mock_client.chat.completions.create.called
 
     @patch("app.common.ai_providers.factory.settings")
-    @patch("app.common.ai_providers.providers.nvidia_provider.requests")
-    def test_caption_generation_with_nvidia(self, mock_requests, mock_settings):
+    @patch("app.common.ai_providers.providers.nvidia_provider.OpenAI")
+    def test_caption_generation_with_nvidia(self, mock_openai_class, mock_settings):
         """Test caption generation using NVIDIA provider."""
+        from tests.mocks.mock_openai_client import MockOpenAIClient
+
         # Setup mock settings
         mock_settings.text_generation_provider = "nvidia"
         mock_settings.nvidia_api_key = "nvapi-test123"
         mock_settings.nvidia_text_model = "meta/llama-3.1-8b-instruct"
 
-        # Setup mock NVIDIA response
-        mock_response = type("Response", (), {"json": lambda: {}})()
-        mock_response.json = lambda: {
-            "choices": [{"message": {"content": "NVIDIA generated caption"}}]
-        }
-        mock_requests.post.return_value = mock_response
+        # Setup mock OpenAI-compatible client (NVIDIA uses the OpenAI SDK)
+        mock_client = MockOpenAIClient(custom_caption="NVIDIA generated caption")
+        mock_openai_class.return_value = mock_client
 
         # Create caption generator with NVIDIA provider
         caption_gen = CaptionGenerator()
@@ -95,7 +94,7 @@ class TestAIProviderIntegration:
 
         # Verify
         assert caption == "NVIDIA generated caption"
-        assert mock_requests.post.called
+        assert mock_openai_class.called
 
     @patch("app.common.ai_providers.factory.settings")
     @patch("app.common.ai_providers.providers.anthropic_provider.Anthropic")

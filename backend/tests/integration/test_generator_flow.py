@@ -240,9 +240,17 @@ class TestGeneratorFlowIntegration:
         self, sample_company_dental, sample_event_valentines, mocker, caplog
     ):
         """Test caption generation failure handling."""
-        # Setup: Mock to fail
+        # Setup: Mock to fail — force openai provider so the client patch is used
         mock_openai = MockOpenAIClient(should_fail_chat=True)
-        mocker.patch("app.features.generation.caption.OpenAI", return_value=mock_openai)
+        mocker.patch("time.sleep")  # prevent tenacity wait between retries
+        mock_settings = mocker.patch("app.common.ai_providers.factory.settings")
+        mock_settings.text_generation_provider = "openai"
+        mock_settings.openai_api_key = "sk-dummy"
+        mock_settings.openai_text_model = "gpt-4o-mini"
+        mocker.patch(
+            "app.common.ai_providers.providers.openai_provider.OpenAI",
+            return_value=mock_openai,
+        )
 
         # Initialize services
         planner = CampaignPlanner()
@@ -251,14 +259,13 @@ class TestGeneratorFlowIntegration:
         # Execute: Plan campaign
         campaign_spec = planner.plan(sample_company_dental, sample_event_valentines)
 
-        # Execute: Attempt caption generation (should fail)
+        # Execute: Attempt caption generation (should fail after all retries)
         with pytest.raises(Exception) as exc_info:
             with caplog.at_level("ERROR"):
                 caption_gen.generate(campaign_spec)
 
-        # Verify failure
+        # Verify failure and that all retry attempts were made
         assert "Mock OpenAI chat API error" in str(exc_info.value)
-        # Check retry attempts (CaptionGenerator has @retry decorator with 3 attempts)
         assert len(mock_openai.chat_invocations) >= 3
 
     @pytest.mark.skip(reason="requires Anthropic API credentials")
@@ -386,13 +393,23 @@ class TestGeneratorFlowIntegration:
 
         def create_with_selective_failure(*args, **kwargs):
             call_count[0] += 1
-            if call_count[0] == 2:  # Fail on second call
+            if (
+                2 <= call_count[0] <= 4
+            ):  # Exhaust all 3 retry attempts for second campaign
                 raise Exception("Mock failure on second campaign")
             return original_create(*args, **kwargs)
 
         mock_openai.chat.completions.create = create_with_selective_failure
 
-        mocker.patch("app.features.generation.caption.OpenAI", return_value=mock_openai)
+        mocker.patch("time.sleep")  # prevent tenacity wait between retries
+        mock_settings = mocker.patch("app.common.ai_providers.factory.settings")
+        mock_settings.text_generation_provider = "openai"
+        mock_settings.openai_api_key = "sk-dummy"
+        mock_settings.openai_text_model = "gpt-4o-mini"
+        mocker.patch(
+            "app.common.ai_providers.providers.openai_provider.OpenAI",
+            return_value=mock_openai,
+        )
         mocker.patch("app.features.generation.image.OpenAI", return_value=mock_openai)
 
         # Mock image download
@@ -435,21 +452,13 @@ class TestGeneratorFlowIntegration:
                         {"event": event["name"], "success": False, "error": str(e)}
                     )
 
-        # Verify: 2 succeeded, 1 failed (or captured the error in logs)
+        # Verify: first campaign succeeds, second exhausts all retries and fails
         successful = [r for r in results if r.get("success")]
         failed = [r for r in results if not r.get("success")]
 
-        # The retry logic might have caught the error and logged it
-        # Check that either we have a failed result or the error was logged
-        assert len(successful) >= 1  # At least one should succeed
-        if len(failed) > 0:
-            assert "Mock failure on second campaign" in failed[0]["error"]
-        else:
-            # Check that the error was logged even if caught by retry
-            assert (
-                "Mock failure on second campaign" in caplog.text
-                or "Failed to generate caption" in caplog.text
-            )
+        assert len(successful) >= 1  # At least one campaign succeeded
+        assert len(failed) >= 1  # At least one campaign failed
+        assert "Mock failure on second campaign" in failed[0]["error"]
 
     async def test_date_filtering_generation_lead_days(
         self, sample_company_dental, mocker
