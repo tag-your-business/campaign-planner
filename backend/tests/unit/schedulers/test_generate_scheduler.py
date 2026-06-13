@@ -138,9 +138,11 @@ class TestRunCaptionStep:
 
     def test_writes_caption_txt_on_success(self, tmp_path):
         caption_gen = MagicMock()
-        caption_gen.generate.return_value = "Saved caption"
+        caption_gen.generate.return_value = "Saved caption 🌞"
         _run_caption_step(caption_gen, CAMPAIGN_SPEC, tmp_path, None)
-        assert (tmp_path / "caption.txt").read_text() == "Saved caption"
+        assert (tmp_path / "caption.txt").read_text(
+            encoding="utf-8"
+        ) == "Saved caption 🌞"
 
     def test_returns_failure_dict_on_exception(self, tmp_path):
         caption_gen = MagicMock()

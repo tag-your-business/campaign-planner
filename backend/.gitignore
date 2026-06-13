@@ -102,8 +102,11 @@ coverage.xml
 
 cover/
 
+# Generated campaign data (images, captions, metadata)
+data/campaigns/generated/*
+!data/campaigns/generated/.gitkeep
+
 # Test data - generated campaigns
-# Ignore all generated campaign files but keep the directory structure
 tests/integration/data/campaigns/generated/*
 !tests/integration/data/campaigns/generated/.gitkeep
 
