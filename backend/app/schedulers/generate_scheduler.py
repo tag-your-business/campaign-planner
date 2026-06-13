@@ -51,7 +51,7 @@ def _run_caption_step(
         return {"success": True, "data": existing_caption}
     try:
         caption = caption_gen.generate(campaign_spec)
-        (campaign_dir / "caption.txt").write_text(caption)
+        (campaign_dir / "caption.txt").write_text(caption, encoding="utf-8")
         return {"success": True, "data": caption}
     except Exception as exc:
         logger.error(f"Caption step failed: {exc}", exc_info=True)

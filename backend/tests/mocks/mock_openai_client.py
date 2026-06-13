@@ -31,15 +31,15 @@ class MockChatResponse:
 class MockImageData:
     """Mock OpenAI image data."""
 
-    def __init__(self, url: str):
-        self.url = url
+    def __init__(self, b64_json: str):
+        self.b64_json = b64_json
 
 
 class MockImageResponse:
     """Mock OpenAI image generation response."""
 
-    def __init__(self, url: str):
-        self.data = [MockImageData(url)]
+    def __init__(self, b64_json: str):
+        self.data = [MockImageData(b64_json)]
 
 
 class MockChatCompletions:
@@ -95,13 +95,12 @@ class MockImageGeneration:
             logger.error(f"Mock: Image generation failed for model {model}")
             raise Exception("Mock OpenAI image API error")
 
-        # Return custom or default image URL
-        image_url = (
-            self.client.custom_image_url
-            or "https://mock-openai.com/generated-image.png"
-        )
+        # Return custom or default base64 image
+        image_b64 = (
+            self.client.custom_image_b64 or "aW1hZ2VieXRlcw=="
+        )  # b64("imagebytes")
         logger.info(f"Mock: Generated image with model {model}")
-        return MockImageResponse(image_url)
+        return MockImageResponse(image_b64)
 
 
 class MockOpenAIClient:
@@ -130,7 +129,7 @@ class MockOpenAIClient:
         should_fail_chat: bool = False,
         should_fail_image: bool = False,
         custom_caption: Optional[str] = None,
-        custom_image_url: Optional[str] = None,
+        custom_image_b64: Optional[str] = None,
     ):
         """
         Initialize mock OpenAI client.
@@ -139,12 +138,12 @@ class MockOpenAIClient:
             should_fail_chat: If True, chat completions will raise exceptions
             should_fail_image: If True, image generation will raise exceptions
             custom_caption: Custom caption to return (default: generic mock caption)
-            custom_image_url: Custom image URL to return (default: mock URL)
+            custom_image_b64: Custom base64 image to return (default: mock value)
         """
         self.should_fail_chat = should_fail_chat
         self.should_fail_image = should_fail_image
         self.custom_caption = custom_caption
-        self.custom_image_url = custom_image_url
+        self.custom_image_b64 = custom_image_b64
 
         # Initialize nested API interfaces
         self.chat = type("Chat", (), {"completions": MockChatCompletions(self)})()

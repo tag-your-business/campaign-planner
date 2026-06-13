@@ -1,10 +1,10 @@
-"""Generates images via OpenAI DALL-E and saves to campaigns dir."""
+"""Generates images via OpenAI gpt-image-1 and saves to campaigns dir."""
 
+import base64
 import logging
 import shutil
 from pathlib import Path
 
-import httpx
 from app.core.config import settings
 from openai import OpenAI
 from tenacity import retry, stop_after_attempt, wait_exponential
@@ -24,14 +24,14 @@ class ImageService:
         reraise=True,
     )
     def generate(self, prompt: str, output_path: Path) -> Path:
-        """Generate an image with DALL-E and write it to output_path.
+        """Generate an image with gpt-image-1 and write it to output_path.
 
-        When settings.use_fallback_image is True, skips the DALL-E call and
-        copies the local white placeholder instead — useful for testing branding
+        When settings.use_fallback_image is True, skips the API call and
+        copies the local placeholder instead — useful for testing branding
         without consuming API credits.
 
         Args:
-            prompt: DALL-E image prompt.
+            prompt: Image generation prompt.
             output_path: Destination file path for the generated PNG.
 
         Returns:
@@ -44,7 +44,7 @@ class ImageService:
 
         if settings.use_fallback_image:
             shutil.copy2(FALLBACK_IMAGE_PATH, output_path)
-            logger.info(f"Using fallback image (skipping DALL-E) -> {output_path}")
+            logger.info(f"Using fallback image (skipping API call) -> {output_path}")
             return output_path
 
         try:
@@ -54,8 +54,7 @@ class ImageService:
                 n=1,
                 size="1024x1024",
             )
-            image_url = response.data[0].url
-            image_bytes = httpx.get(image_url).content
+            image_bytes = base64.b64decode(response.data[0].b64_json)
             output_path.write_bytes(image_bytes)
 
             logger.info(f"Saved generated image to {output_path}")
