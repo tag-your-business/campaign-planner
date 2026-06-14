@@ -32,6 +32,9 @@ select = ["E", "F"]
 asyncio_mode = "auto"
 testpaths = ["tests"]
 pythonpath = ["."]
+markers = [
+    "e2e: End-to-end tests that use real APIs (skipped by default without credentials)"
+]
 
 [tool.poetry]
 package-mode = false

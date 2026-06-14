@@ -11,7 +11,10 @@
 ## Code Style
 - Follow PEP 8 standards
 - Use type hints for all functions
-- Docstrings for public functions and classes
+- **Docstrings:**
+  - Add docstrings for **classes only** (not for methods)
+  - Only add docstrings to methods if the user **explicitly requests** it
+  - Keep docstrings concise and focused on class purpose
 - 4-space indentation (Python standard)
 - **Line length limit: 100 characters (enforced by ruff)**
   - Break long lines using intermediate variables or string concatenation
