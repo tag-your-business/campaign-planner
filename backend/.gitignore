@@ -110,6 +110,14 @@ data/campaigns/generated/*
 tests/integration/data/campaigns/generated/*
 !tests/integration/data/campaigns/generated/.gitkeep
 
+# E2E test data - generated campaigns
+tests/e2e/data/campaigns/generated/*
+!tests/e2e/data/campaigns/generated/sample-e2e-campaign/
+!tests/e2e/data/campaigns/generated/sample-e2e-campaign/*
+
+# E2E test environment file (contains real credentials)
+tests/e2e/.env.e2e
+
 
 
 # Translations
