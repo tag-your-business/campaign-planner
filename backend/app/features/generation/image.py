@@ -48,6 +48,7 @@ class ImageService:
             return output_path
 
         try:
+            logger.info(f"Generating image with model: {settings.openai_image_model}")
             response = self.client.images.generate(
                 model=settings.openai_image_model,
                 prompt=prompt,

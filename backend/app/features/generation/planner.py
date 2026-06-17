@@ -55,7 +55,12 @@ class CampaignPlanner:
             "company_name": company_profile.get("name"),
             "industry": company_profile.get("industry"),
             "tone": company_profile.get("tone"),
-            "brand_colors": company_profile.get("brand_colors", []),
+            "tone_keywords": company_profile.get("tone_keywords", []),
+            "brand_colors": company_profile.get("brand_colors", {}),
+            "visual_style": company_profile.get("visual_style", ""),
+            "primary_audience": company_profile.get("primary_audience", ""),
+            "language": company_profile.get("language", "English"),
+            "locations": company_profile.get("locations", []),
             # Event info
             "event_id": event.get("id"),
             "event_name": event.get("name"),

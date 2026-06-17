@@ -1,9 +1,18 @@
 {
   "slug": "abc_dental",
-  "name": "ABC Dental",
-  "industry": "dental",
-  "tone": "professional",
-  "brand_colors": ["#0057B7", "#FFFFFF"],
+  "name": "Abhay Housing",
+  "industry": "real estate",
+  "primary_audience": "affordable home buyers",
+  "tone_keywords": ["warm", "approachable", "trustworthy", "community-driven"],
+  "visual_style": "modern-minimal",
+  "brand_colors": {
+    "primary": "#C8A2C8",
+    "accent": "#006994"
+  },
+  "language": "English",
+  "locations": [
+    { "city": "Roorkee", "state": "Uttarakhand", "country": "India", "is_primary": true }
+  ],
   "social": {
     "facebook_page_id": "",
     "instagram_account_id": ""
