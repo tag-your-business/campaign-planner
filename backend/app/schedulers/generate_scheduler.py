@@ -146,10 +146,6 @@ def _process_campaign(
         caption_gen, campaign_spec, campaign_dir, existing
     )
     prompt_result = _run_prompt_step(prompt_gen, campaign_spec, existing)
-    # store prompt in a separate file for debugging
-    (campaign_dir / "image_prompt.txt").write_text(
-        prompt_result["data"], encoding="utf-8"
-    )
 
     logo_path = Path(settings.companies_dir) / company["slug"] / "logo.png"
     image_result = _run_image_step(
@@ -182,7 +178,7 @@ def _process_campaign(
         "status": "pending" if all_succeeded else "partial",
         "caption": caption_result["data"],
         "image_prompt": prompt_result["data"],
-        "image_path": "",
+        "image_path": image_result["data"],
         "platforms": campaign_spec["platforms"],
         "facebook_page_id": campaign_spec.get("facebook_page_id", ""),
         "instagram_account_id": campaign_spec.get("instagram_account_id", ""),

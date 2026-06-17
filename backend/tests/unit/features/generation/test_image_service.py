@@ -21,7 +21,9 @@ def disable_fallback_image():
     with patch("app.features.generation.image.settings") as mock_settings:
         mock_settings.use_fallback_image = False
         mock_settings.openai_api_key = "test-key"
-        mock_settings.openai_image_model = "gpt-image-1"
+        mock_settings.openai_image_model = "gpt-image-2"
+        mock_settings.openai_image_size = "1024x1024"
+        mock_settings.openai_image_quality = "medium"
         yield mock_settings
 
 
@@ -84,6 +86,8 @@ class TestImageServiceSuccess:
         svc.generate(FAKE_PROMPT, tmp_path / "img.png")
         kwargs = mock_openai.images.generate.call_args.kwargs
         assert kwargs["size"] == "1024x1024"
+        assert kwargs["quality"] == "medium"
+        assert kwargs["response_format"] == "b64_json"
 
     def test_generate_requests_n_equals_1(self, mock_openai, tmp_path):
         svc = ImageService()
@@ -95,7 +99,7 @@ class TestImageServiceSuccess:
         svc = ImageService()
         svc.generate(FAKE_PROMPT, tmp_path / "img.png")
         kwargs = mock_openai.images.generate.call_args.kwargs
-        assert kwargs["model"] == "gpt-image-1"
+        assert kwargs["model"] == "gpt-image-2"
 
 
 # ---------------------------------------------------------------------------

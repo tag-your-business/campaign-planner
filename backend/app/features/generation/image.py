@@ -1,4 +1,4 @@
-"""Generates images via OpenAI gpt-image-1 and saves to campaigns dir."""
+"""Generates images via OpenAI gpt-image-2 and saves to campaigns dir."""
 
 import base64
 import logging
@@ -24,7 +24,7 @@ class ImageService:
         reraise=True,
     )
     def generate(self, prompt: str, output_path: Path) -> Path:
-        """Generate an image with gpt-image-1 and write it to output_path.
+        """Generate an image with gpt-image-2 and write it to output_path.
 
         When settings.use_fallback_image is True, skips the API call and
         copies the local placeholder instead — useful for testing branding
@@ -53,7 +53,9 @@ class ImageService:
                 model=settings.openai_image_model,
                 prompt=prompt,
                 n=1,
-                size="1024x1024",
+                size=settings.openai_image_size,
+                quality=settings.openai_image_quality,
+                response_format="b64_json",
             )
             image_bytes = base64.b64decode(response.data[0].b64_json)
             output_path.write_bytes(image_bytes)

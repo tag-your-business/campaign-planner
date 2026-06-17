@@ -1,6 +1,7 @@
-"""Generate gpt-image-1 image prompts using AI providers."""
+"""Generate gpt-image-2 image prompts using AI providers."""
 
 import logging
+import textwrap
 
 from app.common.ai_providers import Message, ProviderFactory, TextGenerationRequest
 
@@ -15,30 +16,41 @@ class PromptGenerator:
     variables.
     """
 
-    SYSTEM_PROMPT = """\
-You are an expert visual designer creating DALL-E image prompts for festival social media posts.
+    SYSTEM_PROMPT = textwrap.dedent("""\
+        You are an expert art director writing image generation prompts for gpt-image-2.
 
-Your prompts must:
-- Be descriptive and specific (800-1200 characters)
-- Specify visual style, composition, lighting, colors, and mood
-- Be tailored to the industry, audience, and brand tone
-- Reference artistic style (e.g., photorealistic, illustrated, minimal, bold)
-- Include a short header text rendered in the image (e.g., "Happy Diwali", "Happy Labour Day")
-- Include a 1-2 sentence thematic body message appropriate to the festival and industry
-- Use the brand colors prominently in the visual composition
-- Be optimized for a square 1024x1024 social media post
+        OUTPUT FORMAT — always use these five labeled sections, separated by blank lines:
 
-Do NOT include in the image:
-- Company name as the main headline or dominant title
-- Company address, phone number, website, or any specific business details
-- Company logo (it is added separately in post-processing)
-- Any text that could be mistaken for factual company information
+        SCENE: Background environment, time of day, setting, atmosphere.
+        SUBJECT: Main visual focus — what or who dominates the frame.
+        DETAILS: Lighting source and quality, materials/textures, camera angle/framing, mood.
+        TEXT: Header and body text content only.
+        CONSTRAINTS: What must not appear or drift.
 
-A soft, generic sentiment woven into the body text is acceptable
-(e.g., "Wishing you joy this season", "We celebrate alongside you").
-Keep company references warm but non-specific.
+        RULES:
+        - Use exactly one dominant visual style keyword per prompt \
+        (e.g. "photorealistic" OR "flat illustration" — never both). \
+        Place it in the DETAILS section.
+        - Describe visuals concretely. Avoid vague praise words \
+        (stunning, cinematic, masterpiece, ultra-detailed, 8K).
+        - TEXT section: wrap every literal string in double quotes. Do NOT specify font, \
+        color, or placement — let the image model decide all styling. The header and body \
+        must be treated as a grouped unit. Spell unusual words letter-by-letter if needed.
+        - TEXT section must include ONLY the header and body. No other text or decorative \
+        type anywhere in the image.
+        - Location/cultural context informs the visual scene only — never rendered as text \
+        in the image.
+        - If human subjects are present, they must face toward or at an angle toward \
+        the viewer. Exception: gaze directed at a natural focal point \
+        (fireworks, a dish, a celebration object) where looking away is contextually motivated.
+        - DETAILS must reference both brand colors by hex value as tonal influences \
+        on the overall palette — not as color assignments to specific surfaces or elements.
+        - CONSTRAINTS must list: brand color hex codes as scene palette hints; no logos, \
+        no watermarks, no company information; primary subjects within the central 85% \
+        of the frame; no focal elements near the edges.
 
-Output ONLY the prompt text with no preamble, labels, or commentary."""
+        Output ONLY the five-section prompt. No preamble, no labels outside the sections, \
+        no commentary.""").strip()
 
     def __init__(self, provider_name: str | None = None):
         """Initialize the prompt generator with configured AI provider.
@@ -61,8 +73,8 @@ Output ONLY the prompt text with no preamble, labels, or commentary."""
                 brand_colors, locations, visual_style, primary_audience, etc.
 
         Returns:
-            A detailed prompt string ready for gpt-image-1, including header and
-            body text directives for the image.
+            A structured five-section prompt ready for gpt-image-2, with header
+            and body text elements locked in the TEXT section.
 
         Raises:
             Exception: If all retry attempts fail.
@@ -77,7 +89,7 @@ Output ONLY the prompt text with no preamble, labels, or commentary."""
                 ],
                 model=None,  # Use provider's default model
                 temperature=0.7,
-                max_tokens=600,
+                max_tokens=800,
             )
 
             response = self.provider.generate(request)
@@ -102,7 +114,7 @@ Output ONLY the prompt text with no preamble, labels, or commentary."""
         event_name = campaign_spec.get("event_name", "Special Event")
         industry = campaign_spec.get("industry", "business")
         primary_audience = campaign_spec.get("primary_audience", "")
-        visual_style = campaign_spec.get("visual_style", "")
+        visual_style = campaign_spec.get("visual_style") or "photorealistic"
         language = campaign_spec.get("language", "English")
         tone_keywords = campaign_spec.get("tone_keywords", [])
 
@@ -111,14 +123,18 @@ Output ONLY the prompt text with no preamble, labels, or commentary."""
         if isinstance(brand_colors, dict):
             primary = brand_colors.get("primary", "")
             accent = brand_colors.get("accent", "")
+            values = ", ".join(filter(None, [primary, accent]))
             colors_text = (
-                f"primary {primary}, accent {accent}" if primary else "vibrant colors"
+                f"palette anchors (scene influence only, not fills): {values}"
+                if values
+                else "natural vibrant tones"
             )
         else:
+            values = ", ".join(brand_colors) if brand_colors else ""
             colors_text = (
-                ", ".join(brand_colors)
-                if brand_colors
-                else "vibrant professional colors"
+                f"palette anchors (scene influence only, not fills): {values}"
+                if values
+                else "natural vibrant tones"
             )
 
         # Derive location string from the primary location entry
@@ -138,36 +154,42 @@ Output ONLY the prompt text with no preamble, labels, or commentary."""
             location_text = ", ".join(parts)
 
         tone_text = ", ".join(tone_keywords) if tone_keywords else "professional"
+        header_example = f"Happy {event_name}"
 
         lines = [
-            f"Create a gpt-image-1 image generation prompt for a {industry} business's"
-            f" {event_name} social media post.",
+            f"Generate a {event_name} social media image prompt for a {industry} business.",
             "",
+            f"Industry: {industry}",
             f"Brand tone: {tone_text}",
-            f"Brand colors: {colors_text}",
+            f"Brand colors: {colors_text}",  # palette influence, not fill assignments
         ]
 
-        if visual_style:
-            lines.append(f"Visual style: {visual_style}")
+        lines.append(f"Visual style: {visual_style}")
         if primary_audience:
             lines.append(f"Target audience: {primary_audience}")
         if location_text:
-            lines.append(f"Location context: {location_text}")
+            lines.append(
+                f"Scene cultural context (visual reference only — not text): {location_text}"
+            )
 
+        body_audience = (
+            f" and resonant with {primary_audience}" if primary_audience else ""
+        )
+        header_line = (
+            f"  Header: a short {event_name} greeting"
+            f' — e.g. "{header_example}" or a creative variant.'
+        )
+        body_line = (
+            f"  Body: 1-2 sentences celebrating {event_name},"
+            f" relevant to {industry}{body_audience}."
+        )
         lines.extend(
             [
                 f"Image text language: {language}",
                 "",
-                "The image must include two text elements rendered visually:",
-                f"1. A header greeting for {event_name} — short and celebratory"
-                f" (e.g. 'Happy {event_name}' or a creative variant).",
-                f"2. A 1-2 sentence thematic body message celebrating {event_name},"
-                f" resonant with {primary_audience or 'the audience'} in {industry}.",
-                "",
-                f"Ground the visual scene in {location_text or 'the local culture'}"
-                f" and make it relevant to {industry}."
-                " No company name as headline, no address, no phone,"
-                " no logo — those are added later.",
+                "TEXT elements to include:",
+                header_line,
+                body_line,
             ]
         )
 

@@ -17,7 +17,9 @@ class Settings(BaseSettings):
     # OpenAI
     openai_api_key: str = ""
     openai_text_model: str = "gpt-4o-mini"
-    openai_image_model: str = "gpt-image-1"
+    openai_image_model: str = "gpt-image-2"
+    openai_image_quality: str = "medium"  # low | medium | high
+    openai_image_size: str = "1024x1024"
 
     # NVIDIA
     nvidia_api_key: str = ""
