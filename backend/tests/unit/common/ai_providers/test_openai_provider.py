@@ -12,10 +12,10 @@ class TestOpenAIProvider:
 
     def test_initialization(self):
         """Test provider initialization."""
-        provider = OpenAIProvider(api_key="sk-test123", model="gpt-4o-mini")
+        provider = OpenAIProvider(api_key="sk-test123", model="gpt-5.4-mini")
 
         assert provider.api_key == "sk-test123"
-        assert provider.model == "gpt-4o-mini"
+        assert provider.model == "gpt-5.4-mini"
         assert provider.client is not None
 
     @patch("app.common.ai_providers.providers.openai_provider.OpenAI")
@@ -35,7 +35,7 @@ class TestOpenAIProvider:
         mock_client.chat.completions.create.return_value = mock_response
 
         # Create provider and request
-        provider = OpenAIProvider(api_key="sk-test123", model="gpt-4o-mini")
+        provider = OpenAIProvider(api_key="sk-test123", model="gpt-5.4-mini")
         request = TextGenerationRequest(
             messages=[
                 Message(role="system", content="You are helpful."),
@@ -51,7 +51,7 @@ class TestOpenAIProvider:
         # Assert
         assert response.text == "Generated caption"
         assert response.provider == "openai"
-        assert response.model == "gpt-4o-mini"
+        assert response.model == "gpt-5.4-mini"
         assert response.usage["prompt_tokens"] == 50
         assert response.usage["completion_tokens"] == 20
         assert response.usage["total_tokens"] == 70
@@ -59,9 +59,9 @@ class TestOpenAIProvider:
         # Verify API call
         mock_client.chat.completions.create.assert_called_once()
         call_kwargs = mock_client.chat.completions.create.call_args[1]
-        assert call_kwargs["model"] == "gpt-4o-mini"
+        assert call_kwargs["model"] == "gpt-5.4-mini"
         assert call_kwargs["temperature"] == 0.7
-        assert call_kwargs["max_tokens"] == 100
+        assert call_kwargs["max_completion_tokens"] == 100
         assert len(call_kwargs["messages"]) == 2
 
     @patch("app.common.ai_providers.providers.openai_provider.OpenAI")
@@ -79,20 +79,20 @@ class TestOpenAIProvider:
         mock_client.chat.completions.create.return_value = mock_response
 
         # Create provider with default model
-        provider = OpenAIProvider(api_key="sk-test123", model="gpt-4o-mini")
+        provider = OpenAIProvider(api_key="sk-test123", model="gpt-5.4-mini")
 
         # Request with different model
         request = TextGenerationRequest(
             messages=[Message(role="user", content="Test")],
-            model="gpt-4",
+            model="gpt-5.4",
         )
 
         response = provider.generate(request)
 
         # Should use request model, not provider default
-        assert response.model == "gpt-4"
+        assert response.model == "gpt-5.4"
         call_kwargs = mock_client.chat.completions.create.call_args[1]
-        assert call_kwargs["model"] == "gpt-4"
+        assert call_kwargs["model"] == "gpt-5.4"
 
     @patch("app.common.ai_providers.providers.openai_provider.OpenAI")
     def test_generate_with_extra_params(self, mock_openai_class):
@@ -109,7 +109,7 @@ class TestOpenAIProvider:
         mock_client.chat.completions.create.return_value = mock_response
 
         # Create provider
-        provider = OpenAIProvider(api_key="sk-test123", model="gpt-4o-mini")
+        provider = OpenAIProvider(api_key="sk-test123", model="gpt-5.4-mini")
 
         # Request with extra params
         request = TextGenerationRequest(
@@ -132,7 +132,7 @@ class TestOpenAIProvider:
         mock_openai_class.return_value = mock_client
         mock_client.chat.completions.create.side_effect = Exception("API Error")
 
-        provider = OpenAIProvider(api_key="sk-test123", model="gpt-4o-mini")
+        provider = OpenAIProvider(api_key="sk-test123", model="gpt-5.4-mini")
         request = TextGenerationRequest(messages=[Message(role="user", content="Test")])
 
         # Should propagate exception
@@ -154,7 +154,7 @@ class TestOpenAIProvider:
         mock_client.chat.completions.create.return_value = mock_response
 
         # Create provider
-        provider = OpenAIProvider(api_key="sk-test123", model="gpt-4o-mini")
+        provider = OpenAIProvider(api_key="sk-test123", model="gpt-5.4-mini")
 
         # Request with multiple message types
         request = TextGenerationRequest(

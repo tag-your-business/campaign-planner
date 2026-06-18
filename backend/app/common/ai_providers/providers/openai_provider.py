@@ -17,12 +17,12 @@ class OpenAIProvider(BaseTextProvider):
     Maintains backward compatibility with existing OpenAI client usage.
     """
 
-    def __init__(self, api_key: str, model: str = "gpt-4o-mini"):
+    def __init__(self, api_key: str, model: str = "gpt-5.4-mini"):
         """Initialize OpenAI provider.
 
         Args:
             api_key: OpenAI API key
-            model: Model name (default: gpt-4o-mini)
+            model: Model name (default: gpt-5.4-mini)
         """
         super().__init__(api_key, model)
         self.client = OpenAI(api_key=api_key)
@@ -52,7 +52,7 @@ class OpenAIProvider(BaseTextProvider):
             "model": model,
             "messages": messages,
             "temperature": request.temperature,
-            "max_tokens": request.max_tokens,
+            "max_completion_tokens": request.max_tokens,
         }
 
         # Add any extra provider-specific parameters

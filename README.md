@@ -2,11 +2,11 @@
 
 > AI-powered social media campaign automation for businesses
 
-Campaign Planner is an intelligent system that automatically generates and publishes branded social media content. It uses OpenAI's GPT and DALL-E models to create custom campaigns for holidays, awareness days, and special events tailored to each business's unique brand identity.
+Campaign Planner is an intelligent system that automatically generates and publishes branded social media content. It uses OpenAI's GPT and gpt-image-2 models to create custom campaigns for holidays, awareness days, and special events tailored to each business's unique brand identity.
 
 ## Features
 
-- **AI-Powered Content Generation**: Leverages GPT for captions and DALL-E for images
+- **AI-Powered Content Generation**: Leverages GPT for captions and gpt-image-2 for images
 - **Automated Scheduling**: Daily campaign generation and publishing via cron-like schedulers
 - **Multi-Company Support**: Manage campaigns for multiple businesses with individual branding
 - **Brand-Aware**: Generates content matching company tone, industry, and brand colors
@@ -83,7 +83,7 @@ campaign-planner/
 ## Technology Stack
 
 - **[FastAPI](https://fastapi.tiangolo.com/)** - Modern Python web framework
-- **[OpenAI](https://platform.openai.com/)** - GPT and DALL-E for content generation
+- **[OpenAI](https://platform.openai.com/)** - GPT and gpt-image-2 for content generation
 - **[Pydantic](https://docs.pydantic.dev/)** - Data validation
 - **[APScheduler](https://apscheduler.readthedocs.io/)** - Task scheduling
 - **[Poetry](https://python-poetry.org/)** - Dependency management

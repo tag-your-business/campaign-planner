@@ -12,7 +12,7 @@ backend/app/
 │   ├── events/service.py     # Event calendar operations
 │   ├── generation/
 │   │   ├── caption.py        # GPT caption generation
-│   │   ├── image.py          # DALL-E image generation
+│   │   ├── image.py          # gpt-image-2 image generation
 │   │   └── planner.py        # Campaign planning logic
 │   └── publishing/
 │       └── publishers/       # Social media integrations

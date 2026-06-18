@@ -63,7 +63,7 @@ def _run_prompt_step(
     campaign_spec: dict,
     existing_metadata: dict | None,
 ) -> dict:
-    """Generate DALL-E image prompt if not already present."""
+    """Generate gpt-image-2 image prompt if not already present."""
     existing_prompt = (existing_metadata or {}).get("image_prompt", "")
     if existing_prompt:
         logger.info("Image prompt already generated, skipping")

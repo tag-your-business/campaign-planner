@@ -248,7 +248,7 @@ class TestRunImageStep:
 
     def test_returns_failure_dict_on_image_service_error(self, tmp_path):
         image_service = MagicMock()
-        image_service.generate.side_effect = Exception("DALL-E error")
+        image_service.generate.side_effect = Exception("gpt-image-2 error")
         branding_service = MagicMock()
         result = _run_image_step(
             image_service, branding_service, "a prompt", tmp_path, None, None

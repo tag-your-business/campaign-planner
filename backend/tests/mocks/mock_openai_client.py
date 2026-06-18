@@ -110,13 +110,13 @@ class MockOpenAIClient:
     Usage:
         mock_client = MockOpenAIClient()
         response = mock_client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-5.4-mini",
             messages=[{"role": "user", "content": "Hello"}]
         )
         caption = response.choices[0].message.content
 
         response = mock_client.images.generate(
-            model="dall-e-3",
+            model="gpt-image-2",
             prompt="A beautiful sunset",
             n=1,
             size="1024x1024"

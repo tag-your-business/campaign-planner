@@ -4,13 +4,13 @@ This document provides comprehensive context for AI assistants (Claude Code, Cur
 
 ## Project Overview
 
-**Campaign Planner** is an AI-powered social media campaign automation system that generates and publishes branded content for businesses. The system uses OpenAI's GPT and DALL-E models to create campaign plans, generate captions, and create images tailored to specific events and business profiles.
+**Campaign Planner** is an AI-powered social media campaign automation system that generates and publishes branded content for businesses. The system uses OpenAI's GPT and gpt-image-2 models to create campaign plans, generate captions, and create images tailored to specific events and business profiles.
 
 ### Key Capabilities
 
 - Automated campaign generation based on calendar events (holidays, awareness days, etc.)
 - AI-generated social media captions with brand-appropriate tone and messaging
-- AI-generated images using DALL-E that match brand colors and style
+- AI-generated images using gpt-image-2 that match brand colors and style
 - Scheduled publishing to Facebook and Instagram
 - Multi-company support with individual brand profiles
 
@@ -21,7 +21,7 @@ This document provides comprehensive context for AI assistants (Claude Code, Cur
 - **Python 3.13+**: Primary language
 - **Poetry**: Dependency management and packaging
 - **Pydantic**: Data validation and settings management
-- **OpenAI SDK**: For GPT (text) and DALL-E (images) generation
+- **OpenAI SDK**: For GPT (text) and gpt-image-2 (images) generation
 - **APScheduler**: Background task scheduling for automated generation and publishing
 
 ### Code Quality Tools
@@ -53,7 +53,7 @@ campaign-planner/
 │   │   │   │   ├── branding.py    # Brand context generation
 │   │   │   │   ├── caption.py     # Caption generation
 │   │   │   │   ├── content.py     # Content orchestration
-│   │   │   │   ├── image.py       # DALL-E image generation
+│   │   │   │   ├── image.py       # gpt-image-2 image generation
 │   │   │   │   ├── planner.py     # Campaign planning
 │   │   │   │   └── prompt.py      # Prompt engineering
 │   │   │   └── publishing/    # Social media publishing
@@ -91,7 +91,7 @@ campaign-planner/
    - Load company profile (branding, tone, industry)
    - Generate campaign plan using GPT
    - Generate caption with brand voice
-   - Generate image with DALL-E (brand colors applied)
+   - Generate image with gpt-image-2 (brand colors applied)
    - Save campaign to `data/campaigns/{company_slug}/{campaign_id}/`
 
 ### 2. Publishing Flow
@@ -116,7 +116,7 @@ campaign-planner/
 - **branding.py**: Generates brand context strings from company profiles
 - **caption.py**: Uses GPT to generate brand-appropriate captions
 - **content.py**: Orchestrates the full content generation pipeline
-- **image.py**: Uses DALL-E to generate branded images
+- **image.py**: Uses gpt-image-2 to generate branded images
 - **planner.py**: Creates campaign plans matching events to companies
 - **prompt.py**: Manages prompt templates for AI generation
 
@@ -136,7 +136,7 @@ Key environment variables (see `backend/.env.example`):
 
 ```bash
 # Required
-OPENAI_API_KEY=sk-...              # OpenAI API key for GPT and DALL-E
+OPENAI_API_KEY=sk-...              # OpenAI API key for GPT and gpt-image-2
 
 # Optional (for publishing)
 FACEBOOK_ACCESS_TOKEN=...           # Facebook Graph API token
@@ -232,7 +232,7 @@ These indicate the scheduler integration is planned but not yet implemented in t
 ## Key Design Decisions
 
 1. **JSON Storage**: Using file-based JSON storage instead of a database for simplicity and ease of version control
-2. **OpenAI Integration**: Leveraging GPT for text and DALL-E for images to ensure consistent quality
+2. **OpenAI Integration**: Leveraging GPT for text and gpt-image-2 for images to ensure consistent quality
 3. **Scheduler-based**: Automated generation and publishing via cron-like schedulers
 4. **Multi-tenant by Company**: Each company has isolated profile and campaigns
 5. **Feature-based Architecture**: Domain logic organized by business capability, not technical layer

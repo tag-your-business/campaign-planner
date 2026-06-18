@@ -37,7 +37,7 @@ def _make_provider_response(text: str) -> MagicMock:
     resp = MagicMock()
     resp.text = text
     resp.provider = "openai"
-    resp.model = "gpt-4o-mini"
+    resp.model = "gpt-5.4-mini"
     return resp
 
 

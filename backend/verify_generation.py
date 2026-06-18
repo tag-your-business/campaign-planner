@@ -26,7 +26,7 @@ from tests.mocks.mock_openai_client import MockOpenAIClient
 
 
 def create_gradient_image():
-    """Create a mock DALL-E generated image."""
+    """Create a mock gpt-image-2 generated image."""
     img = Image.new("RGB", (1024, 1024))
     pixels = img.load()
     for x in range(1024):
@@ -127,7 +127,7 @@ def main():
         print(f"✓ Image prompt: {image_prompt[:100]}...")
 
         # Step 4: Generate Image
-        print("\nSTEP 4: Image Generation (DALL-E)")
+        print("\nSTEP 4: Image Generation (gpt-image-2)")
         print("-" * 70)
         image_service = ImageService()
         raw_image_path = campaign_dir / "image_raw.png"
@@ -185,7 +185,7 @@ def main():
     print("\n📍 VERIFY THE GENERATED FILES AT:")
     print(f"   {campaign_dir}")
     print("\n📂 Expected Files:")
-    print("   1. image_raw.png      - Raw DALL-E generated image")
+    print("   1. image_raw.png      - Raw gpt-image-2 generated image")
     print("   2. image.png          - Branded image with logo overlay")
     print("   3. caption.txt        - Generated social media caption")
     print("   4. metadata.json      - Complete campaign metadata")

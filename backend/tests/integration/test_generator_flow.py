@@ -35,9 +35,9 @@ class TestGeneratorFlowIntegration:
 
         This is the most comprehensive test covering:
         - Campaign planning and relevance matching
-        - Caption generation via GPT-4o-mini
+        - Caption generation via gpt-5.4-mini
         - Image prompt generation
-        - Image generation via DALL-E
+        - Image generation via gpt-image-2
         - Branding with logo overlay
         - Metadata storage
         """
@@ -88,7 +88,7 @@ class TestGeneratorFlowIntegration:
         assert len(caption) > 0
         assert "Valentine" in caption or "Love" in caption
         assert len(mock_openai.chat_invocations) == 1
-        assert mock_openai.chat_invocations[0]["model"] == "gpt-4o-mini"
+        assert mock_openai.chat_invocations[0]["model"] == "gpt-5.4-mini"
 
         # Execute: Generate image prompt
         image_prompt = prompt_gen.generate(campaign_spec)
@@ -110,7 +110,7 @@ class TestGeneratorFlowIntegration:
         # Verify image generation
         assert raw_image_path.exists()
         assert len(mock_openai.image_invocations) == 1
-        assert mock_openai.image_invocations[0]["model"] == "dall-e-3"
+        assert mock_openai.image_invocations[0]["model"] == "gpt-image-2"
 
         # Get the mock image URL from the invocation
         image_url = mock_openai.custom_image_url
@@ -246,7 +246,7 @@ class TestGeneratorFlowIntegration:
         mock_settings = mocker.patch("app.common.ai_providers.factory.settings")
         mock_settings.text_generation_provider = "openai"
         mock_settings.openai_api_key = "sk-dummy"
-        mock_settings.openai_text_model = "gpt-4o-mini"
+        mock_settings.openai_text_model = "gpt-5.4-mini"
         mocker.patch(
             "app.common.ai_providers.providers.openai_provider.OpenAI",
             return_value=mock_openai,
@@ -405,7 +405,7 @@ class TestGeneratorFlowIntegration:
         mock_settings = mocker.patch("app.common.ai_providers.factory.settings")
         mock_settings.text_generation_provider = "openai"
         mock_settings.openai_api_key = "sk-dummy"
-        mock_settings.openai_text_model = "gpt-4o-mini"
+        mock_settings.openai_text_model = "gpt-5.4-mini"
         mocker.patch(
             "app.common.ai_providers.providers.openai_provider.OpenAI",
             return_value=mock_openai,

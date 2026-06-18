@@ -16,8 +16,8 @@ Campaign Planner V1 is an autonomous AI-powered social media campaign generation
 - Event-based campaigns
 
 ### AI Models
-- **Text Generation**: GPT-4o-mini for captions
-- **Image Generation**: DALL-E 3 for social media images
+- **Text Generation**: gpt-5.4-mini for captions
+- **Image Generation**: gpt-image-2 for social media images
 - **Image Processing**: Pillow for logo overlay and branding
 
 ## Architecture Summary
@@ -43,7 +43,7 @@ Campaign Planner V1 is an autonomous AI-powered social media campaign generation
 │  │  ┌────────────┐  ┌────────────┐     │                   │
 │  │  │  Caption   │  │   Image    │     │                   │
 │  │  │ Generator  │  │  Service   │     │                   │
-│  │  │ (GPT-4o)   │  │ (DALL-E 3) │     │                   │
+│  │  │ (GPT-5.4)   │  │ (gpt-image-2) │     │                   │
 │  │  └────────────┘  └────────────┘     │                   │
 │  │         ↓              ↓              │                   │
 │  │  ┌────────────────────────────┐     │                   │
@@ -71,8 +71,8 @@ Campaign Planner V1 is an autonomous AI-powered social media campaign generation
 ## Implementation Phases
 
 ### Phase 1: AI Content Generation ✅
-- ✅ PromptGenerator: Template system for DALL-E prompts
-- ✅ CaptionGenerator: GPT-4o-mini integration with retry logic
+- ✅ PromptGenerator: Template system for gpt-image-2 prompts
+- ✅ CaptionGenerator: gpt-5.4-mini integration with retry logic
 - ✅ CampaignPlanner: Event-company matching based on industry
 - ✅ BrandingService: Logo overlay using Pillow
 

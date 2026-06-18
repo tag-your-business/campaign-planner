@@ -19,13 +19,13 @@ class TestProviderFactory:
         """Test creating OpenAI provider."""
         mock_settings.text_generation_provider = "openai"
         mock_settings.openai_api_key = "sk-test123"
-        mock_settings.openai_text_model = "gpt-4o-mini"
+        mock_settings.openai_text_model = "gpt-5.4-mini"
 
         provider = ProviderFactory.create()
 
         assert isinstance(provider, OpenAIProvider)
         assert provider.api_key == "sk-test123"
-        assert provider.model == "gpt-4o-mini"
+        assert provider.model == "gpt-5.4-mini"
 
     @patch("app.common.ai_providers.factory.settings")
     def test_create_nvidia_provider(self, mock_settings):
@@ -104,7 +104,7 @@ class TestProviderFactory:
     def test_provider_name_case_insensitive(self, mock_settings):
         """Test that provider names are case-insensitive."""
         mock_settings.openai_api_key = "sk-test123"
-        mock_settings.openai_text_model = "gpt-4o-mini"
+        mock_settings.openai_text_model = "gpt-5.4-mini"
 
         # Test uppercase
         provider1 = ProviderFactory.create(provider_name="OPENAI")

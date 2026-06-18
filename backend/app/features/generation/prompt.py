@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 class PromptGenerator:
-    """Uses AI providers to generate rich, campaign-aware DALL-E image prompts.
+    """Uses AI providers to generate rich, campaign-aware gpt-image-2 image prompts.
 
     Supports multiple AI providers (OpenAI, NVIDIA, Anthropic) through
     abstraction layer. Provider selection is configured via environment
@@ -63,7 +63,7 @@ class PromptGenerator:
         self.provider = ProviderFactory.create(provider_name)
 
     def generate(self, campaign_spec: dict) -> str:
-        """Generate a DALL-E prompt for the given campaign spec via AI provider.
+        """Generate a gpt-image-2 prompt for the given campaign spec via AI provider.
 
         Uses the abstraction layer to support multiple providers. Retry
         logic is handled automatically by the provider.

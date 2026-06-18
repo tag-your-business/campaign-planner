@@ -2,7 +2,7 @@
 
 ## Project Context
 
-This is an AI-powered social media campaign automation system. The system generates branded content (captions and images) for businesses using OpenAI's GPT and DALL-E models.
+This is an AI-powered social media campaign automation system. The system generates branded content (captions and images) for businesses using OpenAI's GPT and gpt-image-2 models.
 
 ## Key Information
 
@@ -10,7 +10,7 @@ This is an AI-powered social media campaign automation system. The system genera
 - **Framework**: FastAPI
 - **Architecture**: Feature-based organization
 - **Storage**: JSON files (no database)
-- **AI Integration**: OpenAI GPT for text, DALL-E for images
+- **AI Integration**: OpenAI GPT for text, gpt-image-2 for images
 
 ## Documentation
 
@@ -159,7 +159,7 @@ logger.error(f"Operation failed for {entity}", exc_info=True)
 
 ## External APIs
 
-- **OpenAI**: GPT for captions, DALL-E for images (API key required)
+- **OpenAI**: GPT for captions, gpt-image-2 for images (API key required)
 - **Facebook Graph API**: Publishing to Facebook (token in .env)
 - **Instagram Graph API**: Publishing to Instagram (token in .env)
 

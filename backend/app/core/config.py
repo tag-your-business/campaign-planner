@@ -16,7 +16,7 @@ class Settings(BaseSettings):
 
     # OpenAI
     openai_api_key: str = ""
-    openai_text_model: str = "gpt-4o-mini"
+    openai_text_model: str = "gpt-5.4-mini"
     openai_image_model: str = "gpt-image-2"
     openai_image_quality: str = "medium"  # low | medium | high
     openai_image_size: str = "1024x1024"
@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     generation_lead_days: int = 10
     publish_lead_days: int = 3
 
-    # Testing — skip DALL-E and use data/assets/fallback_image.png instead
+    # Testing — skip gpt-image-2 and use data/assets/fallback_image.png instead
     use_fallback_image: bool = False
 
     # Scheduler

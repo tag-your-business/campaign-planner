@@ -44,7 +44,7 @@ Campaign Planner is an AI-powered social media automation system built with a fe
         │             │          │          │           │
         │      ┌──────▼─────┐ ┌──▼────┐ ┌──▼──────┐    │
         │      │  Caption   │ │ Image │ │ Planner │    │
-        │      │  (GPT)     │ │(DALL-E)│ │  (GPT)  │    │
+        │      │  (GPT)     │ │(gpt-image-2)│ │  (GPT)  │    │
         │      └────────────┘ └───────┘ └─────────┘    │
         │                                               │
         ├───────────────────────────────────────────────┤
@@ -63,7 +63,7 @@ Campaign Planner is an AI-powered social media automation system built with a fe
                     │   External Services      │
                     ├──────────────────────────┤
                     │  • OpenAI API (GPT)      │
-                    │  • DALL-E API            │
+                    │  • gpt-image-2 API            │
                     │  • Facebook Graph API    │
                     │  • Instagram Graph API   │
                     └──────────────────────────┘
@@ -137,7 +137,7 @@ data/events/
 - `branding.py`: Brand context string generation
 - `caption.py`: GPT-based caption generation
 - `content.py`: Content pipeline orchestration
-- `image.py`: DALL-E image generation
+- `image.py`: gpt-image-2 image generation
 - `planner.py`: Campaign planning logic
 - `prompt.py`: Prompt engineering and templates
 
@@ -145,7 +145,7 @@ data/events/
 ```
 Event + Company → Planner → Caption Generator → Image Generator → Campaign
                      ↓            ↓                   ↓
-                  GPT-4       GPT-4              DALL-E-3
+                  GPT-5.4       GPT-5.4              gpt-image-2
 ```
 
 **Responsibilities:**
@@ -298,7 +298,7 @@ api/
 
 ### OpenAI
 - **GPT Models**: Text generation (captions, plans)
-- **DALL-E**: Image generation
+- **gpt-image-2**: Image generation
 - **Rate Limits**: Managed via OpenAI SDK
 
 ### Social Media APIs

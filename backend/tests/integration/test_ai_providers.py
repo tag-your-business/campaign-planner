@@ -17,7 +17,7 @@ class TestAIProviderIntegration:
         # Setup mock settings
         mock_settings.text_generation_provider = "openai"
         mock_settings.openai_api_key = "sk-test123"
-        mock_settings.openai_text_model = "gpt-4o-mini"
+        mock_settings.openai_text_model = "gpt-5.4-mini"
 
         # Setup mock OpenAI client
         mock_client = mock_openai_class.return_value
@@ -159,7 +159,7 @@ class TestAIProviderIntegration:
         # Setup settings with OpenAI key
         mock_settings.text_generation_provider = "openai"
         mock_settings.openai_api_key = "sk-test123"
-        mock_settings.openai_text_model = "gpt-4o-mini"
+        mock_settings.openai_text_model = "gpt-5.4-mini"
 
         # Create caption generator (should use OpenAI by default)
         caption_gen = CaptionGenerator()

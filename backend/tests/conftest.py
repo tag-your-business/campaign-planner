@@ -278,7 +278,7 @@ def sample_logo_restaurant(temp_data_dir):
 
 @pytest.fixture
 def mock_generated_image():
-    """Create a mock DALL-E generated image (1024x1024 gradient)."""
+    """Create a mock gpt-image-2 generated image (1024x1024 gradient)."""
     # Create a simple gradient image using PIL only
     img = Image.new("RGB", (1024, 1024))
     pixels = img.load()
