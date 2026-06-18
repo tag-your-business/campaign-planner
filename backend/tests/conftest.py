@@ -241,39 +241,31 @@ def sample_event_irrelevant():
 
 
 @pytest.fixture
-def sample_logo_dental(temp_data_dir):
+def sample_logo_dental(tmp_path):
     """Create a sample dental logo (100x100 blue square with white rectangle)."""
     img = Image.new("RGB", (100, 100), color="#0066cc")
     draw = ImageDraw.Draw(img)
     # Add white rectangle to make it recognizable
     draw.rectangle([20, 40, 80, 60], fill="white")
 
-    logo_path = temp_data_dir / "test_dental_logo.png"
+    logo_path = tmp_path / "test_dental_logo.png"
     img.save(logo_path, "PNG")
 
-    yield logo_path
-
-    # Clean up
-    if logo_path.exists():
-        logo_path.unlink()
+    return logo_path
 
 
 @pytest.fixture
-def sample_logo_restaurant(temp_data_dir):
+def sample_logo_restaurant(tmp_path):
     """Create a sample restaurant logo (100x100 red circle on white background)."""
     img = Image.new("RGB", (100, 100), color="white")
     draw = ImageDraw.Draw(img)
     # Add red circle
     draw.ellipse([10, 10, 90, 90], fill="#ff6600")
 
-    logo_path = temp_data_dir / "test_restaurant_logo.png"
+    logo_path = tmp_path / "test_restaurant_logo.png"
     img.save(logo_path, "PNG")
 
-    yield logo_path
-
-    # Clean up
-    if logo_path.exists():
-        logo_path.unlink()
+    return logo_path
 
 
 @pytest.fixture
@@ -297,7 +289,7 @@ def mock_generated_image():
 
 @pytest.fixture
 def temp_data_dir_with_structure(
-    temp_data_dir,
+    tmp_path,
     sample_company_dental,
     sample_company_restaurant,
     sample_logo_dental,
@@ -310,17 +302,20 @@ def temp_data_dir_with_structure(
 ):
     """
     Create full test data structure with companies, logos, events, and registry.
-    Patches all relevant settings paths.
+    Patches all relevant settings paths. Uses tmp_path so no committed files are touched.
     """
-    # Create directory structure
-    companies_dir = temp_data_dir / "companies"
+    # Create directory structure inside pytest's isolated temp directory
+    companies_dir = tmp_path / "companies"
     companies_dir.mkdir(parents=True, exist_ok=True)
 
-    events_dir = temp_data_dir / "events"
+    events_dir = tmp_path / "events"
     events_dir.mkdir(parents=True, exist_ok=True)
 
-    registry_dir = temp_data_dir / "registry"
+    registry_dir = tmp_path / "registry"
     registry_dir.mkdir(parents=True, exist_ok=True)
+
+    campaigns_dir = tmp_path / "campaigns"
+    campaigns_dir.mkdir(parents=True, exist_ok=True)
 
     # Create dental company directory
     dental_dir = companies_dir / "test_dental"
@@ -355,7 +350,7 @@ def temp_data_dir_with_structure(
     with open(registry_path, "w") as f:
         json.dump(registry, f, indent=2)
 
-    # Create events for 2026, preserving any pre-existing file so git stays clean
+    # Create events file in the isolated temp directory
     current_year = datetime.now().year
     events_2026 = [
         sample_event_valentines,
@@ -363,21 +358,15 @@ def temp_data_dir_with_structure(
         sample_event_food_day,
         sample_event_irrelevant,
     ]
-    events_file = events_dir / f"{current_year}.json"
-    original_events_content = events_file.read_text() if events_file.exists() else None
-    with open(events_file, "w") as f:
+    with open(events_dir / f"{current_year}.json", "w") as f:
         json.dump(events_2026, f, indent=2)
 
     # Patch all settings paths
-    monkeypatch.setattr("app.core.config.settings.data_dir", str(temp_data_dir))
+    monkeypatch.setattr("app.core.config.settings.data_dir", str(tmp_path))
     monkeypatch.setattr("app.core.config.settings.companies_dir", str(companies_dir))
     monkeypatch.setattr("app.core.config.settings.registry_path", str(registry_path))
     monkeypatch.setattr("app.core.config.settings.events_dir", str(events_dir))
+    monkeypatch.setattr("app.core.config.settings.campaigns_dir", str(campaigns_dir))
 
-    yield temp_data_dir
-
-    # Restore the original events file so the working tree stays clean
-    if original_events_content is not None:
-        events_file.write_text(original_events_content)
-    elif events_file.exists():
-        events_file.unlink()
+    yield tmp_path
+    # No teardown needed — pytest cleans up tmp_path automatically
