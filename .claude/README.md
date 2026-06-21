@@ -168,5 +168,5 @@ If you notice documentation gaps or inaccuracies:
 
 ## Version
 
-Last updated: 2026-06-09
-Documentation version: 1.0.0
+Last updated: 2026-06-21
+Documentation version: 1.1.0

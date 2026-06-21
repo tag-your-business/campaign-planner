@@ -11,6 +11,13 @@ backend/app/
 │   ├── companies/service.py  # Company profile operations
 │   ├── events/service.py     # Event calendar operations
 │   ├── generation/
+│   │   ├── branding/         # Pillow overlay renderer
+│   │   │   ├── config.py     #   LayoutConfig — ALL visual tuning lives here
+│   │   │   ├── colors.py     #   background-aware text color helpers
+│   │   │   ├── elements.py   #   render_logo / render_contact_block / render_banner
+│   │   │   ├── fonts.py      #   font priority list
+│   │   │   ├── layout.py     #   slot geometry + collision resolver
+│   │   │   └── service.py    #   BrandingService.apply()
 │   │   ├── caption.py        # GPT caption generation
 │   │   ├── image.py          # gpt-image-2 image generation
 │   │   └── planner.py        # Campaign planning logic
@@ -41,8 +48,28 @@ backend/data/
 ### Modify Generation Logic
 ```python
 # Caption: backend/app/features/generation/caption.py
-# Image: backend/app/features/generation/image.py
+# Image:   backend/app/features/generation/image.py
 # Prompts: backend/app/features/generation/prompt.py
+```
+
+### Tune Branding Visuals
+```python
+# ALL visual constants: backend/app/features/generation/branding/config.py
+# Key fields in LayoutConfig:
+#   h_pad_frac       — horizontal padding inside pills
+#   v_pad_top_frac   — top padding inside pills
+#   v_pad_bot_frac   — bottom padding inside pills (can differ from top)
+#   banner_font_frac / contact_font_frac — font size as fraction of image width
+#   banner_border_frac — border thickness
+#   banner_color / scrim_color — fill RGBA for banner / contact block
+#   dynamic_text_color — True = auto-pick black/white text for contrast
+```
+
+### Add a New Banner / Contact Field
+```python
+# 1. Add value to contact_info in data/companies/{slug}/profile.json
+# 2. Append key name to banner_fields or contact_fields in the branding block
+# No code change required.
 ```
 
 ### Add Environment Variable
@@ -80,14 +107,25 @@ settings.publish_cron           # Publishing schedule
   "slug": "company_id",
   "name": "Company Name",
   "industry": "industry_type",
-  "tone": "professional|casual|friendly",
-  "brand_colors": ["#HEX1", "#HEX2"],
-  "social": {
-    "facebook_page_id": "",
-    "instagram_account_id": ""
-  }
+  "tone_keywords": ["warm", "trustworthy"],
+  "brand_colors": { "primary": "#HEX1", "accent": "#HEX2" },
+  "locations": [{ "city": "...", "state": "...", "country": "...", "is_primary": true }],
+  "contact_info": {
+    "email": "hello@example.com",
+    "website": "www.example.com",
+    "address": "...",
+    "phone": "..."
+  },
+  "branding": {
+    "logo_position": "top-left",
+    "contact_position": "top-right",
+    "contact_fields": ["email"],
+    "banner_fields": ["website", "address"]
+  },
+  "social": { "facebook_page_id": "", "instagram_account_id": "" }
 }
 ```
+Logo file: `data/companies/{slug}/logo.png` (PNG, transparent background)
 
 ### Event
 ```json

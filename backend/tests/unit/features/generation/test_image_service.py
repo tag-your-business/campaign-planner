@@ -87,7 +87,7 @@ class TestImageServiceSuccess:
         kwargs = mock_openai.images.generate.call_args.kwargs
         assert kwargs["size"] == "1024x1024"
         assert kwargs["quality"] == "medium"
-        assert kwargs["response_format"] == "b64_json"
+        assert "response_format" not in kwargs
 
     def test_generate_requests_n_equals_1(self, mock_openai, tmp_path):
         svc = ImageService()

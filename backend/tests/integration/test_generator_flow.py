@@ -123,7 +123,9 @@ class TestGeneratorFlowIntegration:
             / "logo.png"
         )
         final_image_path = campaign_dir / "image.png"
-        branding_service.apply(raw_image_path, logo_path, final_image_path)
+        branding_service.apply(
+            raw_image_path, final_image_path, sample_company_dental, logo_path
+        )
 
         # Verify branding applied
         assert final_image_path.exists()
@@ -334,7 +336,9 @@ class TestGeneratorFlowIntegration:
         )
 
         with caplog.at_level("INFO"):
-            branding_service.apply(raw_image_path_1, logo_path, final_image_path_1)
+            branding_service.apply(
+                raw_image_path_1, final_image_path_1, sample_company_dental, logo_path
+            )
 
         assert final_image_path_1.exists()
         assert raw_image_path_1.stat().st_size != final_image_path_1.stat().st_size
@@ -348,7 +352,7 @@ class TestGeneratorFlowIntegration:
 
         with caplog.at_level("INFO"):
             branding_service.apply(
-                raw_image_path_2, None, final_image_path_2  # No logo
+                raw_image_path_2, final_image_path_2, sample_company_dental, None
             )
 
         assert final_image_path_2.exists()
@@ -366,7 +370,10 @@ class TestGeneratorFlowIntegration:
 
         with caplog.at_level("WARNING"):
             branding_service.apply(
-                raw_image_path_3, missing_logo_path, final_image_path_3
+                raw_image_path_3,
+                final_image_path_3,
+                sample_company_dental,
+                missing_logo_path,
             )
 
         assert final_image_path_3.exists()

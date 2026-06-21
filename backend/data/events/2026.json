@@ -14,7 +14,13 @@
   {
     "id": "summer_social_2026",
     "name": "Diwali",
-    "date": "2026-06-22",
+    "date": "2026-06-30",
+    "tags": ["seasonal", "engagement"]
+  },
+  {
+    "id": "holi_2026",
+    "name": "Holi",
+    "date": "2026-06-25",
     "tags": ["seasonal", "engagement"]
   }
 ]

@@ -81,6 +81,7 @@ def _run_image_step(
     branding_service: BrandingService,
     image_prompt: str,
     campaign_dir: Path,
+    profile: dict,
     logo_path: Path | None,
     existing_metadata: dict | None,
 ) -> dict:
@@ -96,7 +97,7 @@ def _run_image_step(
         raw_image_path = campaign_dir / "image_raw.png"
         image_service.generate(image_prompt, raw_image_path)
         final_image_path = campaign_dir / "image.png"
-        branding_service.apply(raw_image_path, logo_path, final_image_path)
+        branding_service.apply(raw_image_path, final_image_path, profile, logo_path)
         return {"success": True, "data": str(final_image_path)}
     except Exception as exc:
         logger.error(f"Image step failed: {exc}", exc_info=True)
@@ -153,6 +154,7 @@ def _process_campaign(
         branding_service,
         prompt_result["data"],
         campaign_dir,
+        company,
         logo_path if logo_path.exists() else None,
         existing,
     )

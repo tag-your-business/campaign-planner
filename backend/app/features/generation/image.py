@@ -55,7 +55,6 @@ class ImageService:
                 n=1,
                 size=settings.openai_image_size,
                 quality=settings.openai_image_quality,
-                response_format="b64_json",
             )
             image_bytes = base64.b64decode(response.data[0].b64_json)
             output_path.write_bytes(image_bytes)

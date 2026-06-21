@@ -50,7 +50,14 @@ campaign-planner/
 │   │   │   ├── companies/     # Company profile management
 │   │   │   ├── events/        # Event/holiday calendar
 │   │   │   ├── generation/    # Content generation (AI)
-│   │   │   │   ├── branding.py    # Brand context generation
+│   │   │   │   ├── branding/      # Image overlay renderer (Pillow-based)
+│   │   │   │   │   ├── __init__.py    # Re-exports BrandingService
+│   │   │   │   │   ├── config.py      # LayoutConfig — all visual constants
+│   │   │   │   │   ├── colors.py      # Background-aware text color helpers
+│   │   │   │   │   ├── elements.py    # render_logo / render_contact_block / render_banner
+│   │   │   │   │   ├── fonts.py       # Font priority loader (Segoe UI → Georgia → DejaVuSans)
+│   │   │   │   │   ├── layout.py      # Slot geometry + collision resolver
+│   │   │   │   │   └── service.py     # BrandingService.apply()
 │   │   │   │   ├── caption.py     # Caption generation
 │   │   │   │   ├── content.py     # Content orchestration
 │   │   │   │   ├── image.py       # gpt-image-2 image generation
@@ -104,8 +111,9 @@ campaign-planner/
 
 ### Company Profiles (`backend/app/features/companies/`)
 - **Location**: `data/companies/{company_slug}/profile.json`
-- **Contains**: Company name, industry, tone, brand colors, social media IDs
-- **Example**: ABC Dental with professional tone and dental industry context
+- **Contains**: Company name, industry, tone, brand colors, social media IDs, contact info, branding placement config
+- **Logo**: `data/companies/{company_slug}/logo.png` (PNG with transparent background supported)
+- **Example**: ABC Housing with real estate industry context
 
 ### Events Calendar (`backend/app/features/events/`)
 - **Location**: `data/events/{year}.json`
@@ -113,10 +121,16 @@ campaign-planner/
 - **Used for**: Identifying relevant dates for campaign generation
 
 ### Generation Module (`backend/app/features/generation/`)
-- **branding.py**: Generates brand context strings from company profiles
+- **branding/** (package): Pillow-based overlay renderer that stamps logo, contact block, and bottom banner onto generated images. Replaces the old single `branding.py`. Sub-modules:
+  - `config.py` — `LayoutConfig` dataclass: all visual constants as fractions of image width (`h_pad_frac`, `v_pad_top_frac`, `v_pad_bot_frac`, font sizes, colors, border width, etc.). **Single place to tune visuals.**
+  - `colors.py` — Pure helpers: `average_rgb`, `blend_over`, `luminance`, `contrasting_text`. Used to auto-pick black/white text for contrast against the background (no AI).
+  - `elements.py` — Measure-and-render components: `render_logo`, `render_contact_block`, `render_banner`. All pill-shaped (semicircular ends) with border in the text color.
+  - `fonts.py` — Priority font loader: Segoe UI Regular → Georgia → DejaVuSans fallback.
+  - `layout.py` — Corner slot geometry and `resolve_slots()` collision resolver (contact yields its corner to logo).
+  - `service.py` — `BrandingService.apply(image_path, output_path, profile, logo_path)` orchestrator. Composites everything on one RGBA overlay via `alpha_composite`.
 - **caption.py**: Uses GPT to generate brand-appropriate captions
 - **content.py**: Orchestrates the full content generation pipeline
-- **image.py**: Uses gpt-image-2 to generate branded images
+- **image.py**: Uses gpt-image-2 to generate branded images. Note: `response_format` parameter must NOT be passed to `gpt-image-2` — it always returns `b64_json` by default.
 - **planner.py**: Creates campaign plans matching events to companies
 - **prompt.py**: Manages prompt templates for AI generation
 
@@ -189,6 +203,14 @@ CAMPAIGNS_DIR=data/campaigns
 - Image generation: `backend/app/features/generation/image.py`
 - Prompt templates: `backend/app/features/generation/prompt.py`
 
+### Modifying Branding Overlays
+- **All visual constants** (padding, font sizes, colors, border): `backend/app/features/generation/branding/config.py` — edit `LayoutConfig`.
+- **Add a new banner/contact field**: add the key to `contact_info` in `profile.json` and append its name to `banner_fields` or `contact_fields`.
+- **Change font**: edit `_FONT_CANDIDATES` list in `branding/fonts.py` — first font that loads on the system wins.
+- **Rendering logic**: `branding/elements.py` — `render_logo`, `render_contact_block`, `render_banner`.
+- **Background-aware text color**: `branding/colors.py` — samples the region behind each element and picks black or white for contrast. Controlled by `LayoutConfig.dynamic_text_color`.
+- `BrandingService.apply(image_path, output_path, profile, logo_path=None)` is the public entry point. `image_raw.png` is always kept untouched; `image.png` is the branded output.
+
 ### Adding a New Social Platform
 1. Create publisher: `backend/app/features/publishing/publishers/{platform}.py`
 2. Implement publishing interface
@@ -207,17 +229,39 @@ These indicate the scheduler integration is planned but not yet implemented in t
 ### Company Profile (`profile.json`)
 ```json
 {
-  "slug": "abc_dental",
-  "name": "ABC Dental",
-  "industry": "dental",
-  "tone": "professional",
-  "brand_colors": ["#0057B7", "#FFFFFF"],
+  "slug": "abc_housing",
+  "name": "ABC Housing",
+  "industry": "real estate",
+  "primary_audience": "affordable home buyers",
+  "tone_keywords": ["warm", "trustworthy"],
+  "brand_colors": { "primary": "#C8A2C8", "accent": "#006994" },
+  "language": "English",
+  "locations": [
+    { "city": "Roorkee", "state": "Uttarakhand", "country": "India", "is_primary": true }
+  ],
+  "contact_info": {
+    "email": "hello@abchousing.com",
+    "website": "www.abchousing.com",
+    "address": "Civil Lines, Roorkee, Uttarakhand",
+    "phone": "+91 1332 123456"
+  },
+  "branding": {
+    "logo_position": "top-left",
+    "contact_position": "top-right",
+    "contact_fields": ["email"],
+    "banner_fields": ["website", "address"]
+  },
   "social": {
     "facebook_page_id": "",
     "instagram_account_id": ""
   }
 }
 ```
+
+**`branding` block explained:**
+- `logo_position` / `contact_position`: `"top-left"` or `"top-right"`. If they collide, the contact block automatically moves to the opposite corner.
+- `contact_fields`: ordered list of `contact_info` keys to show in the corner pill (stacked vertically).
+- `banner_fields`: ordered list of `contact_info` keys for the bottom banner, joined as `website | address`. Add a key here to include it — no code change needed.
 
 ### Event Entry
 ```json

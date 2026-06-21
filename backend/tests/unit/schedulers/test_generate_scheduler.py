@@ -202,7 +202,13 @@ class TestRunImageStep:
         image_service = MagicMock()
         branding_service = MagicMock()
         result = _run_image_step(
-            image_service, branding_service, "a prompt", tmp_path, None, metadata
+            image_service,
+            branding_service,
+            "a prompt",
+            tmp_path,
+            COMPANY,
+            None,
+            metadata,
         )
         assert result == {"success": True, "data": str(image_file)}
         image_service.generate.assert_not_called()
@@ -213,7 +219,13 @@ class TestRunImageStep:
         branding_service = MagicMock()
         branding_service.apply.return_value = tmp_path / "image.png"
         result = _run_image_step(
-            image_service, branding_service, "a prompt", tmp_path, None, metadata
+            image_service,
+            branding_service,
+            "a prompt",
+            tmp_path,
+            COMPANY,
+            None,
+            metadata,
         )
         assert result["success"] is True
         image_service.generate.assert_called_once()
@@ -223,7 +235,13 @@ class TestRunImageStep:
         image_service = MagicMock()
         branding_service = MagicMock()
         result = _run_image_step(
-            image_service, branding_service, "a prompt", tmp_path, None, metadata
+            image_service,
+            branding_service,
+            "a prompt",
+            tmp_path,
+            COMPANY,
+            None,
+            metadata,
         )
         assert result["success"] is True
         image_service.generate.assert_called_once()
@@ -232,7 +250,7 @@ class TestRunImageStep:
         image_service = MagicMock()
         branding_service = MagicMock()
         result = _run_image_step(
-            image_service, branding_service, "", tmp_path, None, None
+            image_service, branding_service, "", tmp_path, COMPANY, None, None
         )
         assert result == {"success": False, "data": ""}
         image_service.generate.assert_not_called()
@@ -241,7 +259,7 @@ class TestRunImageStep:
         image_service = MagicMock()
         branding_service = MagicMock()
         result = _run_image_step(
-            image_service, branding_service, "a prompt", tmp_path, None, None
+            image_service, branding_service, "a prompt", tmp_path, COMPANY, None, None
         )
         assert result["success"] is True
         assert result["data"] == str(tmp_path / "image.png")
@@ -251,7 +269,7 @@ class TestRunImageStep:
         image_service.generate.side_effect = Exception("gpt-image-2 error")
         branding_service = MagicMock()
         result = _run_image_step(
-            image_service, branding_service, "a prompt", tmp_path, None, None
+            image_service, branding_service, "a prompt", tmp_path, COMPANY, None, None
         )
         assert result == {"success": False, "data": ""}
 
@@ -260,7 +278,7 @@ class TestRunImageStep:
         branding_service = MagicMock()
         branding_service.apply.side_effect = Exception("Pillow error")
         result = _run_image_step(
-            image_service, branding_service, "a prompt", tmp_path, None, None
+            image_service, branding_service, "a prompt", tmp_path, COMPANY, None, None
         )
         assert result == {"success": False, "data": ""}
 
@@ -270,11 +288,11 @@ class TestRunImageStep:
         image_service = MagicMock()
         branding_service = MagicMock()
         _run_image_step(
-            image_service, branding_service, "a prompt", tmp_path, logo, None
+            image_service, branding_service, "a prompt", tmp_path, COMPANY, logo, None
         )
         branding_service.apply.assert_called_once()
-        _, call_logo, _ = branding_service.apply.call_args[0]
-        assert call_logo == logo
+        call_args = branding_service.apply.call_args[0]
+        assert call_args[3] == logo
 
 
 # ---------------------------------------------------------------------------
