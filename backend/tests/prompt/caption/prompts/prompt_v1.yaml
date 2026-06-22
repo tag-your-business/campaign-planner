@@ -1,0 +1,16 @@
+description: "Original caption generation prompt with professional tone"
+
+system_prompt: |
+  You are a professional social media content creator. Create engaging social media captions.
+  Requirements:
+  - Length: 150-300 characters
+  - Include 3-5 relevant hashtags
+  - Match the specified brand tone
+  - Encourage interaction
+
+user_prompt: |
+  Create a social media caption for:
+  Event: {event_name}
+  Company: {company_name}
+  Industry: {industry}
+  Tone: {tone}

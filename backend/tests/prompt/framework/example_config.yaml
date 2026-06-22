@@ -1,0 +1,32 @@
+# Example Clean Config Using Registry Pattern
+# This shows how simple config files become when using registries
+
+# Feature-specific prompts
+system_prompt: |
+  Your system prompt here
+
+user_prompt: |
+  Your user prompt template with {placeholders}
+
+# Model Configuration (REQUIRED)
+# Reference a provider from framework/providers.yaml
+# Can be overridden in individual prompt variation files
+model: "gpt4o_mini"
+
+# Paths
+prompts_dir: "prompts"
+data_path: "data/test_specs.json"
+results_dir: "results"
+
+# Metrics (REQUIRED)
+# Reference metrics from framework/metrics.yaml
+metrics:
+  - "answer_relevancy"       # Simple reference
+  - "coherence"              # Another reference
+  - "tone_matching"          # Yet another
+  - ref: "creativity"        # Reference with override
+    threshold: 0.85
+
+# That's it! No need to repeat full definitions.
+# Compare this to the old pattern which had 60+ lines of repetitive definitions.
+# Everything is explicit and configured - no hidden defaults.

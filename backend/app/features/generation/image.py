@@ -15,8 +15,18 @@ FALLBACK_IMAGE_PATH = Path(settings.data_dir) / "assets" / "fallback_image.png"
 
 
 class ImageService:
-    def __init__(self):
+    """Service for generating images via OpenAI image models."""
+
+    def __init__(
+        self,
+        model: str | None = None,
+        size: str | None = None,
+        quality: str | None = None,
+    ):
         self.client = OpenAI(api_key=settings.openai_api_key)
+        self.model = model or settings.openai_image_model
+        self.size = size or settings.openai_image_size
+        self.quality = quality or settings.openai_image_quality
 
     @retry(
         stop=stop_after_attempt(3),
@@ -24,7 +34,7 @@ class ImageService:
         reraise=True,
     )
     def generate(self, prompt: str, output_path: Path) -> Path:
-        """Generate an image with gpt-image-2 and write it to output_path.
+        """Generate an image and write it to output_path.
 
         When settings.use_fallback_image is True, skips the API call and
         copies the local placeholder instead — useful for testing branding
@@ -48,13 +58,13 @@ class ImageService:
             return output_path
 
         try:
-            logger.info(f"Generating image with model: {settings.openai_image_model}")
+            logger.info(f"Generating image with model: {self.model}")
             response = self.client.images.generate(
-                model=settings.openai_image_model,
+                model=self.model,
                 prompt=prompt,
                 n=1,
-                size=settings.openai_image_size,
-                quality=settings.openai_image_quality,
+                size=self.size,
+                quality=self.quality,
             )
             image_bytes = base64.b64decode(response.data[0].b64_json)
             output_path.write_bytes(image_bytes)

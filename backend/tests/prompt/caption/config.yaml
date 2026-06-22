@@ -1,0 +1,44 @@
+# Caption Generation Evaluation Configuration
+#
+# Prompt variations are defined in prompts/*.yaml files
+# Each variation specifies its own system_prompt and user_prompt
+
+# Prompt Configuration
+# Reference prompt files from prompts/ directory (without .yaml extension)
+# Single prompt:
+# prompts: "prompt_v1"
+#
+# Multiple prompts (tests each prompt with each model):
+prompts:
+  - "prompt_v1"
+  - "prompt_v2"
+  - "prompt_v3"
+
+# Model Configuration
+# Reference provider(s) from framework/providers.yaml
+# Single model:
+# model: "gpt4o_mini"
+#
+# Multiple models (tests all prompts with each model):
+model:
+  - "gpt4o_mini"
+  - "gpt4o"
+
+# Paths
+prompts_dir: "prompts"
+data_path: "data/campaign_specs.json"
+results_dir: "results"
+
+# Metrics to evaluate
+# Reference metrics from framework/metrics.yaml by name
+metrics:
+  - "answer_relevancy"      # Built-in DeepEval metric
+  - "coherence"             # GEval for text quality
+  - "tone_matching"         # GEval for brand tone
+  - "caption_length"        # Custom metric (150-300 chars)
+  - "hashtag_count"         # Custom metric (3-5 hashtags)
+
+# You can also override specific parameters:
+# metrics:
+#   - ref: "coherence"
+#     threshold: 0.85       # Override threshold for stricter evaluation

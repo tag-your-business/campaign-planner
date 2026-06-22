@@ -1,0 +1,102 @@
+campaign_spec:
+  event_name: Valentine's Day
+  industry: dental
+description: Auto-generated from image_prompt eval (prompt_v2 with gpt-5.5)
+image_prompt: "SCENE: A clean, welcoming pediatric dental office with large windows,\
+  \ soft natural morning light, and subtle Austin-inspired visual context outside\
+  \ the glass: leafy live oak trees, warm limestone building textures, and a hint\
+  \ of a sunny Texas neighborhood street. The background is calm and uncluttered,\
+  \ with open negative space in the lower 30% of the frame for a grouped text overlay.\n\
+  \nSUBJECT: A smiling family with two children seated together near a dental chair,\
+  \ facing the viewer and interacting warmly with a friendly dentist holding a heart-shaped\
+  \ toothbrush prop. One child holds a small Valentine card with a tooth illustration,\
+  \ while the dentist gestures toward the family in a reassuring, caring way.\n\n\
+  DETAILS: Photorealistic. Soft diffused lighting from the front-left with warm golden\
+  \ undertones echoing #FFC107 and gentle rosy highlights echoing #E91E63. Eye-level\
+  \ camera angle, structured professional composition, clean lines, neutral dental-office\
+  \ surfaces, polished equipment, soft cotton clothing textures, and natural skin\
+  \ tones. Mood is caring, trustworthy, warm, and family-friendly.\n\nTEXT: \"Happy\
+  \ Valentine's Day!\"  \n\"Sending smiles and sweet wishes to every family today.\
+  \ Keep those little teeth healthy with love, care, and regular dental visits.\"\n\
+  \nCONSTRAINTS: Brand color hex codes #E91E63 and #FFC107 as palette hints through\
+  \ lighting and atmosphere only, not painted surfaces. No logos, no watermarks, no\
+  \ company text. Primary subjects within central 85% of frame. Reserve lower 30%\
+  \ for text overlay space. Keep the composition simple with one family group and\
+  \ one dentist as the focal point. Avoid cluttered backgrounds, back-of-head poses,\
+  \ visible brand names, or readable location names."
+source_info:
+  evaluation_scores:
+    Brand Integration [GEval]:
+      reason: 'The response explicitly includes the brand hex codes #E91E63 and #FFC107,
+        satisfying the requirement to mention them. It uses them appropriately as
+        lighting and atmospheric cues—''warm golden undertones'' and ''gentle rosy
+        highlights''—rather than as literal wall, furniture, or surface paint. It
+        also reinforces this in the constraints with ''palette hints through lighting
+        and atmosphere only, not painted surfaces.'' The visual choices strongly match
+        the stated brand tone, using soft diffused light, natural skin tones, a clean
+        pediatric dental office, and a caring, trustworthy, family-friendly mood aligned
+        with the family Valentine’s context.'
+      score: 1.0
+      success: true
+    Coherence [GEval]:
+      reason: The text is generally clear, direct, and easy to understand, with well-labeled
+        sections like SCENE, SUBJECT, DETAILS, TEXT, and CONSTRAINTS that help the
+        message flow logically. It communicates the pediatric dental office setting,
+        family-friendly Valentine theme, Austin-inspired background, and layout constraints
+        such as the lower 30% text overlay and central 85% subject placement effectively.
+        However, some phrasing is dense and slightly technical, such as the long SCENE
+        and DETAILS descriptions, multiple composition constraints, and references
+        to hex codes and visual percentages, which make it feel more like a production
+        spec than fully natural prose.
+      score: 0.7924141819978756
+      success: true
+    Composition Quality [GEval]:
+      reason: 'The response aligns strongly with all four checks. It defines a clear
+        focal point with just two main subject groups: one family group and one dentist,
+        explicitly reinforced in the constraints. It preserves text-overlay usability
+        by reserving the lower 30% as open negative space and keeping the background
+        calm and uncluttered. It is suitable for mobile viewing because the composition
+        is described as simple, eye-level, and centered, avoiding clutter and excessive
+        detail competition. Subject placement is also directly addressed with the
+        requirement that primary subjects remain within the central 85% of the frame.'
+      score: 0.9047425873177566
+      success: true
+    Prompt Structure [GEval]:
+      reason: 'The output fully matches all five checks: it includes a clear SCENE
+        with environment and setting details like a pediatric dental office, natural
+        morning light, and Austin-inspired exterior context; a SUBJECT with a specific
+        focal group of a family, children, and dentist; a DETAILS section covering
+        style, lighting, camera angle, composition, and texture/technical cues; a
+        TEXT section with both a quoted header and quoted body copy; and a CONSTRAINTS
+        section listing restrictions and composition rules such as no logos, central
+        framing, reserved lower 30% text space, and avoiding clutter or readable location
+        names.'
+      score: 1.0
+      success: true
+    Text Specification [GEval]:
+      reason: The TEXT section includes a clear greeting header, "Happy Valentine's
+        Day!", and the body celebrates the event with warm Valentine-themed messaging
+        about smiles and sweet wishes. The text strings are properly wrapped in quotes.
+        However, the output does specify styling details outside the TEXT section,
+        including color references via hex codes and placement instructions like reserving
+        the lower 30% for text overlay, which conflicts with the requirement to avoid
+        font, color, or placement styling.
+      score: 0.7715380087092794
+      success: false
+    Visual Specificity [GEval]:
+      reason: The response aligns well with the criteria by using specific visual
+        details such as large windows, leafy live oak trees, warm limestone textures,
+        polished equipment, soft cotton clothing textures, and natural skin tones.
+        It avoids the prohibited vague praise terms and describes lighting concretely
+        with soft natural morning light, diffused front-left illumination, warm golden
+        undertones, and rosy highlights. The scene layout is highly actionable for
+        image generation, including subject placement, reserved lower 30% negative
+        space, central 85% framing, and constraints on clutter and branding. A small
+        weakness is that some mood terms like caring and trustworthy are abstract
+        rather than purely visual, though they are supported by concrete scene directions.
+      score: 0.9
+      success: true
+  generated_at: '2026-06-22T18:27:32.882862+00:00'
+  model_name: gpt-5.5
+  model_provider: openai
+  prompt_name: prompt_v2

@@ -1,0 +1,1 @@
+"""Caption generation evaluation."""

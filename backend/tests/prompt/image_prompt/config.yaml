@@ -1,0 +1,44 @@
+# Image Prompt Generation Evaluation Configuration
+#
+# Prompt variations are defined in prompts/*.yaml files
+# Each variation specifies its own system_prompt and user_prompt
+
+# Prompt Configuration
+# Reference prompt files from prompts/ directory (without .yaml extension)
+# Single prompt:
+# prompts: "prompt_v1"
+#
+# Multiple prompts (tests each prompt with each model):
+prompts:
+  - "prompt_v1"
+  - "prompt_v2"
+
+# Model Configuration
+# Reference provider(s) from framework/providers.yaml
+# Single model:
+# model: "gpt4o_mini"
+#
+# Multiple models (tests all prompts with each model):
+model:
+  - "gpt5_4_mini"
+
+# Paths
+prompts_dir: "prompts"
+data_path: "data/campaign_specs.json"
+results_dir: "results"
+
+# Metrics to evaluate (all GEval-based for flexible evaluation)
+metrics:
+  - "prompt_structure"          # GEval: validates 5-section format
+  - "visual_specificity"        # GEval: concrete descriptions, no vague words
+  - "brand_integration"         # GEval: brand colors as tonal influences
+  - "text_specification"        # GEval: header/body text properly quoted
+  - "composition_quality"       # GEval: social media optimized composition
+  - "coherence"                 # GEval: overall clarity and flow
+
+# Image Evaluation Cascade
+# When true, generates prompt_auto_** files in image/prompts/ for downstream testing
+run_image_eval: true
+image_eval_config:
+  output_dir: "../image/prompts"
+  file_prefix: "prompt_auto_"

@@ -6,7 +6,7 @@ authors = [
     {name = "Abhay", email = "abhay.30121997@gmail.com"},
     {name = "Gautam", email = "gautamr347@gmail.com"}
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.13,<4.0"
 dependencies = [
     "anthropic (>=0.40.0,<1.0.0)",
     "openai (>=2.41.0,<3.0.0)",
@@ -37,7 +37,8 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 pythonpath = ["."]
 markers = [
-    "e2e: End-to-end tests that use real APIs (skipped by default without credentials)"
+    "e2e: End-to-end tests that use real APIs (skipped by default without credentials)",
+    "eval: Prompt evaluation tests using DeepEval (run separately)"
 ]
 
 [tool.poetry]
@@ -56,5 +57,7 @@ dev = [
     "ruff (>=0.15.16,<0.16.0)",
     "black (>=26.5.1,<27.0.0)",
     "pre-commit (>=4.0.0,<5.0.0)",
-    "pytest-watcher (>=0.4.0,<1.0.0)"
+    "pytest-watcher (>=0.4.0,<1.0.0)",
+    "deepeval (>=4.0.0,<5.0.0)",
+    "pyyaml (>=6.0.0,<7.0.0)"
 ]

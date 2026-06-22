@@ -1,0 +1,98 @@
+campaign_spec:
+  event_name: Valentine's Day
+  industry: dental
+description: Auto-generated from image_prompt eval (prompt_v1 with gpt-5.5)
+image_prompt: "SCENE: A warm family dental clinic waiting area on Valentine’s Day,\
+  \ with subtle heart-shaped decorations, a child-friendly dental chair area, and\
+  \ a soft visual nod to Austin, Texas through large windows showing distant limestone\
+  \ buildings, live oak trees, and a sunny neighborhood street. Morning atmosphere,\
+  \ welcoming and clean.\n\nSUBJECT: A smiling family with two children at the center\
+  \ of the frame, accompanied by a caring dental professional in scrubs holding a\
+  \ heart-shaped toothbrush gift and a small dental mirror. Everyone faces toward\
+  \ the viewer with relaxed, happy expressions.\n\nDETAILS: photorealistic. Soft natural\
+  \ daylight from the windows blended with gentle indoor clinic lighting. Clean enamel\
+  \ surfaces, polished dental tools, cozy seating, paper heart crafts, and subtle\
+  \ Valentine’s accents. Eye-level camera angle, social media square framing, warm\
+  \ professional mood. Overall palette influenced by #E91E63 and #FFC107 as tonal\
+  \ accents.\n\nTEXT:  \n\"Happy Valentine’s Day\"  \n\"Celebrate the day with healthy\
+  \ smiles and sweet moments for the whole family.\"\n\nCONSTRAINTS: Brand color hex\
+  \ codes #E91E63 and #FFC107 are scene palette hints only; no logos, no watermarks,\
+  \ no company information; primary subjects within the central 85% of the frame;\
+  \ no focal elements near the edges; no extra text beyond the grouped header and\
+  \ body; avoid candy as the main focus; no frightening dental tools or anxious expressions."
+source_info:
+  evaluation_scores:
+    Brand Integration [GEval]:
+      reason: 'The response clearly includes the brand hex codes #E91E63 and #FFC107
+        and frames them as palette or tonal accents, which aligns with using them
+        as atmospheric references rather than explicit branding. It also supports
+        the intended warm, family-friendly brand tone through soft daylight, gentle
+        indoor lighting, welcoming expressions, and subtle Valentine’s details. A
+        slight weakness is that phrases like ''overall palette influenced by'' could
+        imply broader scene coloration, so the separation from literal surface colors
+        is present but not as strongly enforced as if the colors were described only
+        through lighting or mood.'
+      score: 0.8817574476193644
+      success: true
+    Coherence [GEval]:
+      reason: 'The response uses clear, direct language with well-labeled sections
+        like SCENE, SUBJECT, DETAILS, TEXT, and CONSTRAINTS, which makes it easy to
+        understand. It flows naturally from setting to subjects to visual details
+        and restrictions, and it aligns well with the family dental clinic Valentine’s
+        Day test case, including Austin visual cues, central framing, and the specified
+        text. The phrasing is mostly smooth, though a few prompt-style fragments such
+        as ''Overall palette influenced by #E91E63 and #FFC107 as tonal accents''
+        and the dense constraints list feel slightly mechanical rather than fully
+        natural.'
+      score: 0.8731058578630005
+      success: true
+    Composition Quality [GEval]:
+      reason: 'The response aligns well with the criteria: it establishes a clear
+        focal point with the family and dental professional as the main subjects,
+        keeps them explicitly centered, and states the primary subjects are within
+        the central 85% with no focal elements near the edges. It also supports mobile
+        use by specifying social media square framing and an eye-level composition.
+        Text-overlay needs are addressed by limiting on-image copy to a grouped header
+        and body, though it does not explicitly describe negative space or where the
+        text sits, which slightly weakens confidence on overlay spacing.'
+      score: 0.8939913349825993
+      success: true
+    Prompt Structure [GEval]:
+      reason: 'The output fully matches all required sections: it includes a clear
+        SCENE describing the Valentine’s-themed dental clinic environment and Austin
+        visual context; a SUBJECT with a defined focal group of a family and dental
+        professional; a DETAILS section covering style, lighting, framing, mood, and
+        palette/technical cues; a TEXT section with quoted header and body text; and
+        a CONSTRAINTS section listing composition limits, text restrictions, and prohibited
+        elements.'
+      score: 1.0
+      success: true
+    Text Specification [GEval]:
+      reason: 'The TEXT section includes a clear header greeting, "Happy Valentine’s
+        Day," and a body line that celebrates the event by promoting healthy smiles
+        and sweet moments for the whole family. Both text strings are properly wrapped
+        in quotes. However, the output does specify styling-related details elsewhere,
+        including an overall palette influenced by hex colors #E91E63 and #FFC107
+        and framing/placement guidance like social media square framing and subject
+        positioning, which conflicts with the requirement to avoid font, color, or
+        placement styling.'
+      score: 0.8019633293211609
+      success: true
+    Visual Specificity [GEval]:
+      reason: 'The response uses several specific visual details that are actionable
+        for image generation, including heart-shaped decorations, scrubs, limestone
+        buildings, live oak trees, enamel surfaces, polished dental tools, cozy seating,
+        paper heart crafts, and palette hints with #E91E63 and #FFC107. Lighting and
+        atmosphere are described concretely through soft natural daylight from windows,
+        gentle indoor clinic lighting, and a morning setting. It also gives usable
+        composition constraints like eye-level angle, square framing, and central
+        85% subject placement. However, it includes some vaguer wording such as ''welcoming,''
+        ''clean,'' ''cozy,'' and ''warm professional mood,'' which are less visually
+        precise, though it avoids the explicitly disallowed praise words like ''stunning''
+        or ''cinematic''.'
+      score: 0.807253100170471
+      success: true
+  generated_at: '2026-06-22T18:26:17.464044+00:00'
+  model_name: gpt-5.5
+  model_provider: openai
+  prompt_name: prompt_v1

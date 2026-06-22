@@ -1,0 +1,191 @@
+# Provider/Model Registry
+# Define all available models here, then reference by name in config.yaml files
+# Pricing is per 1M tokens (as of 2026)
+
+# OpenAI Models
+gpt4o:
+  provider: "openai"
+  model: "gpt-4o"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 2.50  # USD per 1M input tokens
+    completion: 10.00  # USD per 1M output tokens
+
+gpt4o_mini:
+  provider: "openai"
+  model: "gpt-4o-mini"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 0.15  # USD per 1M input tokens
+    completion: 0.60  # USD per 1M output tokens
+
+gpt4_turbo:
+  provider: "openai"
+  model: "gpt-4-turbo"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 10.00  # USD per 1M input tokens
+    completion: 30.00  # USD per 1M output tokens
+
+# GPT-5 Family Models (temperature=1 only, use Responses API)
+gpt5_5:
+  provider: "openai"
+  model: "gpt-5.5"
+  temperature: 1.0
+  max_tokens: 2000  # GPT-5.5 needs higher tokens for reasoning
+  pricing:
+    prompt: 5.00  # USD per 1M input tokens
+    completion: 30.00  # USD per 1M output tokens
+
+gpt5_4:
+  provider: "openai"
+  model: "gpt-5.4"
+  temperature: 1.0
+  max_tokens: 2000  # GPT-5.4 needs higher tokens for reasoning
+  pricing:
+    prompt: 2.50  # USD per 1M input tokens
+    completion: 15.00  # USD per 1M output tokens
+
+gpt5_4_mini:
+  provider: "openai"
+  model: "gpt-5.4-mini"
+  temperature: 1.0
+  max_tokens: 1000  # Mini model, moderate token limit
+  pricing:
+    prompt: 0.75  # USD per 1M input tokens
+    completion: 4.50  # USD per 1M output tokens
+
+# OpenAI o-series Reasoning Models (temperature=1 only, need higher max_tokens)
+o3:
+  provider: "openai"
+  model: "o3"
+  temperature: 1.0
+  max_tokens: 2000  # Reasoning models need higher token limits
+  extra_params:
+    reasoning:
+      effort: "low"
+  pricing:
+    prompt: 2.00  # USD per 1M input tokens
+    completion: 8.00  # USD per 1M output tokens
+
+o4_mini:
+  provider: "openai"
+  model: "o4-mini"
+  temperature: 1.0
+  max_tokens: 2000  # Reasoning models need higher token limits
+  extra_params:
+    reasoning:
+      effort: "low"
+  pricing:
+    prompt: 0.55  # USD per 1M input tokens (deprecated but still works)
+    completion: 2.20  # USD per 1M output tokens
+
+# High creativity variants (for creative writing, storytelling)
+gpt4o_creative:
+  provider: "openai"
+  model: "gpt-4o"
+  temperature: 0.9
+  max_tokens: 300
+  pricing:
+    prompt: 2.50
+    completion: 10.00
+
+# Low temperature variants (for structured output, factual content)
+gpt4o_precise:
+  provider: "openai"
+  model: "gpt-4o"
+  temperature: 0.3
+  max_tokens: 200
+  pricing:
+    prompt: 2.50
+    completion: 10.00
+
+# Budget-friendly options
+gpt4o_mini_fast:
+  provider: "openai"
+  model: "gpt-4o-mini"
+  temperature: 0.7
+  max_tokens: 150
+  pricing:
+    prompt: 0.15
+    completion: 0.60
+
+
+# Anthropic Claude Models
+claude_sonnet:
+  provider: "anthropic"
+  model: "claude-sonnet-4-5"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 3.00  # USD per 1M input tokens
+    completion: 15.00  # USD per 1M output tokens
+
+claude_opus:
+  provider: "anthropic"
+  model: "claude-opus-4-5"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 15.00  # USD per 1M input tokens
+    completion: 75.00  # USD per 1M output tokens
+
+claude_haiku:
+  provider: "anthropic"
+  model: "claude-3-5-haiku-20241022"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 1.00  # USD per 1M input tokens
+    completion: 5.00  # USD per 1M output tokens
+
+
+# =============================================================================
+# Image Generation Models
+# =============================================================================
+
+# OpenAI GPT Image 2 (successor to DALL-E 3)
+# Quality values: low, medium, high, auto
+gpt_image_2:
+  provider: "openai"
+  model: "gpt-image-2"
+  size: "1024x1024"
+  quality: "medium"
+  pricing:
+    per_image: 0.040  # USD per image (medium quality, 1024x1024)
+
+gpt_image_2_high:
+  provider: "openai"
+  model: "gpt-image-2"
+  size: "1024x1024"
+  quality: "high"
+  pricing:
+    per_image: 0.080  # USD per image (high quality, 1024x1024)
+
+gpt_image_2_large:
+  provider: "openai"
+  model: "gpt-image-2"
+  size: "1792x1024"
+  quality: "medium"
+  pricing:
+    per_image: 0.080  # USD per image (medium quality, landscape)
+
+# DALL-E 3 (legacy, still supported)
+dalle_3:
+  provider: "openai"
+  model: "dall-e-3"
+  size: "1024x1024"
+  quality: "standard"
+  pricing:
+    per_image: 0.040  # USD per image
+
+dalle_3_hd:
+  provider: "openai"
+  model: "dall-e-3"
+  size: "1024x1024"
+  quality: "hd"
+  pricing:
+    per_image: 0.080  # USD per image
