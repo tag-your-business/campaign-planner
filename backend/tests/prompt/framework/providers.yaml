@@ -1,0 +1,92 @@
+# Provider/Model Registry
+# Define all available models here, then reference by name in config.yaml files
+# Pricing is per 1M tokens (as of 2026)
+
+# OpenAI Models
+gpt4o:
+  provider: "openai"
+  model: "gpt-4o"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 2.50  # USD per 1M input tokens
+    completion: 10.00  # USD per 1M output tokens
+
+gpt4o_mini:
+  provider: "openai"
+  model: "gpt-4o-mini"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 0.15  # USD per 1M input tokens
+    completion: 0.60  # USD per 1M output tokens
+
+gpt4_turbo:
+  provider: "openai"
+  model: "gpt-4-turbo"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 10.00  # USD per 1M input tokens
+    completion: 30.00  # USD per 1M output tokens
+
+
+# High creativity variants (for creative writing, storytelling)
+gpt4o_creative:
+  provider: "openai"
+  model: "gpt-4o"
+  temperature: 0.9
+  max_tokens: 300
+  pricing:
+    prompt: 2.50
+    completion: 10.00
+
+# Low temperature variants (for structured output, factual content)
+gpt4o_precise:
+  provider: "openai"
+  model: "gpt-4o"
+  temperature: 0.3
+  max_tokens: 200
+  pricing:
+    prompt: 2.50
+    completion: 10.00
+
+# Budget-friendly options
+gpt4o_mini_fast:
+  provider: "openai"
+  model: "gpt-4o-mini"
+  temperature: 0.7
+  max_tokens: 150
+  pricing:
+    prompt: 0.15
+    completion: 0.60
+
+
+# Anthropic Claude Models
+claude_sonnet:
+  provider: "anthropic"
+  model: "claude-sonnet-4-5"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 3.00  # USD per 1M input tokens
+    completion: 15.00  # USD per 1M output tokens
+
+claude_opus:
+  provider: "anthropic"
+  model: "claude-opus-4-5"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 15.00  # USD per 1M input tokens
+    completion: 75.00  # USD per 1M output tokens
+
+claude_haiku:
+  provider: "anthropic"
+  model: "claude-3-5-haiku-20241022"
+  temperature: 0.7
+  max_tokens: 200
+  pricing:
+    prompt: 1.00  # USD per 1M input tokens
+    completion: 5.00  # USD per 1M output tokens
+

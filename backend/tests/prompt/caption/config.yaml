@@ -1,0 +1,47 @@
+# Caption Generation Evaluation Configuration
+
+# System and user prompt templates (override-able by prompt variations)
+system_prompt: |
+  You are a professional social media content creator. Create engaging social media captions.
+  Requirements:
+  - Length: 150-300 characters
+  - Include 3-5 relevant hashtags
+  - Match the specified brand tone
+  - Encourage interaction
+
+user_prompt: |
+  Create a social media caption for the following campaign:
+  Event: {event_name}
+  Company: {company_name}
+  Industry: {industry}
+  Tone: {tone}
+  Tags: {event_tags}
+
+# Model Configuration
+# Reference provider(s) from framework/providers.yaml
+# Single model:
+# model: "gpt4o_mini"
+#
+# Multiple models (tests all prompts with each model):
+model:
+  - "gpt4o_mini"
+  - "gpt4o"
+
+# Paths
+prompts_dir: "prompts"
+data_path: "data/campaign_specs.json"
+results_dir: "results"
+
+# Metrics to evaluate
+# Reference metrics from framework/metrics.yaml by name
+metrics:
+  - "answer_relevancy"      # Built-in DeepEval metric
+  - "coherence"             # GEval for text quality
+  - "tone_matching"         # GEval for brand tone
+  - "caption_length"        # Custom metric (150-300 chars)
+  - "hashtag_count"         # Custom metric (3-5 hashtags)
+
+# You can also override specific parameters:
+# metrics:
+#   - ref: "coherence"
+#     threshold: 0.85       # Override threshold for stricter evaluation

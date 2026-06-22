@@ -1,0 +1,15 @@
+[
+  {
+    "input_description": "Valentine's Day campaign for dental practice",
+    "event_name": "Valentine's Day",
+    "company_name": "Smile Dental Clinic",
+    "industry": "dental",
+    "tone": "professional",
+    "event_tags": ["holiday", "seasonal"],
+    "context": [
+      "Event: Valentine's Day",
+      "Industry: dental",
+      "Tone: professional"
+    ]
+  }
+]

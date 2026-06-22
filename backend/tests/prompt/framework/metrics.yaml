@@ -1,0 +1,187 @@
+# Metrics Registry
+# Define all available metrics here, then reference by name in config.yaml files
+
+# DeepEval Built-in Metrics
+answer_relevancy:
+  type: "answer_relevancy"
+  name: "Answer Relevancy"
+  threshold: 0.7
+
+answer_relevancy_strict:
+  type: "answer_relevancy"
+  name: "Answer Relevancy (Strict)"
+  threshold: 0.85
+
+# GEval Metrics for Text Quality
+coherence:
+  type: "geval"
+  name: "Coherence"
+  criteria: "The text should be clear, fluent, and coherent"
+  threshold: 0.7
+  evaluation_steps:
+    - "Evaluate whether the text uses clear and direct language"
+    - "Check if the message is easy to understand"
+    - "Assess whether the text flows naturally"
+    - "Verify there are no confusing or awkward phrases"
+
+coherence_strict:
+  type: "geval"
+  name: "Coherence (Strict)"
+  criteria: "The text should be exceptionally clear, fluent, and coherent"
+  threshold: 0.85
+  evaluation_steps:
+    - "Evaluate whether the text uses clear and direct language"
+    - "Check if the message is easy to understand"
+    - "Assess whether the text flows naturally"
+    - "Verify there are no confusing or awkward phrases"
+
+tone_matching:
+  type: "geval"
+  name: "Tone Matching"
+  criteria: "The text should match the specified brand tone"
+  threshold: 0.7
+  evaluation_steps:
+    - "Identify if the language aligns with the specified tone"
+    - "Check if the level of formality is appropriate"
+    - "Assess whether the emotional appeal matches the tone"
+
+creativity:
+  type: "geval"
+  name: "Creativity"
+  criteria: "The text should be creative, original, and engaging"
+  threshold: 0.7
+  evaluation_steps:
+    - "Assess whether the text uses unique or unexpected phrasing"
+    - "Check if the message stands out from generic content"
+    - "Evaluate the use of creative language devices"
+    - "Determine if the text would capture audience attention"
+
+professionalism:
+  type: "geval"
+  name: "Professionalism"
+  criteria: "The text should maintain a professional standard"
+  threshold: 0.75
+  evaluation_steps:
+    - "Check for appropriate language and grammar"
+    - "Verify absence of slang or inappropriate content"
+    - "Assess overall polish and quality"
+    - "Confirm the text represents the brand well"
+
+engagement:
+  type: "geval"
+  name: "Engagement"
+  criteria: "The text should encourage audience interaction and engagement"
+  threshold: 0.7
+  evaluation_steps:
+    - "Check if the text includes a call-to-action"
+    - "Assess whether the message invites response or interaction"
+    - "Evaluate the use of questions or prompts"
+    - "Determine if the text creates emotional connection"
+
+brand_alignment:
+  type: "geval"
+  name: "Brand Alignment"
+  criteria: "The text should align with brand values and messaging"
+  threshold: 0.75
+  evaluation_steps:
+    - "Verify the message matches brand voice"
+    - "Check if the content supports brand positioning"
+    - "Assess consistency with brand values"
+    - "Confirm appropriate representation of the brand"
+
+# Caption-Specific Metrics
+caption_length:
+  type: "custom"
+  name: "Length Validation"
+  class: "tests.prompt.caption.custom_metrics.CaptionLengthMetric"
+  threshold: 1.0
+  params:
+    min_length: 150
+    max_length: 300
+
+caption_length_short:
+  type: "custom"
+  name: "Length Validation (Short)"
+  class: "tests.prompt.caption.custom_metrics.CaptionLengthMetric"
+  threshold: 1.0
+  params:
+    min_length: 100
+    max_length: 200
+
+caption_length_long:
+  type: "custom"
+  name: "Length Validation (Long)"
+  class: "tests.prompt.caption.custom_metrics.CaptionLengthMetric"
+  threshold: 1.0
+  params:
+    min_length: 200
+    max_length: 400
+
+hashtag_count:
+  type: "custom"
+  name: "Hashtag Count"
+  class: "tests.prompt.caption.custom_metrics.HashtagQualityMetric"
+  threshold: 1.0
+  params:
+    min_count: 3
+    max_count: 5
+
+hashtag_count_minimal:
+  type: "custom"
+  name: "Hashtag Count (Minimal)"
+  class: "tests.prompt.caption.custom_metrics.HashtagQualityMetric"
+  threshold: 1.0
+  params:
+    min_count: 1
+    max_count: 3
+
+hashtag_count_extensive:
+  type: "custom"
+  name: "Hashtag Count (Extensive)"
+  class: "tests.prompt.caption.custom_metrics.HashtagQualityMetric"
+  threshold: 1.0
+  params:
+    min_count: 5
+    max_count: 10
+
+# Image Prompt Metrics (placeholders for future implementation)
+# structure_validation:
+#   type: "custom"
+#   name: "5-Section Structure"
+#   class: "tests.prompt.image_prompt.custom_metrics.StructureMetric"
+#   threshold: 1.0
+#   params:
+#     required_sections: 5
+
+# Completeness Metrics
+completeness:
+  type: "geval"
+  name: "Completeness"
+  criteria: "The output should include all required elements"
+  threshold: 0.8
+  evaluation_steps:
+    - "Check if all key components are present"
+    - "Verify no critical information is missing"
+    - "Assess whether the output fully addresses the requirements"
+
+# Accuracy Metrics
+accuracy:
+  type: "geval"
+  name: "Accuracy"
+  criteria: "The output should accurately reflect the input specifications"
+  threshold: 0.75
+  evaluation_steps:
+    - "Verify all facts match the input"
+    - "Check for any misrepresentations or errors"
+    - "Confirm details are correctly incorporated"
+
+# Conciseness Metrics
+conciseness:
+  type: "geval"
+  name: "Conciseness"
+  criteria: "The text should be concise without unnecessary verbosity"
+  threshold: 0.7
+  evaluation_steps:
+    - "Check if the message is direct and to-the-point"
+    - "Assess whether any words could be removed without losing meaning"
+    - "Verify there is no repetition or redundancy"

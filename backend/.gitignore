@@ -118,6 +118,10 @@ tests/e2e/data/campaigns/generated/*
 # E2E test environment file (contains real credentials)
 tests/e2e/.env.e2e
 
+# Prompt evaluation results
+tests/prompt/**/results/*.json
+tests/prompt/**/results/*.md
+
 
 
 # Translations
