@@ -1,6 +1,7 @@
 """Image generation evaluation tests."""
 
 import json
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -13,7 +14,13 @@ from tests.prompt.image.custom_metrics import (
     VisualQualityScoreMetric,
 )
 
-pytestmark = pytest.mark.eval
+pytestmark = [
+    pytest.mark.eval,
+    pytest.mark.skipif(
+        os.environ.get("RUN_LLM_EVAL") != "1",
+        reason="LLM eval tests skipped. Set RUN_LLM_EVAL=1 to run.",
+    ),
+]
 
 
 class TestImageEvaluation:

@@ -1,5 +1,6 @@
 """Image prompt generation evaluation tests."""
 
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -10,7 +11,13 @@ from tests.prompt.framework.comparison import ComparisonGenerator
 from tests.prompt.framework.config_loader import EvaluationConfig
 from tests.prompt.framework.evaluator import PromptEvaluator
 
-pytestmark = pytest.mark.eval
+pytestmark = [
+    pytest.mark.eval,
+    pytest.mark.skipif(
+        os.environ.get("RUN_LLM_EVAL") != "1",
+        reason="LLM eval tests skipped. Set RUN_LLM_EVAL=1 to run.",
+    ),
+]
 
 
 class TestImagePromptEvaluation:
