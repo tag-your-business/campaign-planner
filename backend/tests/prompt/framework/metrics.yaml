@@ -144,14 +144,79 @@ hashtag_count_extensive:
     min_count: 5
     max_count: 10
 
-# Image Prompt Metrics (placeholders for future implementation)
-# structure_validation:
-#   type: "custom"
-#   name: "5-Section Structure"
-#   class: "tests.prompt.image_prompt.custom_metrics.StructureMetric"
-#   threshold: 1.0
-#   params:
-#     required_sections: 5
+# Image Prompt Metrics (GEval-based)
+prompt_structure:
+  type: "geval"
+  name: "Prompt Structure"
+  criteria: "The image prompt should follow a clear 5-section structure with SCENE, SUBJECT, DETAILS, TEXT, and CONSTRAINTS sections"
+  threshold: 0.8
+  evaluation_steps:
+    - "Check if the prompt contains a SCENE section describing environment and setting"
+    - "Verify SUBJECT section exists with clear focal point description"
+    - "Confirm DETAILS section includes style, lighting, and technical specs"
+    - "Validate TEXT section contains quoted header and body text"
+    - "Ensure CONSTRAINTS section lists restrictions and composition rules"
+
+visual_specificity:
+  type: "geval"
+  name: "Visual Specificity"
+  criteria: "The prompt should use concrete, specific visual descriptions without vague or generic terms"
+  threshold: 0.7
+  evaluation_steps:
+    - "Check that descriptions use specific visual details (colors, textures, materials)"
+    - "Verify absence of vague praise words (stunning, beautiful, amazing, cinematic)"
+    - "Assess whether lighting and atmosphere are described concretely"
+    - "Confirm visual elements are actionable for an image generation model"
+
+brand_integration:
+  type: "geval"
+  name: "Brand Integration"
+  criteria: "Brand colors should be integrated as tonal/atmospheric influences rather than literal surface colors"
+  threshold: 0.7
+  evaluation_steps:
+    - "Check if brand color hex codes are mentioned in the prompt"
+    - "Verify colors are used as lighting or atmospheric references"
+    - "Ensure colors are not assigned as literal paint or surface colors"
+    - "Assess whether brand tone translates to appropriate visual choices"
+
+text_specification:
+  type: "geval"
+  name: "Text Specification"
+  criteria: "The TEXT section should clearly specify header and body content with proper quoting"
+  threshold: 0.8
+  evaluation_steps:
+    - "Verify TEXT section contains a header greeting"
+    - "Check for body text that celebrates the event"
+    - "Confirm text strings are wrapped in quotes"
+    - "Ensure no font, color, or placement styling is specified"
+
+composition_quality:
+  type: "geval"
+  name: "Composition Quality"
+  criteria: "The prompt should describe a well-composed image suitable for social media"
+  threshold: 0.7
+  evaluation_steps:
+    - "Check for clear focal point with 1-2 main subjects"
+    - "Verify composition allows space for text overlays"
+    - "Assess whether the image would work on mobile viewing"
+    - "Confirm subjects are positioned within central frame area"
+
+# Image Generation Metrics
+image_generation_success:
+  type: "custom"
+  name: "Image Generation Success"
+  class: "tests.prompt.image.custom_metrics.ImageGenerationSuccessMetric"
+  threshold: 1.0
+
+visual_quality_score:
+  type: "custom"
+  name: "Visual Quality Score"
+  class: "tests.prompt.image.custom_metrics.VisualQualityScoreMetric"
+  threshold: 0.7
+  params:
+    min_width: 512
+    min_height: 512
+    min_variance: 100.0
 
 # Completeness Metrics
 completeness:

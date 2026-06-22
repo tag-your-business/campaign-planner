@@ -1,0 +1,25 @@
+# Image Generation Evaluation Configuration
+
+# Image Model Configuration
+# Reference provider(s) from framework/providers.yaml
+# Single model:
+# image_model: "gpt_image_2"
+#
+# Multiple models (tests each prompt with each model):
+image_model:
+  - "gpt_image_2"
+
+# Paths
+prompts_dir: "prompts"
+data_path: "data/campaign_specs.json"
+results_dir: "results"
+images_dir: "generated_images"
+
+# Metrics to evaluate
+metrics:
+  - "image_generation_success"
+  - "visual_quality_score"
+
+# Testing configuration
+# When true, uses fallback image instead of API calls
+use_fallback_image: true

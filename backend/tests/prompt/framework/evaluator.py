@@ -35,11 +35,28 @@ class PromptEvaluator:
             return json.load(f)
 
     def load_prompt_variations(self) -> list[PromptVariation]:
-        """Load all prompt variations from prompts directory."""
+        """Load prompt variations based on config.
+
+        If prompts are specified in config, loads only those.
+        Otherwise, loads all .yaml files from prompts directory.
+        """
         prompts_dir = self.config.prompts_dir
+        prompt_names = self.config.prompt_names
         variations = []
-        for prompt_file in sorted(prompts_dir.glob("*.yaml")):
-            variations.append(PromptVariation(prompt_file))
+
+        if prompt_names:
+            # Load only specified prompts
+            for name in prompt_names:
+                prompt_file = prompts_dir / f"{name}.yaml"
+                if prompt_file.exists():
+                    variations.append(PromptVariation(prompt_file))
+                else:
+                    raise FileNotFoundError(f"Prompt file not found: {prompt_file}")
+        else:
+            # Load all prompts from directory
+            for prompt_file in sorted(prompts_dir.glob("*.yaml")):
+                variations.append(PromptVariation(prompt_file))
+
         return variations
 
     def evaluate_prompt(

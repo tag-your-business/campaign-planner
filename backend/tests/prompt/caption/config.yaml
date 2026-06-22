@@ -1,21 +1,18 @@
 # Caption Generation Evaluation Configuration
+#
+# Prompt variations are defined in prompts/*.yaml files
+# Each variation specifies its own system_prompt and user_prompt
 
-# System and user prompt templates (override-able by prompt variations)
-system_prompt: |
-  You are a professional social media content creator. Create engaging social media captions.
-  Requirements:
-  - Length: 150-300 characters
-  - Include 3-5 relevant hashtags
-  - Match the specified brand tone
-  - Encourage interaction
-
-user_prompt: |
-  Create a social media caption for the following campaign:
-  Event: {event_name}
-  Company: {company_name}
-  Industry: {industry}
-  Tone: {tone}
-  Tags: {event_tags}
+# Prompt Configuration
+# Reference prompt files from prompts/ directory (without .yaml extension)
+# Single prompt:
+# prompts: "prompt_v1"
+#
+# Multiple prompts (tests each prompt with each model):
+prompts:
+  - "prompt_v1"
+  - "prompt_v2"
+  - "prompt_v3"
 
 # Model Configuration
 # Reference provider(s) from framework/providers.yaml

@@ -1,0 +1,30 @@
+[
+  {
+    "input_description": "Valentine's Day campaign for dental practice",
+    "event_name": "Valentine's Day",
+    "company_name": "Smile Dental Clinic",
+    "industry": "dental",
+    "tone_keywords": ["professional", "caring", "warm"],
+    "brand_colors": {
+      "primary": "#E91E63",
+      "accent": "#FFC107"
+    },
+    "visual_style": "photorealistic",
+    "primary_audience": "families with children",
+    "locations": [
+      {
+        "city": "Austin",
+        "state": "Texas",
+        "country": "USA",
+        "is_primary": true
+      }
+    ],
+    "language": "English",
+    "context": [
+      "Event: Valentine's Day",
+      "Industry: dental",
+      "Tone: professional, caring, warm",
+      "brand_colors: #E91E63, #FFC107"
+    ]
+  }
+]

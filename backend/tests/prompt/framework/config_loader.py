@@ -44,22 +44,38 @@ class EvaluationConfig:
         self.config_dir = config_path.parent
 
     @property
-    def system_prompt(self) -> str:
-        """Get system prompt from config."""
-        return self.config.get("system_prompt", "")
-
-    @property
-    def user_prompt_template(self) -> str:
-        """Get user prompt template."""
-        return self.config.get("user_prompt", "")
-
-    @property
     def prompts_dir(self) -> Path:
         """Get prompts directory path."""
         prompts_path = self.config.get("prompts_dir", "prompts")
         if not Path(prompts_path).is_absolute():
             return self.config_dir / prompts_path
         return Path(prompts_path)
+
+    @property
+    def prompt_names(self) -> list[str] | None:
+        """Get configured prompt names to evaluate.
+
+        Returns:
+            List of prompt file names (without .yaml extension), or None to use all.
+
+        Supports:
+        - Single prompt: prompts: "prompt_v1"
+        - Multiple prompts: prompts: ["prompt_v1", "prompt_v2"]
+        - Not specified: returns None (evaluate all prompts in prompts_dir)
+        """
+        prompts_config = self.config.get("prompts")
+        if prompts_config is None:
+            return None
+        if isinstance(prompts_config, str):
+            return [prompts_config]
+        if isinstance(prompts_config, list):
+            return prompts_config
+        raise ValueError(f"Invalid prompts configuration: {prompts_config}")
+
+    @property
+    def raw_config(self) -> dict:
+        """Get raw config dict for accessing custom fields."""
+        return self.config
 
     @property
     def metrics(self) -> list[dict]:
@@ -208,6 +224,61 @@ class EvaluationConfig:
 
         # Not found
         raise ValueError(f"Provider '{model_name}' not found in providers registry")
+
+    @property
+    def image_models(self) -> list[dict]:
+        """Get image model configurations from config, resolving from registry.
+
+        Returns list of image model configs. Supports:
+        - Single model: image_model: "gpt_image_2"
+        - Multiple models: image_model: ["gpt_image_2", "dalle_3"]
+        - Inline dict: image_model: {provider: "openai", model: "gpt-image-2", ...}
+
+        Returns:
+            List of image model configuration dicts
+        """
+        if "image_model" not in self.config:
+            return []
+
+        image_model_config = self.config["image_model"]
+        providers_registry = get_providers_registry()
+
+        # Handle list of models
+        if isinstance(image_model_config, list):
+            resolved_models = []
+            for m in image_model_config:
+                if isinstance(m, str):
+                    if m not in providers_registry:
+                        raise ValueError(
+                            f"Image model '{m}' not found in providers registry. "
+                            f"Available: {', '.join(providers_registry.keys())}"
+                        )
+                    resolved_models.append(providers_registry[m])
+                elif isinstance(m, dict):
+                    resolved_models.append(m)
+                else:
+                    raise ValueError(f"Invalid image model config: {m}")
+            return resolved_models
+
+        # Handle single model (string or dict)
+        if isinstance(image_model_config, str):
+            if image_model_config not in providers_registry:
+                raise ValueError(
+                    f"Image model '{image_model_config}' not found in providers registry. "
+                    f"Available: {', '.join(providers_registry.keys())}"
+                )
+            return [providers_registry[image_model_config]]
+
+        if isinstance(image_model_config, dict):
+            return [image_model_config]
+
+        raise ValueError(f"Invalid image model configuration: {image_model_config}")
+
+    @property
+    def default_image_model(self) -> dict | None:
+        """Get first image model configuration."""
+        image_models = self.image_models
+        return image_models[0] if image_models else None
 
 
 class PromptVariation:

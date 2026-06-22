@@ -30,6 +30,58 @@ gpt4_turbo:
     prompt: 10.00  # USD per 1M input tokens
     completion: 30.00  # USD per 1M output tokens
 
+# GPT-5 Family Models (temperature=1 only, use Responses API)
+gpt5_5:
+  provider: "openai"
+  model: "gpt-5.5"
+  temperature: 1.0
+  max_tokens: 2000  # GPT-5.5 needs higher tokens for reasoning
+  pricing:
+    prompt: 5.00  # USD per 1M input tokens
+    completion: 30.00  # USD per 1M output tokens
+
+gpt5_4:
+  provider: "openai"
+  model: "gpt-5.4"
+  temperature: 1.0
+  max_tokens: 2000  # GPT-5.4 needs higher tokens for reasoning
+  pricing:
+    prompt: 2.50  # USD per 1M input tokens
+    completion: 15.00  # USD per 1M output tokens
+
+gpt5_4_mini:
+  provider: "openai"
+  model: "gpt-5.4-mini"
+  temperature: 1.0
+  max_tokens: 1000  # Mini model, moderate token limit
+  pricing:
+    prompt: 0.75  # USD per 1M input tokens
+    completion: 4.50  # USD per 1M output tokens
+
+# OpenAI o-series Reasoning Models (temperature=1 only, need higher max_tokens)
+o3:
+  provider: "openai"
+  model: "o3"
+  temperature: 1.0
+  max_tokens: 2000  # Reasoning models need higher token limits
+  extra_params:
+    reasoning:
+      effort: "low"
+  pricing:
+    prompt: 2.00  # USD per 1M input tokens
+    completion: 8.00  # USD per 1M output tokens
+
+o4_mini:
+  provider: "openai"
+  model: "o4-mini"
+  temperature: 1.0
+  max_tokens: 2000  # Reasoning models need higher token limits
+  extra_params:
+    reasoning:
+      effort: "low"
+  pricing:
+    prompt: 0.55  # USD per 1M input tokens (deprecated but still works)
+    completion: 2.20  # USD per 1M output tokens
 
 # High creativity variants (for creative writing, storytelling)
 gpt4o_creative:
@@ -90,3 +142,50 @@ claude_haiku:
     prompt: 1.00  # USD per 1M input tokens
     completion: 5.00  # USD per 1M output tokens
 
+
+# =============================================================================
+# Image Generation Models
+# =============================================================================
+
+# OpenAI GPT Image 2 (successor to DALL-E 3)
+# Quality values: low, medium, high, auto
+gpt_image_2:
+  provider: "openai"
+  model: "gpt-image-2"
+  size: "1024x1024"
+  quality: "medium"
+  pricing:
+    per_image: 0.040  # USD per image (medium quality, 1024x1024)
+
+gpt_image_2_high:
+  provider: "openai"
+  model: "gpt-image-2"
+  size: "1024x1024"
+  quality: "high"
+  pricing:
+    per_image: 0.080  # USD per image (high quality, 1024x1024)
+
+gpt_image_2_large:
+  provider: "openai"
+  model: "gpt-image-2"
+  size: "1792x1024"
+  quality: "medium"
+  pricing:
+    per_image: 0.080  # USD per image (medium quality, landscape)
+
+# DALL-E 3 (legacy, still supported)
+dalle_3:
+  provider: "openai"
+  model: "dall-e-3"
+  size: "1024x1024"
+  quality: "standard"
+  pricing:
+    per_image: 0.040  # USD per image
+
+dalle_3_hd:
+  provider: "openai"
+  model: "dall-e-3"
+  size: "1024x1024"
+  quality: "hd"
+  pricing:
+    per_image: 0.080  # USD per image

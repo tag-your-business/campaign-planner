@@ -122,6 +122,10 @@ tests/e2e/.env.e2e
 tests/prompt/**/results/*.json
 tests/prompt/**/results/*.md
 
+# Generated images from prompt evaluation
+tests/prompt/image/generated_images/*
+!tests/prompt/image/generated_images/.gitkeep
+
 
 
 # Translations
