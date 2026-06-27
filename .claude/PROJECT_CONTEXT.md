@@ -83,7 +83,19 @@ campaign-planner/
 │   │   └── logs/              # Application logs
 │   ├── tests/                 # Test files
 │   │   ├── unit/              # Unit tests
-│   │   └── integration/       # Integration tests
+│   │   ├── integration/       # Integration tests
+│   │   └── prompt/            # Prompt evaluation tests (DeepEval-based)
+│   │       ├── framework/     # Shared config-driven evaluation framework
+│   │       │   ├── config_loader.py   # Parse config.yaml files
+│   │       │   ├── evaluator.py       # Core evaluation engine
+│   │       │   ├── metrics_factory.py # Build metrics from config
+│   │       │   ├── comparison.py      # Generate comparison summaries
+│   │       │   ├── providers.yaml     # Global provider/model registry
+│   │       │   └── metrics.yaml       # Global metrics registry
+│   │       ├── caption/       # Caption prompt evaluations (prompt_v1/v2/v3)
+│   │       ├── image/         # Image generation prompt evaluations (case1/2/3 variants)
+│   │       ├── image_prompt/  # Combined image+prompt evaluations (case1/2/3 variants)
+│   │       └── conftest.py    # Shared pytest fixtures
 │   └── pyproject.toml         # Poetry dependencies and tool config
 ├── frontend/                   # Frontend (placeholder)
 └── README.md                   # Main project README
@@ -134,6 +146,20 @@ campaign-planner/
 - **planner.py**: Creates campaign plans matching events to companies
 - **prompt.py**: Manages prompt templates for AI generation
 
+### Prompt Evaluation Framework (`backend/tests/prompt/`)
+Config-driven framework for evaluating and comparing prompt variations using **DeepEval**.
+
+- **framework/**: Shared engine — `config_loader.py`, `evaluator.py`, `comparison.py`, `metrics_factory.py`
+- **framework/providers.yaml**: Global registry of provider/model configs (reference by name from any `config.yaml`)
+- **framework/metrics.yaml**: Global registry of evaluation metrics
+- **caption/**: Evaluates caption prompt variants (`prompt_v1.yaml`, `prompt_v2.yaml`, `prompt_v3.yaml`)
+- **image/**: Evaluates image generation prompts with per-case variants (`prompt_auto_v1_gpt-5-4-mini_case1.yaml`, etc.)
+- **image_prompt/**: Evaluates combined image+prompt generation with case-based variants
+
+**Important — Dependency Conflict**: DeepEval requires `openai <2.0.0` but this project uses `openai >=2.41.0`. Run evaluations in a separate venv until DeepEval updates. See `backend/tests/prompt/README.md` for workarounds.
+
+To run eval tests: `poetry run pytest -m eval backend/tests/prompt/`
+
 ### Publishing (`backend/app/features/publishing/`)
 - **facebook.py**: Facebook Graph API integration
 - **instagram.py**: Instagram Graph API integration
@@ -179,8 +205,10 @@ CAMPAIGNS_DIR=data/campaigns
 ### Testing
 - Unit tests in `tests/unit/`
 - Integration tests in `tests/integration/`
+- Prompt evaluation tests in `tests/prompt/` (DeepEval-based, run with `-m eval`)
 - Use pytest for all tests
 - Async tests supported via pytest-asyncio
+- Prompt eval tests are marked with `@pytest.mark.eval` and skipped by default
 
 ### Feature Organization
 - Features are organized by domain (companies, events, generation, publishing)

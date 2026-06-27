@@ -4,6 +4,7 @@
 - Development server: `poetry run uvicorn app.main:app --reload`
 - Run tests: `poetry run pytest`
 - Run integration tests: `poetry run pytest tests/integration/ -v`
+- Run prompt eval tests: `poetry run pytest -m eval tests/prompt/` (separate venv required — see tests/prompt/README.md)
 - Format code: `poetry run black .`
 - Lint: `poetry run ruff check .`
 - Pre-commit: `poetry run pre-commit run --all-files`
@@ -59,17 +60,33 @@ class MyGenerator:
 ## Testing Guidelines
 - Unit tests in `tests/unit/`
 - Integration tests in `tests/integration/`
-- E2E tests in `tests/e2e/`
+- E2E tests in `tests/e2e/` (publishes to real social media; requires `RUN_E2E=1`)
+- Prompt evaluation tests in `tests/prompt/` (DeepEval-based; marked `@pytest.mark.eval`, skipped by default)
 - Use mock publishers for testing (see `tests/mocks/`)
 - Always run tests before committing
+
+### Running Tests
+```bash
+poetry run pytest                          # unit + integration (default)
+poetry run pytest -m e2e tests/e2e/       # E2E (requires .env.e2e with RUN_E2E=1)
+poetry run pytest -m eval tests/prompt/   # prompt evals (requires separate venv — see tests/prompt/README.md)
+```
 
 ### Test Data Organization
 - **All test data must be colocated with the test type it belongs to**
 - Integration test data: `tests/integration/data/`, `tests/integration/fixtures/`
 - E2E test data: `tests/e2e/data/`, `tests/e2e/fixtures/`
 - Unit test data: `tests/unit/fixtures/`
+- Prompt eval data: `tests/prompt/{caption,image,image_prompt}/data/campaign_specs.json`
 - Shared mocks: `tests/mocks/`
 - Never mix test data from different test types
+
+### Prompt Evaluation Framework (`tests/prompt/`)
+Config-driven framework using DeepEval. Each eval subdirectory (`caption/`, `image/`, `image_prompt/`) has its own `config.yaml`, `data/campaign_specs.json`, and `prompts/` folder with YAML prompt variants.
+- Add a prompt variant: create `prompts/prompt_vN.yaml` in the relevant directory
+- Add a new test case: create `prompt_auto_v{N}_gpt-5-4-mini_case{N}.yaml` (image/image_prompt evals)
+- Global registries: `tests/prompt/framework/providers.yaml` (models) and `metrics.yaml` (metrics)
+- **Dependency conflict**: DeepEval requires `openai <2.0.0` — use a separate venv for eval runs
 
 ## Pre-commit Workflow
 ⚠️ **CRITICAL: ALWAYS run pre-commit hooks before any code changes are complete**

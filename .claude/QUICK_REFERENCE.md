@@ -72,6 +72,20 @@ backend/data/
 # No code change required.
 ```
 
+### Add / Run Prompt Evaluations
+```
+backend/tests/prompt/
+├── framework/         # Shared engine (config_loader, evaluator, comparison)
+│   ├── providers.yaml # Global model registry — add new providers here
+│   └── metrics.yaml   # Global metrics registry
+├── caption/           # Caption evals — prompts: prompt_v1/v2/v3.yaml
+├── image/             # Image evals — prompts: prompt_auto_v{1,2}_gpt-5-4-mini_case{1,2,3}.yaml
+└── image_prompt/      # Combined evals — prompt_v1/v2 + case variants
+```
+- Each eval directory has its own `config.yaml` and `data/campaign_specs.json`
+- Add new prompt variant: create a `prompts/prompt_vN.yaml` in the relevant directory
+- Add new case: create `prompt_auto_v{N}_gpt-5-4-mini_case{N}.yaml` for image/image_prompt evals
+
 ### Add Environment Variable
 ```python
 # 1. Add to: backend/app/core/config.py (Settings class)
@@ -141,12 +155,15 @@ Logo file: `data/companies/{slug}/logo.png` (PNG, transparent background)
 
 ```bash
 # From backend/ directory
-poetry run uvicorn app.main:app --reload   # Start server
-poetry run pytest                          # Run tests
-poetry run black .                         # Format code
-poetry run ruff check .                    # Lint code
-poetry run pre-commit run --all-files      # All checks
+poetry run uvicorn app.main:app --reload          # Start server
+poetry run pytest                                 # Run tests (unit + integration)
+poetry run pytest -m eval tests/prompt/           # Run prompt eval tests (DeepEval)
+poetry run black .                                # Format code
+poetry run ruff check .                           # Lint code
+poetry run pre-commit run --all-files             # All checks
 ```
+
+> **Prompt eval dependency conflict**: DeepEval requires `openai <2.0.0` but the app uses `>=2.41.0`. Run eval tests in a separate venv. See `backend/tests/prompt/README.md`.
 
 ## Important Notes
 
