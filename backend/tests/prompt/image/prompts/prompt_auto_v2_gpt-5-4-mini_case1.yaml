@@ -1,0 +1,120 @@
+campaign_spec:
+  event_name: Diwali
+  industry: real estate
+description: Auto-generated from image_prompt eval (prompt_v2 with gpt-5.4-mini)
+image_prompt: 'SCENE: A premium residential tower exterior in Sambalpur, Odisha, India
+  at dusk during Diwali, with a clean urban skyline, warm glowing windows, subtle
+  festive marigold garlands, a few elegant diyas on a landscaped foreground edge,
+  and faint rangoli patterns near the entrance. The setting feels aspirational and
+  trustworthy, with generous negative space in the lower frame for social media text.
+  Brand color hex hints appear as atmospheric lighting influences: #D4AF37 in warm
+  highlights and #800000 in rich accent glow.
+
+
+  SUBJECT: A tall, modern luxury residential tower representing a dream home, with
+  a small, tasteful foreground family and two professionals in festive traditional
+  and semi-formal attire facing toward the viewer, smiling calmly and standing together
+  as if arriving at a premium property celebration. The tower is the main anchor,
+  while the people add relatability and scale. The composition should suggest Balaji
+  Builders’ premium residential identity without showing any signage.
+
+
+  DETAILS: photorealistic. Soft diffused evening light with warm diya glow from the
+  lower left and gentle ambient city light from the right, creating a refined golden-maroon
+  atmosphere echoing #D4AF37 and #800000. Eye-level camera angle with slight upward
+  perspective to emphasize height and prestige. Materials and textures: glass balconies,
+  polished stone, clean concrete, soft fabric clothing, brass diya reflections, fresh
+  marigold petals, and subtle festive lighting. Mood: luxury, aspirational, trustworthy,
+  welcoming, and family-centered.
+
+
+  TEXT: "Happy Diwali!"
+
+  "Celebrate the festival of lights in a home that reflects your aspirations, comfort,
+  and future. Wishing families and professionals a brighter season of success and
+  togetherness."
+
+
+  CONSTRAINTS: No logos, no watermarks, no company text. Primary subjects within central
+  85% of frame. Reserve lower 30% for text overlay space. Keep background uncluttered
+  and high contrast for mobile viewing. Include clear negative space for the header
+  and body text. Avoid back-of-head views. Do not show multiple buildings competing
+  with the tower. Do not use surface colors as brand colors; use #D4AF37 and #800000
+  only as lighting/atmospheric cues.'
+source_info:
+  evaluation_scores:
+    Brand Integration [GEval]:
+      reason: 'The response fully aligns with all evaluation steps. It explicitly
+        mentions the brand hex codes #D4AF37 and #800000, uses them as atmospheric
+        and lighting cues through phrases like warm highlights, accent glow, and a
+        golden-maroon atmosphere, and directly avoids assigning them as literal surface
+        colors by stating they should not be used as brand surface colors. It also
+        translates the premium, aspirational, trustworthy brand tone into fitting
+        visual choices such as a modern luxury tower, refined festive Diwali details,
+        clean skyline, generous negative space, and a welcoming family-centered mood.'
+      score: 1.0
+      success: true
+    Coherence [GEval]:
+      reason: 'The output uses mostly clear, direct language and is easy to understand
+        because it is organized into labeled sections like SCENE, SUBJECT, DETAILS,
+        TEXT, and CONSTRAINTS. It generally flows naturally as a structured creative
+        brief and includes specific test case details such as Sambalpur, Odisha, Diwali,
+        negative space in the lower frame, and the lighting use of #D4AF37 and #800000.
+        However, some phrasing is dense and overly packed with modifiers, which reduces
+        readability, and a few expressions like ''brand color hex hints appear as
+        atmospheric lighting influences'' and the long constraint list feel awkward
+        rather than simple and direct.'
+      score: 0.7805814378901551
+      success: true
+    Composition Quality [GEval]:
+      reason: 'The response aligns well with the evaluation steps: it establishes
+        a clear focal point with one main subject (the residential tower) and a secondary
+        human group for scale, while explicitly avoiding competing buildings. It strongly
+        supports text overlay needs by reserving the lower 30% and mentioning generous
+        negative space plus header/body text areas. It also addresses mobile viewing
+        through an uncluttered, high-contrast background. Subject placement is clearly
+        handled with the requirement that primary subjects stay within the central
+        85% of the frame. A minor shortcoming is that the lower-frame text space may
+        slightly compete with the foreground family and decorative elements, but overall
+        the composition guidance is strong and specific.'
+      score: 0.9
+      success: true
+    Prompt Structure [GEval]:
+      reason: 'The output fully matches all required sections: it includes a clear
+        SCENE with environment and setting details like Sambalpur, Odisha, dusk, Diwali
+        decor, and skyline; a strong SUBJECT focused on the luxury residential tower
+        with supporting people; a DETAILS section covering style, lighting, camera
+        angle, materials, and mood, which satisfies technical and visual specs; a
+        TEXT section with both quoted header and quoted body copy; and a CONSTRAINTS
+        section listing explicit restrictions and composition rules such as no logos,
+        central 85% framing, lower 30% text space, and uncluttered background.'
+      score: 1.0
+      success: true
+    Text Specification [GEval]:
+      reason: 'The TEXT section includes a clear header greeting, "Happy Diwali!",
+        and the body text celebrates the event by referencing the festival of lights,
+        success, and togetherness. The text strings in the TEXT section are properly
+        wrapped in quotes. However, the overall output includes styling-related details
+        outside TEXT, such as brand color hex hints, lighting cues tied to #D4AF37
+        and #800000, and layout/placement instructions like reserving the lower 30%
+        and negative space for header and body text, which conflicts with the requirement
+        to avoid font, color, or placement styling.'
+      score: 0.8413822088664723
+      success: true
+    Visual Specificity [GEval]:
+      reason: 'The output uses many specific visual details that are actionable for
+        image generation, including dusk timing, marigold garlands, diyas, rangoli,
+        glass balconies, polished stone, clean concrete, brass reflections, and explicit
+        color cues from #D4AF37 and #800000. Lighting and atmosphere are described
+        concretely with soft diffused evening light, diya glow from the lower left,
+        and ambient city light from the right. It also includes composition and framing
+        constraints useful for generation. However, it includes vague praise and abstract
+        mood terms such as premium, luxury, aspirational, trustworthy, elegant, and
+        refined, which weakens alignment with the requirement to avoid vague praise
+        words.'
+      score: 0.809020587995674
+      success: true
+  generated_at: '2026-06-25T15:55:21.567248+00:00'
+  model_name: gpt-5.4-mini
+  model_provider: openai
+  prompt_name: prompt_v2

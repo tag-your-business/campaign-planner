@@ -1,0 +1,110 @@
+campaign_spec:
+  event_name: Diwali
+  industry: real estate
+description: Auto-generated from image_prompt eval (prompt_v1 with gpt-5.4-mini)
+image_prompt: 'SCENE: A premium residential courtyard in Sambalpur, Odisha, India
+  during Diwali evening, with a refined modern villa backdrop, warm rangoli near the
+  entryway, softly glowing diyas, marigold garlands, and subtle festive decor. The
+  atmosphere feels welcoming, elegant, and hopeful, suited to families and professionals
+  imagining a dream home.
+
+
+  SUBJECT: A well-appointed family and a professionally dressed couple standing together
+  in the foreground, facing the viewer with relaxed, aspirational expressions; behind
+  them, a sophisticated home entrance suggests luxury living, comfort, and trust.
+
+
+  DETAILS: photorealistic; warm ambient diya light blended with soft architectural
+  lighting, natural vibrant tones influenced by #E88B2B and #0F7A5A across the overall
+  palette, polished stone, glass, wood, and fabric textures, eye-level framing with
+  a slight wide-angle view, clean composition, premium and celebratory mood.
+
+
+  TEXT: "Happy Diwali" "Wishing you light, prosperity, and a beautiful beginning in
+  a home that feels truly yours. May this festive season open the door to your premium
+  dream home."
+
+
+  CONSTRAINTS: Use #E88B2B and #0F7A5A as overall palette hints; no logos, no watermarks,
+  no company information; primary subjects within the central 85% of the frame; no
+  focal elements near the edges; no extra text beyond the specified header and body;
+  no clutter, no distorted hands or faces, no exaggerated festive overload.'
+source_info:
+  evaluation_scores:
+    Brand Integration [GEval]:
+      reason: 'The output explicitly includes the brand hex codes #E88B2B and #0F7A5A,
+        satisfying the first check. It uses them appropriately as palette and lighting/atmospheric
+        influences through phrases like ''warm ambient diya light,'' ''soft architectural
+        lighting,'' and ''overall palette hints,'' which aligns with using brand colors
+        indirectly. It also avoids assigning those hex codes to literal painted walls
+        or surface colors, instead keeping materials described neutrally as stone,
+        glass, wood, and fabric. The premium, elegant, hopeful brand tone is translated
+        well into the visual choices with a refined modern villa, aspirational subjects,
+        and a celebratory but restrained Diwali setting. A minor limitation is that
+        the green tone is referenced more as palette influence than clearly tied to
+        atmosphere or lighting.'
+      score: 0.8880797077977881
+      success: true
+    Coherence [GEval]:
+      reason: 'The output uses clear, direct sectioned language with understandable
+        descriptions for scene, subject, details, text, and constraints. It flows
+        naturally from setting to people to visual requirements, making the message
+        easy to follow. It also respects key test case parameters like the Diwali
+        setting in Sambalpur, the specified colors #E88B2B and #0F7A5A, and restrictions
+        on logos, extra text, and edge placement. Minor awkwardness comes from the
+        prompt-like formatting and a few dense phrases such as the long constraints
+        list, but overall it is not confusing.'
+      score: 0.8148047198031689
+      success: true
+    Composition Quality [GEval]:
+      reason: 'The response mostly aligns well: it defines a clear focal point around
+        two main subject groups—a family and a professionally dressed couple—with
+        the luxury home entrance as secondary context. It explicitly supports text
+        overlay needs by keeping the composition clean, avoiding clutter, and restricting
+        extra text, though it does not clearly specify where negative space for overlays
+        should appear. It should work reasonably well on mobile because the scene
+        uses eye-level framing, central placement, and a limited number of focal elements,
+        but the presence of multiple people and detailed festive decor could reduce
+        clarity on smaller screens. It strongly satisfies central framing requirements
+        by stating primary subjects must remain within the central 85% and avoiding
+        focal elements near the edges.'
+      score: 0.803732688734413
+      success: true
+    Prompt Structure [GEval]:
+      reason: 'The output fully matches all evaluation steps: it includes a clear
+        SCENE with environment and setting in a premium residential courtyard in Sambalpur
+        during Diwali; a SUBJECT with a defined focal point of a family and professional
+        couple in the foreground; a DETAILS section covering style, lighting, palette,
+        textures, framing, and technical/compositional specs; a TEXT section with
+        quoted header and body text; and a CONSTRAINTS section listing restrictions
+        and composition rules such as central 85% placement, no extra text, and no
+        logos or watermarks.'
+      score: 1.0
+      success: true
+    Text Specification [GEval]:
+      reason: The TEXT section includes a clear header greeting, "Happy Diwali," and
+        a body message that celebrates the event with festive wishes about light,
+        prosperity, and a new beginning tied to a dream home. The text strings are
+        properly wrapped in quotes. A minor issue is that the overall output specifies
+        palette hints with hex colors in DETAILS and CONSTRAINTS, which introduces
+        styling-related guidance even though the text itself avoids font, color, or
+        placement instructions.
+      score: 0.8777299861174692
+      success: true
+    Visual Specificity [GEval]:
+      reason: 'The output includes several concrete visual details that are actionable
+        for image generation, such as polished stone, glass, wood, fabric textures,
+        marigold garlands, rangoli, diyas, and palette hints using #E88B2B and #0F7A5A.
+        Lighting is described fairly specifically with warm ambient diya light blended
+        with soft architectural lighting, and composition constraints like eye-level
+        framing, slight wide-angle view, and central 85% placement are useful. However,
+        it relies on vague promotional language like premium, refined, sophisticated,
+        elegant, aspirational, and luxury living, which weakens alignment with the
+        requirement to avoid vague praise words. Some atmosphere terms like welcoming,
+        hopeful, and celebratory are also less concrete than ideal.'
+      score: 0.7222700138825309
+      success: true
+  generated_at: '2026-06-25T15:54:08.725500+00:00'
+  model_name: gpt-5.4-mini
+  model_provider: openai
+  prompt_name: prompt_v1

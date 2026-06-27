@@ -1,0 +1,110 @@
+campaign_spec:
+  event_name: Diwali
+  industry: real estate
+description: Auto-generated from image_prompt eval (prompt_v2 with gpt-5.4-mini)
+image_prompt: 'SCENE: A premium residential tower at dusk in Sambalpur, Odisha, India,
+  with a festive Diwali atmosphere visible through a spacious landscaped forecourt.
+  Soft rangoli patterns, oil lamps, subtle string lights, and a few glowing lanterns
+  create a warm celebration around the entrance plaza. The tower rises in the background
+  to signal height and prestige, with clean architectural lines, polished stone surfaces,
+  and a calm, upscale neighborhood context. Open sky with the last traces of twilight,
+  allowing strong contrast and clear negative space in the lower portion of the frame.
+
+
+  SUBJECT: A family and a professionally dressed couple standing together in the foreground,
+  facing the viewer with warm, welcoming expressions, positioned as the primary focus.
+  They hold a small thali with lit diyas and a tasteful Diwali gift box, symbolizing
+  prosperity, home, and celebration. The residential tower remains clearly visible
+  behind them as the dream-home setting, with the people framed in a way that feels
+  aspirational, trustworthy, and inclusive for families and professionals.
+
+
+  DETAILS: Photorealistic. Luxury brand mood with refined minimalism, premium materials,
+  soft diffused evening lighting from the left, and gentle warm highlights echoing
+  #D4AF37 with deep twilight undertones inspired by #1A237E. Eye-level camera angle
+  with slight depth, sharp focus on the subjects, realistic skin tones, textured fabric,
+  polished marble, brushed metal, and glass reflections. The composition should feel
+  spacious, elegant, and credible, with festive warmth balanced by modern real-estate
+  sophistication.
+
+
+  TEXT: "Happy Diwali!" "May this Diwali bring light, prosperity, and the joy of finding
+  your perfect dream home." "Celebrate new beginnings with a premium home designed
+  for families and professionals."
+
+
+  CONSTRAINTS: No logos, no watermarks, no company text. Primary subjects within central
+  85% of frame. Reserve lower 30% for text overlay space. Brand color hex codes as
+  palette hints: #D4AF37 and #1A237E. Clear negative space for header and body text
+  grouped together in the lower 30% of the frame. Avoid clutter, overcrowding, extra
+  people, exaggerated fireworks, and back-of-head views. Keep the tower recognizable
+  as a premium high-rise in Sambalpur without rendering any location names as text.'
+source_info:
+  evaluation_scores:
+    Brand Integration [GEval]:
+      reason: 'The response aligns strongly with all evaluation steps: it explicitly
+        includes the brand hex codes #D4AF37 and #1A237E, uses them appropriately
+        as atmospheric lighting cues through warm highlights and twilight undertones,
+        and does not apply them as literal paint or surface colors on the tower or
+        objects. It also translates the premium/luxury brand tone into fitting visual
+        choices such as refined minimalism, polished materials, spacious composition,
+        and upscale Diwali ambience, consistent with the test case constraints.'
+      score: 0.9731058578630005
+      success: true
+    Coherence [GEval]:
+      reason: The text is clear, direct, and generally easy to understand, with well-structured
+        sections like SCENE, SUBJECT, DETAILS, TEXT, and CONSTRAINTS that help the
+        message flow naturally. It communicates the Sambalpur premium tower, Diwali
+        atmosphere, family and professional couple, and lower 30% text space clearly.
+        However, some phrasing is dense and prompt-like rather than fully natural,
+        such as the long constraint list and technical details like hex codes, which
+        make parts feel slightly awkward or less smooth.
+      score: 0.8182425523806357
+      success: true
+    Composition Quality [GEval]:
+      reason: The response defines a clear focal point with two main subjects—the
+        family and professionally dressed couple—while keeping the residential tower
+        as a secondary contextual element. It explicitly reserves the lower 30% for
+        grouped text overlays and mentions clear negative space, which aligns well
+        with overlay needs. Mobile suitability is supported by the eye-level, spacious
+        composition, sharp focus, and avoidance of clutter, though the amount of text
+        requested could still feel heavy on small screens. It also directly satisfies
+        central framing by stating the primary subjects should remain within the central
+        85% of the frame.
+      score: 0.8977022630089975
+      success: true
+    Prompt Structure [GEval]:
+      reason: 'The output fully matches all required sections: it has a clear SCENE
+        describing the dusk residential setting in Sambalpur with festive Diwali elements,
+        a distinct SUBJECT identifying the family and couple as the focal point, and
+        a DETAILS section covering style, lighting, camera angle, and technical/visual
+        specs. The TEXT section includes quoted header and body lines, and CONSTRAINTS
+        explicitly lists restrictions and composition rules such as text overlay space,
+        subject placement, negative space, and prohibited elements.'
+      score: 1.0
+      success: true
+    Text Specification [GEval]:
+      reason: The TEXT section includes a clear header greeting, "Happy Diwali!",
+        and the body text celebrates the event with prosperity, new beginnings, and
+        a dream home message. All TEXT strings are properly wrapped in quotes. However,
+        the output violates the requirement to avoid font, color, or placement styling
+        because it specifies placement in constraints like reserving the lower 30%
+        for text and grouping header/body there.
+      score: 0.7572082198927034
+      success: false
+    Visual Specificity [GEval]:
+      reason: 'The output uses many specific visual details that are actionable for
+        image generation, such as polished marble, brushed metal, glass reflections,
+        textured fabric, oil lamps, lanterns, and palette hints with #D4AF37 and #1A237E.
+        Lighting and atmosphere are described concretely with dusk, last traces of
+        twilight, soft diffused evening lighting from the left, warm highlights, and
+        negative space instructions. It also gives clear composition constraints and
+        subject placement. However, it includes some vague promotional terms like
+        premium, upscale, aspirational, trustworthy, elegant, and credible, which
+        reduce alignment with the requirement to avoid vague praise language.'
+      score: 0.8222700138825308
+      success: true
+  generated_at: '2026-06-25T15:55:21.574473+00:00'
+  model_name: gpt-5.4-mini
+  model_provider: openai
+  prompt_name: prompt_v2

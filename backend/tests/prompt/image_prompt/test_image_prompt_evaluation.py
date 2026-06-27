@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 import yaml
 from app.common.ai_providers import Message, ProviderFactory, TextGenerationRequest
+from app.features.generation.prompt import PromptGenerator
 from tests.prompt.framework.comparison import ComparisonGenerator
 from tests.prompt.framework.config_loader import EvaluationConfig
 from tests.prompt.framework.evaluator import PromptEvaluator
@@ -52,46 +53,51 @@ class TestImagePromptEvaluation:
         Returns:
             Tuple of (generated image prompt string, usage dict with token counts)
         """
-        # Handle brand_colors formatting
-        brand_colors = spec.get("brand_colors", {})
-        if isinstance(brand_colors, dict):
-            primary = brand_colors.get("primary", "")
-            accent = brand_colors.get("accent", "")
-            colors_text = ", ".join(filter(None, [primary, accent]))
+        # ponytail: $PROD marker uses prod's _build_user_prompt for accurate testing
+        if user_prompt.strip() == "$PROD":
+            formatted_user_prompt = PromptGenerator()._build_user_prompt(spec)
         else:
-            colors_text = ", ".join(brand_colors) if brand_colors else ""
+            # Template interpolation for experimental prompts
+            brand_colors = spec.get("brand_colors", {})
+            if isinstance(brand_colors, dict):
+                primary = brand_colors.get("primary", "")
+                accent = brand_colors.get("accent", "")
+                colors_text = ", ".join(filter(None, [primary, accent]))
+            else:
+                colors_text = ", ".join(brand_colors) if brand_colors else ""
 
-        # Handle location text
-        locations = spec.get("locations", [])
-        primary_loc = next((loc for loc in locations if loc.get("is_primary")), None)
-        location_text = ""
-        if primary_loc:
-            parts = [
-                p
-                for p in [
-                    primary_loc.get("city", ""),
-                    primary_loc.get("state", ""),
-                    primary_loc.get("country", ""),
+            locations = spec.get("locations", [])
+            primary_loc = next(
+                (loc for loc in locations if loc.get("is_primary")), None
+            )
+            location_text = ""
+            if primary_loc:
+                parts = [
+                    p
+                    for p in [
+                        primary_loc.get("city", ""),
+                        primary_loc.get("state", ""),
+                        primary_loc.get("country", ""),
+                    ]
+                    if p
                 ]
-                if p
-            ]
-            location_text = ", ".join(parts)
+                location_text = ", ".join(parts)
 
-        # Handle tone_keywords
-        tone_keywords = spec.get("tone_keywords", [])
-        tone_text = ", ".join(tone_keywords) if tone_keywords else "professional"
+            tone_keywords = spec.get("tone_keywords", [])
+            tone_text = ", ".join(tone_keywords) if tone_keywords else "professional"
 
-        # Format user prompt with spec values
-        formatted_user_prompt = user_prompt.format(
-            event_name=spec.get("event_name", ""),
-            industry=spec.get("industry", ""),
-            tone_keywords=tone_text,
-            brand_colors=colors_text if colors_text else "natural vibrant tones",
-            visual_style=spec.get("visual_style", "photorealistic"),
-            primary_audience=spec.get("primary_audience", ""),
-            location_text=location_text if location_text else "general",
-            language=spec.get("language", "English"),
-        )
+            formatted_user_prompt = user_prompt.format(
+                event_name=spec.get("event_name", ""),
+                industry=spec.get("industry", ""),
+                tone_keywords=tone_text,
+                brand_colors=colors_text if colors_text else "natural vibrant tones",
+                visual_style=spec.get("visual_style", "photorealistic"),
+                primary_audience=spec.get("primary_audience", ""),
+                location_text=location_text if location_text else "general",
+                language=spec.get("language", "English"),
+                company_name=spec.get("company_name", ""),
+                company_about=spec.get("company_description", ""),
+            )
 
         # Get model configuration with defaults
         provider_name = model_config.get("provider")
@@ -125,6 +131,7 @@ class TestImagePromptEvaluation:
         scores: dict,
         output_dir: Path,
         file_prefix: str,
+        index: int,
     ):
         """Generate auto prompt file for image evaluation cascade.
 
@@ -144,7 +151,8 @@ class TestImagePromptEvaluation:
         # Extract just the version part from variation name
         source_name = variation_name.replace("prompt_", "")
 
-        filename = f"{file_prefix}{source_name}_{model_short}.yaml"
+        # Include 1-based case index so every test spec persists its own file
+        filename = f"{file_prefix}{source_name}_{model_short}_case{index + 1}.yaml"
         output_path = output_dir / filename
 
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -233,6 +241,7 @@ class TestImagePromptEvaluation:
                             scores=test_case.get("metrics", {}),
                             output_dir=output_dir,
                             file_prefix=file_prefix,
+                            index=i,
                         )
 
                 total_evaluations += 1

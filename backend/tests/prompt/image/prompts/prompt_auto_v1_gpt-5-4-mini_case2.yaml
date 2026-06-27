@@ -1,0 +1,102 @@
+campaign_spec:
+  event_name: Diwali
+  industry: real estate
+description: Auto-generated from image_prompt eval (prompt_v1 with gpt-5.4-mini)
+image_prompt: 'SCENE: A premium residential terrace in Sambalpur, Odisha, India during
+  Diwali evening, with a warm residential skyline, subtle rangoli patterns, marigold
+  garlands, brass diyas, and distant festive lights across neighboring homes. The
+  atmosphere feels elegant, welcoming, and celebratory for families and professionals.
+
+
+  SUBJECT: A refined multi-generational family and a well-dressed professional couple
+  standing together on the terrace, facing toward the viewer, with a luxury modern
+  home exterior and softly glowing entrance behind them.
+
+
+  DETAILS: Photorealistic. Warm diya light and soft ambient twilight create gentle
+  highlights on polished stone, glass, and fabric textures; the palette is influenced
+  by #D4AF37 and #1A237E throughout the scene. Eye-level framing with a slightly wide
+  composition, premium lifestyle mood, natural skin tones, and crisp surface detail.
+
+
+  TEXT: "Happy Diwali" "May this festival of lights bring warmth, prosperity, and
+  new beginnings. Discover a premium home where your family and future can truly shine."
+
+
+  CONSTRAINTS: Use #D4AF37 and #1A237E only as scene palette hints; no logos, no watermarks,
+  no company information; primary subjects within the central 85% of the frame; no
+  focal elements near the edges.'
+source_info:
+  evaluation_scores:
+    Brand Integration [GEval]:
+      reason: 'The output explicitly includes the brand hex codes #D4AF37 and #1A237E,
+        satisfying the first check. It uses them appropriately as atmospheric and
+        palette guidance through phrases like ''palette is influenced'' and ''scene
+        palette hints,'' which aligns with using colors as lighting/environmental
+        references rather than literal paint. It also reinforces this in the constraints
+        by stating they should be used only as palette hints. The visual choices strongly
+        match a premium, elegant, celebratory Diwali tone with warm diya light, polished
+        materials, and a refined family setting. A minor limitation is that the scene
+        does not describe the color influence as lighting as directly as it could,
+        but overall it aligns very well with the evaluation steps.'
+      score: 0.9268941421369995
+      success: true
+    Coherence [GEval]:
+      reason: 'The text is clear, direct, and easy to understand, with well-structured
+        sections like SCENE, SUBJECT, DETAILS, TEXT, and CONSTRAINTS that make the
+        message straightforward. It flows naturally from setting to people to visual
+        details and restrictions. The wording is mostly smooth and precise, especially
+        around the Sambalpur, Odisha Diwali terrace setting, the multi-generational
+        family, and the palette hints #D4AF37 and #1A237E. A few phrases feel slightly
+        dense or technical, such as ''primary subjects within the central 85% of the
+        frame'' and the long DETAILS sentence, which reduces overall naturalness slightly.'
+      score: 0.8731058578630005
+      success: true
+    Composition Quality [GEval]:
+      reason: 'The response mostly aligns with the criteria: it identifies a small
+        set of main subjects centered on a multi-generational family and a professional
+        couple, and it explicitly states the primary subjects should remain within
+        the central 85% with no focal elements near the edges, which supports central
+        framing. The slightly wide composition could help leave room for overlays,
+        and the eye-level, photorealistic setup would likely read well on mobile.
+        However, it does not clearly reserve negative space for the provided text
+        overlay, and having both a family group and a couple may make the focal point
+        somewhat busier than the ideal 1–2 clearly isolated subjects.'
+      score: 0.7209635432368252
+      success: true
+    Prompt Structure [GEval]:
+      reason: 'The output fully matches all required sections: it includes a clear
+        SCENE with environment and setting details tied to a Diwali terrace in Sambalpur,
+        a distinct SUBJECT describing the family and professional couple as focal
+        points, and a DETAILS section covering style, lighting, palette, framing,
+        and surface/technical presentation. The TEXT section contains both a quoted
+        header and quoted body copy, and the CONSTRAINTS section clearly lists restrictions
+        and composition rules such as no logos/watermarks, central 85% subject placement,
+        and avoiding edge focal elements.'
+      score: 1.0
+      success: true
+    Text Specification [GEval]:
+      reason: 'The TEXT section includes a clear greeting header with "Happy Diwali"
+        and a celebratory body message about warmth, prosperity, and new beginnings,
+        satisfying the event-celebration requirement. All text strings in the TEXT
+        section are wrapped in quotes. However, the overall output does specify styling
+        details elsewhere, including palette references like #D4AF37 and #1A237E and
+        scene/composition directions, which slightly conflicts with the requirement
+        to avoid font, color, or placement styling.'
+      score: 0.8951858711850745
+      success: true
+    Visual Specificity [GEval]:
+      reason: 'The response uses several specific visual details that are actionable
+        for image generation, including marigold garlands, brass diyas, polished stone,
+        glass, fabric textures, and the palette hints #D4AF37 and #1A237E. It also
+        gives concrete lighting and atmosphere cues such as warm diya light, soft
+        ambient twilight, gentle highlights, and distant festive lights. However,
+        it includes some vague or promotional phrasing like elegant, welcoming, celebratory,
+        refined, luxury, premium lifestyle mood, and softly glowing, which weakens
+        alignment with the requirement to avoid vague praise-style language.'
+      score: 0.8014063627043246
+      success: true
+  generated_at: '2026-06-25T15:54:08.721241+00:00'
+  model_name: gpt-5.4-mini
+  model_provider: openai
+  prompt_name: prompt_v1
