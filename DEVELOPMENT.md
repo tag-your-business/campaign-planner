@@ -260,10 +260,22 @@ tests/
 │   ├── test_companies.py
 │   ├── test_events.py
 │   └── test_generation.py
-└── integration/        # Integration tests (real files, APIs)
-    ├── test_generation_flow.py
-    └── test_publishing_flow.py
+├── integration/        # Integration tests (real files, APIs)
+│   ├── test_generation_flow.py
+│   └── test_publishing_flow.py
+├── e2e/                # End-to-end tests (publishes to real social media accounts)
+│   └── test_publisher_flow_e2e.py
+└── prompt/             # Prompt evaluation tests (DeepEval-based, skipped by default)
+    ├── framework/      # Shared config-driven evaluation engine
+    │   ├── providers.yaml    # Global model/provider registry
+    │   └── metrics.yaml      # Global metrics registry
+    ├── caption/        # Caption prompt variants (prompt_v1/v2/v3)
+    ├── image/          # Image generation prompt variants (case1/2/3)
+    ├── image_prompt/   # Combined image+prompt variants (case1/2/3)
+    └── conftest.py     # Shared pytest fixtures
 ```
+
+> **Prompt eval dependency conflict**: DeepEval requires `openai <2.0.0` but the app uses `openai >=2.41.0`. Run prompt eval tests in a separate virtual environment. See `backend/tests/prompt/README.md` for setup instructions.
 
 ### Writing Tests
 
@@ -309,7 +321,7 @@ async def test_generate_caption():
 ### Running Tests
 
 ```bash
-# All tests
+# All tests (unit + integration; e2e and eval skipped by default)
 poetry run pytest
 
 # Specific directory
@@ -327,6 +339,12 @@ poetry run pytest -x
 
 # Run tests matching pattern
 poetry run pytest -k "caption"
+
+# Run prompt evaluation tests (requires separate venv — see tests/prompt/README.md)
+poetry run pytest -m eval tests/prompt/
+
+# Run E2E tests (requires .env.e2e with RUN_E2E=1 — publishes to real social media)
+poetry run pytest -m e2e tests/e2e/
 ```
 
 ### Test Fixtures

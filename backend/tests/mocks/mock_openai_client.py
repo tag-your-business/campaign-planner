@@ -103,25 +103,60 @@ class MockImageGeneration:
         return MockImageResponse(image_b64)
 
 
+class MockResponsesResponse:
+    """Mock OpenAI Responses API response (GPT-5+ models)."""
+
+    def __init__(self, content: str):
+        self.output_text = content
+        self.usage = type("Usage", (), {"input_tokens": 10, "output_tokens": 5})()
+
+
+class MockResponses:
+    """Mock OpenAI Responses API (used by GPT-5+, o3, o4 models)."""
+
+    def __init__(self, client: "MockOpenAIClient"):
+        self.client = client
+
+    def create(self, model: str, input: str, **kwargs: Any) -> MockResponsesResponse:
+        """Mock responses.create call."""
+        self.client.responses_invocations.append(
+            {"model": model, "input": input, **kwargs}
+        )
+
+        if self.client.should_fail_chat:
+            logger.error(f"Mock: Responses API failed for model {model}")
+            raise Exception("Mock OpenAI chat API error")
+
+        caption = (
+            self.client.custom_caption or "Mock generated caption for your campaign"
+        )
+        logger.info(f"Mock: Generated response with model {model}")
+        return MockResponsesResponse(caption)
+
+
 class MockOpenAIClient:
     """
     Mock OpenAI client matching the SDK structure.
 
+    Supports both:
+    - Responses API (GPT-5+): client.responses.create() → response.output_text
+    - Chat Completions API (GPT-4): client.chat.completions.create()
+      → response.choices[0].message.content
+    - Image generation: client.images.generate() → response.data[0].b64_json
+
     Usage:
         mock_client = MockOpenAIClient()
-        response = mock_client.chat.completions.create(
-            model="gpt-5.4-mini",
-            messages=[{"role": "user", "content": "Hello"}]
-        )
+        # Responses API (gpt-5.4-mini)
+        response = mock_client.responses.create(model="gpt-5.4-mini", input="Hello")
+        caption = response.output_text
+
+        # Chat Completions API (gpt-4o)
+        response = mock_client.chat.completions.create(model="gpt-4o", messages=[...])
         caption = response.choices[0].message.content
 
-        response = mock_client.images.generate(
-            model="gpt-image-2",
-            prompt="A beautiful sunset",
-            n=1,
-            size="1024x1024"
-        )
-        url = response.data[0].url
+        # Image generation (gpt-image-2)
+        response = mock_client.images.generate(model="gpt-image-2", prompt="...")
+        b64 = response.data[0].b64_json
     """
 
     def __init__(
@@ -130,15 +165,17 @@ class MockOpenAIClient:
         should_fail_image: bool = False,
         custom_caption: Optional[str] = None,
         custom_image_b64: Optional[str] = None,
+        custom_image_url: Optional[str] = None,
     ):
         """
         Initialize mock OpenAI client.
 
         Args:
-            should_fail_chat: If True, chat completions will raise exceptions
-            should_fail_image: If True, image generation will raise exceptions
+            should_fail_chat: If True, both chat completions and responses.create raise
+            should_fail_image: If True, image generation raises exceptions
             custom_caption: Custom caption to return (default: generic mock caption)
             custom_image_b64: Custom base64 image to return (default: mock value)
+            custom_image_url: Ignored (kept for backward compatibility)
         """
         self.should_fail_chat = should_fail_chat
         self.should_fail_image = should_fail_image
@@ -148,7 +185,9 @@ class MockOpenAIClient:
         # Initialize nested API interfaces
         self.chat = type("Chat", (), {"completions": MockChatCompletions(self)})()
         self.images = MockImageGeneration(self)
+        self.responses = MockResponses(self)
 
         # Invocation tracking
         self.chat_invocations: List[Dict[str, Any]] = []
         self.image_invocations: List[Dict[str, Any]] = []
+        self.responses_invocations: List[Dict[str, Any]] = []

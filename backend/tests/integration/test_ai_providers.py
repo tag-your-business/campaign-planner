@@ -19,31 +19,21 @@ class TestAIProviderIntegration:
         mock_settings.openai_api_key = "sk-test123"
         mock_settings.openai_text_model = "gpt-5.4-mini"
 
-        # Setup mock OpenAI client
+        # Setup mock OpenAI client — gpt-5.4-mini uses the Responses API
         mock_client = mock_openai_class.return_value
         mock_response = type(
             "Response",
             (),
             {
-                "choices": [
-                    type(
-                        "Choice",
-                        (),
-                        {"message": type("Message", (), {"content": "Test caption"})()},
-                    )()
-                ],
+                "output_text": "Test caption",
                 "usage": type(
                     "Usage",
                     (),
-                    {
-                        "prompt_tokens": 10,
-                        "completion_tokens": 5,
-                        "total_tokens": 15,
-                    },
+                    {"input_tokens": 10, "output_tokens": 5},
                 )(),
             },
         )()
-        mock_client.chat.completions.create.return_value = mock_response
+        mock_client.responses.create.return_value = mock_response
 
         # Create caption generator
         caption_gen = CaptionGenerator()
@@ -61,7 +51,7 @@ class TestAIProviderIntegration:
 
         # Verify
         assert caption == "Test caption"
-        assert mock_client.chat.completions.create.called
+        assert mock_client.responses.create.called
 
     @patch("app.common.ai_providers.factory.settings")
     @patch("app.common.ai_providers.providers.nvidia_provider.OpenAI")

@@ -268,7 +268,7 @@ class TestGeneratorFlowIntegration:
 
         # Verify failure and that all retry attempts were made
         assert "Mock OpenAI chat API error" in str(exc_info.value)
-        assert len(mock_openai.chat_invocations) >= 3
+        assert len(mock_openai.responses_invocations) >= 3
 
     @pytest.mark.skip(reason="requires Anthropic API credentials")
     async def test_image_generation_failure(
@@ -392,9 +392,9 @@ class TestGeneratorFlowIntegration:
         caplog,
     ):
         """Test that one campaign failure doesn't stop others in batch processing."""
-        # Setup: Mock that fails on second chat invocation
+        # Setup: Mock that fails on second responses invocation (gpt-5.4-mini uses Responses API)
         mock_openai = MockOpenAIClient()
-        original_create = mock_openai.chat.completions.create
+        original_create = mock_openai.responses.create
 
         call_count = [0]
 
@@ -406,7 +406,7 @@ class TestGeneratorFlowIntegration:
                 raise Exception("Mock failure on second campaign")
             return original_create(*args, **kwargs)
 
-        mock_openai.chat.completions.create = create_with_selective_failure
+        mock_openai.responses.create = create_with_selective_failure
 
         mocker.patch("time.sleep")  # prevent tenacity wait between retries
         mock_settings = mocker.patch("app.common.ai_providers.factory.settings")
