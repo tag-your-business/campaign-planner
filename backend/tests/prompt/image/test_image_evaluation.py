@@ -56,11 +56,17 @@ class TestImageEvaluation:
         if not prompts_dir.exists():
             return prompt_files
 
+        prompt_filter: list[str] = config.raw_config.get("prompt_filter") or []
+
         for prompt_file in sorted(prompts_dir.glob("*.yaml")):
+            if prompt_filter and not any(
+                prompt_file.stem.startswith(p) for p in prompt_filter
+            ):
+                continue
+
             with open(prompt_file) as f:
                 data = yaml.safe_load(f)
 
-            # Determine source type
             if prompt_file.name.startswith("prompt_auto_"):
                 source = "auto"
             elif prompt_file.name.startswith("prompt_manual_"):

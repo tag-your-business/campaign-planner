@@ -193,4 +193,19 @@ class PromptGenerator:
             ]
         )
 
+        if campaign_spec.get("model_branding"):
+            contact = campaign_spec.get("contact_info", {})
+            website = contact.get("website", "")
+            address = contact.get("address", "")
+            phone = contact.get("phone", "")
+            email = contact.get("email", "")
+            bottom = ", ".join(filter(None, [website, address]))
+            top_right = ", ".join(filter(None, [phone, email]))
+            lines.append("")
+            lines.append("Company branding to render in image:")
+            if bottom:
+                lines.append(f"  Bottom edge: {bottom}")
+            if top_right:
+                lines.append(f"  Top right: {top_right}")
+
         return "\n".join(lines)

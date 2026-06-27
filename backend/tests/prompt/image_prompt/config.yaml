@@ -10,8 +10,9 @@
 #
 # Multiple prompts (tests each prompt with each model):
 prompts:
-  - "prompt_v1"
+  # - "prompt_v1"
   - "prompt_v2"
+  - "prompt_v3"
 
 # Model Configuration
 # Reference provider(s) from framework/providers.yaml
@@ -42,3 +43,15 @@ run_image_eval: true
 image_eval_config:
   output_dir: "../image/prompts"
   file_prefix: "prompt_auto_"
+
+# Campaign spec auto-generation
+# The conftest.py session fixture reads this to generate data/campaign_specs.json
+# using CampaignPlanner before the eval test runs.
+campaign_spec_generation:
+  profiles_dir: "data/profiles"
+  event_file: "data/events/2026.json"
+  event_id: "summer_social_2026"
+  profiles:
+    - "profile_v1"
+    # - "profile_v2"
+    # - "profile_v3"

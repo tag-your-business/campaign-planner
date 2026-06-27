@@ -1,0 +1,108 @@
+campaign_spec:
+  event_name: Diwali
+  industry: real estate
+description: Auto-generated from image_prompt eval (prompt_v3 with gpt-5.4-mini)
+image_prompt: 'SCENE: A festive Diwali evening in Roorkee, Uttarakhand, India, with
+  a warm neighborhood street, simple homes, glowing diyas on steps, marigold garlands,
+  rangoli patterns, string lights, and subtle hints of a growing residential community.
+
+
+  SUBJECT: A cheerful real estate celebration composition centered on a welcoming
+  home facade with a family of affordable home buyers standing nearby, facing toward
+  the viewer with hopeful expressions, surrounded by Diwali decor and a sense of new
+  beginnings.
+
+
+  DETAILS: Flat vector art. Soft ambient evening light mixed with diya glow and small
+  fireworks in the distance; clean shapes, crisp edges, layered paper-like textures,
+  balanced composition, eye-level framing, celebratory and heartfelt mood. Use #C8A2C8
+  and #006994 as tonal influences across the overall palette.
+
+
+  TEXT: "Happy Diwali" "May this festival of lights brighten your path to a new home
+  and a future filled with comfort, joy, and togetherness. Wishing every family the
+  warmth of a place to call their own." "www.abchousing.com" "Civil Lines, Roorkee,
+  Uttarakhand" "+91 1332 123456" "hello@abchousing.com"
+
+
+  CONSTRAINTS: Palette hints only from #C8A2C8 and #006994; no logos, no watermarks;
+  primary subjects within the central 85% of the frame; no focal elements near the
+  edges; no extra text beyond the specified wording; no photorealism, no 3D rendering,
+  no cluttered background, no cropped human figures.'
+source_info:
+  evaluation_scores:
+    Brand Integration [GEval]:
+      reason: 'The output explicitly mentions the brand hex codes #C8A2C8 and #006994,
+        satisfying the first check. It uses them appropriately as ''tonal influences
+        across the overall palette'' and as ''palette hints only,'' which aligns well
+        with atmospheric/lighting-style guidance rather than literal application.
+        It does not assign those colors to painted walls, clothing, or other fixed
+        surface colors, so it avoids the main failure condition. The warm, festive,
+        heartfelt Diwali real-estate tone is translated into fitting visual choices
+        like diya glow, soft ambient evening light, welcoming home imagery, and hopeful
+        family expressions. A minor limitation is that the colors are framed as overall
+        palette influence rather than more explicitly tied to lighting or atmosphere.'
+      score: 0.8419061905591615
+      success: true
+    Coherence [GEval]:
+      reason: 'The output uses clear, direct language and is easy to understand because
+        it is organized into labeled sections like SCENE, SUBJECT, DETAILS, TEXT,
+        and CONSTRAINTS. It flows naturally as a structured creative brief, covering
+        the Diwali setting in Roorkee, the affordable home buyers, the palette hints
+        (#C8A2C8 and #006994), and the text/contact details. The main weakness is
+        that some phrases are dense or slightly awkward for readability, such as the
+        long SCENE and CONSTRAINTS lines and the wording ''family of affordable home
+        buyers,'' which can feel a bit unnatural.'
+      score: 0.8320821300824607
+      success: true
+    Composition Quality [GEval]:
+      reason: 'The response defines a clear focal point with two main subjects: the
+        welcoming home facade and the family of home buyers, which aligns well with
+        the requirement for 1–2 main subjects. It explicitly calls for a balanced
+        composition, central placement within the primary 85% of the frame, and no
+        focal elements near the edges, supporting strong central framing. It also
+        appears suitable for mobile viewing because the scene is simplified as flat
+        vector art with clean shapes and limited clutter. Space for text overlays
+        is addressed indirectly through the balanced composition and uncluttered background,
+        but the large amount of required text could still challenge layout flexibility,
+        so this aspect is not fully resolved.'
+      score: 0.8851952801968311
+      success: true
+    Prompt Structure [GEval]:
+      reason: 'The output fully matches all required sections: it includes a clear
+        SCENE describing the Diwali neighborhood setting in Roorkee, a well-defined
+        SUBJECT focused on the home facade and family, and a DETAILS section covering
+        style, lighting, composition, and technical/palette guidance. The TEXT section
+        contains quoted header and body copy plus contact details, and the CONSTRAINTS
+        section clearly lists restrictions and composition rules such as central 85%
+        framing, no extra text, and no photorealism.'
+      score: 1.0
+      success: true
+    Text Specification [GEval]:
+      reason: The TEXT section includes a clear greeting header with "Happy Diwali,"
+        followed by body text that explicitly celebrates the festival and ties it
+        to a new home and family warmth. All text items in the TEXT section are properly
+        wrapped in quotes, including the website, address, phone, and email. There
+        is no font, placement, or text styling specified in the TEXT section; although
+        color palette hints appear elsewhere in DETAILS/CONSTRAINTS, they are not
+        text styling instructions.
+      score: 0.9924141819978758
+      success: true
+    Visual Specificity [GEval]:
+      reason: 'The output includes several concrete visual details that are useful
+        for image generation, such as glowing diyas on steps, marigold garlands, rangoli
+        patterns, string lights, simple homes, layered paper-like textures, crisp
+        edges, and specific palette influences from #C8A2C8 and #006994. Lighting
+        and atmosphere are described concretely with soft ambient evening light, diya
+        glow, and small fireworks in the distance. It also provides actionable composition
+        constraints like central 85% framing, no cropped figures, and flat vector
+        art. However, it uses some vague or non-visual phrasing such as cheerful,
+        hopeful expressions, heartfelt mood, and a sense of new beginnings, which
+        weakens alignment with the requirement to avoid vague praise-style language
+        entirely.'
+      score: 0.8
+      success: true
+  generated_at: '2026-06-27T20:56:06.232350+00:00'
+  model_name: gpt-5.4-mini
+  model_provider: openai
+  prompt_name: prompt_v3

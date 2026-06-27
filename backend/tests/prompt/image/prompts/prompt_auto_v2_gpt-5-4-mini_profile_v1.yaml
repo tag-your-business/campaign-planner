@@ -1,0 +1,117 @@
+campaign_spec:
+  event_name: Diwali
+  industry: real estate
+description: Auto-generated from image_prompt eval (prompt_v2 with gpt-5.4-mini)
+image_prompt: 'SCENE: A festive Diwali evening in a residential neighborhood inspired
+  by Roorkee, Uttarakhand, India, with a simple home exterior, string lights, glowing
+  diyas, marigold garlands, and a softly lit doorway suggesting a welcoming new home.
+  The background should feel warm, uncluttered, and aspirational, with subtle local
+  architectural cues and open negative space for social media readability.
+
+
+  SUBJECT: A happy Indian family of three standing near the entrance of their home,
+  facing the viewer and smiling, with a couple of affordable-housing visual cues nearby
+  such as a small key, a modest house model, and a lit rangoli at the doorstep. The
+  family should feel relatable and hopeful, centered as the primary focus, with the
+  home as the supporting focal point.
+
+
+  DETAILS: flat vector art; bright festive lighting with soft glow influenced by #C8A2C8
+  and #006994 as atmospheric accents, not surface fills; clean shapes, smooth edges,
+  simple layered forms, and high contrast for mobile viewing; eye-level camera angle
+  with a slight front-facing perspective; textures implied through vector gradients,
+  paper-cut style shadows, and decorative patterning; joyful, heartfelt, and aspirational
+  mood; professional composition with clear breathing room and uncluttered background.
+
+
+  TEXT: "Happy Diwali"
+
+  "May this Diwali light up your journey to a warm, affordable home filled with hope,
+  comfort, and new beginnings."
+
+  "www.abchousing.com, Civil Lines, Roorkee, Uttarakhand"
+
+  "+91 1332 123456, hello@abchousing.com"
+
+
+  CONSTRAINTS: No logos, no watermarks, no company text except the specified text
+  strings; primary subjects within central 85% of frame; reserve lower 30% for text
+  overlay space; keep header and body as a grouped unit in the lower portion; ensure
+  clear negative space behind all text; use only one dominant visual style: flat vector
+  art; avoid clutter, avoid back-of-head views, and keep the composition inclusive
+  and family-friendly.'
+source_info:
+  evaluation_scores:
+    Brand Integration [GEval]:
+      reason: 'The output explicitly includes brand color hex codes #C8A2C8 and #006994,
+        satisfying the requirement to mention them. It uses them correctly as ''atmospheric
+        accents'' and ''festive lighting with soft glow,'' which aligns with lighting/atmospheric
+        references rather than literal object coloration. It also explicitly states
+        they are ''not surface fills,'' directly addressing the constraint against
+        assigning them as paint or surface colors. The visual choices—warm festive
+        Diwali setting, hopeful family scene, uncluttered aspirational composition,
+        and flat vector style—strongly match the stated brand tone of joyful, heartfelt,
+        and aspirational.'
+      score: 1.0
+      success: true
+    Coherence [GEval]:
+      reason: 'The text is clear, direct, and easy to understand, with well-labeled
+        sections like SCENE, SUBJECT, DETAILS, TEXT, and CONSTRAINTS that improve
+        readability. It flows naturally from setting to subject to styling and layout
+        requirements, and the instructions such as reserving the lower 30% for text
+        overlay and keeping subjects within the central 85% are specific and understandable.
+        The wording is mostly smooth and professional, though a few dense phrases
+        like the long DETAILS sentence and color guidance using #C8A2C8 and #006994
+        make it slightly more complex than necessary.'
+      score: 0.8437823499114202
+      success: true
+    Composition Quality [GEval]:
+      reason: 'The output aligns strongly with all four checks: it defines a clear
+        focal point with 1-2 main subjects by making the family of three the primary
+        focus and the home the supporting focal point. It explicitly reserves composition
+        space for overlays by requiring the lower 30% for grouped text, clear negative
+        space behind text, and an uncluttered background. It is optimized for mobile
+        viewing through high contrast, clean flat vector shapes, simple layered forms,
+        and social media readability. It also confirms placement within the central
+        frame by stating the primary subjects must remain within the central 85% of
+        the frame.'
+      score: 0.9222700138825308
+      success: true
+    Prompt Structure [GEval]:
+      reason: 'The output fully matches all required sections: it includes a clear
+        SCENE describing the Diwali neighborhood setting in Roorkee, a distinct SUBJECT
+        focused on a family of three at the home entrance, and a DETAILS section covering
+        style, festive lighting, mood, camera angle, and technical/compositional specs.
+        The TEXT section contains quoted header and body/contact lines, and the CONSTRAINTS
+        section explicitly lists restrictions and composition rules such as no logos,
+        central framing, reserved lower 30% text space, and maintaining flat vector
+        art.'
+      score: 1.0
+      success: true
+    Text Specification [GEval]:
+      reason: The TEXT section includes a clear header greeting, "Happy Diwali," and
+        the body text celebrates the event by linking Diwali with hope, comfort, and
+        a new home. All text strings in the TEXT section are properly wrapped in quotes.
+        However, the output violates the no-styling requirement because it specifies
+        color details in DETAILS using hex codes and placement instructions in CONSTRAINTS
+        such as reserving the lower 30% for text and grouping header and body in the
+        lower portion.
+      score: 0.7858451120927756
+      success: false
+    Visual Specificity [GEval]:
+      reason: 'The response is largely aligned: it includes specific visual details
+        such as string lights, glowing diyas, marigold garlands, a softly lit doorway,
+        flat vector art, smooth edges, paper-cut style shadows, and color accents
+        (#C8A2C8 and #006994), which makes it actionable for image generation. Lighting
+        and atmosphere are described concretely through festive lighting, soft glow,
+        and warm uncluttered background. It also avoids the prohibited vague praise
+        words like ''stunning'' or ''amazing.'' The main shortcoming is that some
+        phrasing remains somewhat abstract or non-visual for an image model, such
+        as ''aspirational,'' ''relatable,'' ''hopeful,'' and ''professional composition,''
+        which are less directly renderable than the stronger concrete elements.'
+      score: 0.8075858180021245
+      success: true
+  generated_at: '2026-06-27T20:55:45.649890+00:00'
+  model_name: gpt-5.4-mini
+  model_provider: openai
+  prompt_name: prompt_v2

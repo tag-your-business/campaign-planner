@@ -48,20 +48,4 @@ system_prompt: |
 
   Output ONLY the five-section prompt. No preamble, no commentary.
 
-user_prompt: |
-  Generate a {event_name} social media image prompt for a {industry} business.
-
-  Industry: {industry}
-  Brand tone: {tone_keywords}
-  Brand colors: {brand_colors}
-  Visual style: {visual_style}
-  Target audience: {primary_audience}
-  Location context (visual only): {location_text}
-  Language: {language}
-
-  About the business (inform SCENE and SUBJECT for relatability — do NOT render as text):
-    {company_name}: {company_about}
-
-  Required TEXT elements:
-    Header: A short {event_name} greeting (e.g., "Happy {event_name}!")
-    Body: 1-2 sentences celebrating {event_name}, relevant to {industry} and resonating with {primary_audience}.
+user_prompt: "$PROD"

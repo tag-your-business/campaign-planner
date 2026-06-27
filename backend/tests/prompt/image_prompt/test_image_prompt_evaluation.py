@@ -42,71 +42,14 @@ class TestImagePromptEvaluation:
     def generator_func(
         self, spec: dict, system_prompt: str, user_prompt: str, model_config: dict
     ) -> tuple[str, dict | None]:
-        """Generate image prompt with custom prompts and model configuration.
+        formatted_user_prompt = PromptGenerator()._build_user_prompt(spec)
 
-        Args:
-            spec: Campaign specification
-            system_prompt: Custom system prompt
-            user_prompt: Custom user prompt template
-            model_config: Model configuration dict with provider, model, etc.
-
-        Returns:
-            Tuple of (generated image prompt string, usage dict with token counts)
-        """
-        # ponytail: $PROD marker uses prod's _build_user_prompt for accurate testing
-        if user_prompt.strip() == "$PROD":
-            formatted_user_prompt = PromptGenerator()._build_user_prompt(spec)
-        else:
-            # Template interpolation for experimental prompts
-            brand_colors = spec.get("brand_colors", {})
-            if isinstance(brand_colors, dict):
-                primary = brand_colors.get("primary", "")
-                accent = brand_colors.get("accent", "")
-                colors_text = ", ".join(filter(None, [primary, accent]))
-            else:
-                colors_text = ", ".join(brand_colors) if brand_colors else ""
-
-            locations = spec.get("locations", [])
-            primary_loc = next(
-                (loc for loc in locations if loc.get("is_primary")), None
-            )
-            location_text = ""
-            if primary_loc:
-                parts = [
-                    p
-                    for p in [
-                        primary_loc.get("city", ""),
-                        primary_loc.get("state", ""),
-                        primary_loc.get("country", ""),
-                    ]
-                    if p
-                ]
-                location_text = ", ".join(parts)
-
-            tone_keywords = spec.get("tone_keywords", [])
-            tone_text = ", ".join(tone_keywords) if tone_keywords else "professional"
-
-            formatted_user_prompt = user_prompt.format(
-                event_name=spec.get("event_name", ""),
-                industry=spec.get("industry", ""),
-                tone_keywords=tone_text,
-                brand_colors=colors_text if colors_text else "natural vibrant tones",
-                visual_style=spec.get("visual_style", "photorealistic"),
-                primary_audience=spec.get("primary_audience", ""),
-                location_text=location_text if location_text else "general",
-                language=spec.get("language", "English"),
-                company_name=spec.get("company_name", ""),
-                company_about=spec.get("company_description", ""),
-            )
-
-        # Get model configuration with defaults
         provider_name = model_config.get("provider")
         model = model_config.get("model")
         temperature = model_config.get("temperature", 0.7)
         max_tokens = model_config.get("max_tokens", 800)
         extra_params = model_config.get("extra_params")
 
-        # Create provider and generate
         provider = ProviderFactory.create(provider_name)
         request = TextGenerationRequest(
             messages=[
@@ -131,7 +74,7 @@ class TestImagePromptEvaluation:
         scores: dict,
         output_dir: Path,
         file_prefix: str,
-        index: int,
+        profile_version: str,
     ):
         """Generate auto prompt file for image evaluation cascade.
 
@@ -152,7 +95,7 @@ class TestImagePromptEvaluation:
         source_name = variation_name.replace("prompt_", "")
 
         # Include 1-based case index so every test spec persists its own file
-        filename = f"{file_prefix}{source_name}_{model_short}_case{index + 1}.yaml"
+        filename = f"{file_prefix}{source_name}_{model_short}_{profile_version}.yaml"
         output_path = output_dir / filename
 
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -175,7 +118,7 @@ class TestImagePromptEvaluation:
             },
         }
 
-        with open(output_path, "w") as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             yaml.dump(auto_prompt_data, f, default_flow_style=False, allow_unicode=True)
 
         print(f"  Generated auto prompt file: {output_path}")
@@ -211,28 +154,33 @@ class TestImagePromptEvaluation:
             for model_config in config_models:
                 provider = model_config.get("provider") or "default"
                 model = model_config.get("model") or "default"
+                model_short = model.split("/")[-1] if "/" in model else model
                 print(f"\n  Testing with: {provider}/{model}")
 
-                results = evaluator.evaluate_prompt(variation, test_data, model_config)
-
-                # Save with both prompt and model name
-                model_short = model.split("/")[-1] if "/" in model else model
-                result_name = f"{variation.name}_{model_short}"
-                evaluator.save_results(results, result_name)
-
-                print(f"  Results saved: {result_name}")
-                print(f"  Aggregate scores: {results['aggregate_scores']}")
-
-                # Generate auto prompt files if cascade is enabled
-                if run_image_eval:
-                    output_dir = feature_dir / image_eval_config.get(
-                        "output_dir", "../image/prompts"
+                for spec_idx, spec in enumerate(test_data):
+                    profile_version = spec.get(
+                        "profile_version", f"profile_{spec_idx + 1}"
                     )
-                    file_prefix = image_eval_config.get("file_prefix", "prompt_auto_")
+                    results = evaluator.evaluate_prompt(variation, [spec], model_config)
 
-                    # Generate auto prompt for each test case
-                    for i, test_case in enumerate(results.get("test_cases", [])):
-                        spec = test_data[i] if i < len(test_data) else {}
+                    result_name = f"{variation.name}_{model_short}_{profile_version}"
+                    evaluator.save_results(results, result_name)
+
+                    print(f"  Results saved: {result_name}")
+                    print(f"  Aggregate scores: {results['aggregate_scores']}")
+
+                    if run_image_eval:
+                        output_dir = feature_dir / image_eval_config.get(
+                            "output_dir", "../image/prompts"
+                        )
+                        file_prefix = image_eval_config.get(
+                            "file_prefix", "prompt_auto_"
+                        )
+                        test_case = (
+                            results["test_cases"][0]
+                            if results.get("test_cases")
+                            else {}
+                        )
                         self._generate_auto_prompt_file(
                             variation_name=variation.name,
                             model_config=model_config,
@@ -241,10 +189,10 @@ class TestImagePromptEvaluation:
                             scores=test_case.get("metrics", {}),
                             output_dir=output_dir,
                             file_prefix=file_prefix,
-                            index=i,
+                            profile_version=profile_version,
                         )
 
-                total_evaluations += 1
+                    total_evaluations += 1
 
         # Generate comparison summary
         print(f"\n{'='*60}")
@@ -259,4 +207,3 @@ class TestImagePromptEvaluation:
 
         # Assert that comparison was generated successfully
         assert "overall_winner" in comparison
-        assert comparison["prompts_compared"] == total_evaluations

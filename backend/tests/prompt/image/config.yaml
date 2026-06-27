@@ -22,4 +22,11 @@ metrics:
 
 # Testing configuration
 # When true, uses fallback image instead of API calls
-use_fallback_image: true
+use_fallback_image: false
+
+# Optional: restrict which prompt files to evaluate.
+# Each entry is a filename prefix — only files whose stem starts with a listed
+# value will be included. Remove or leave empty to run all prompts.
+prompt_filter:
+  - "prompt_auto_v2_gpt-5-4-mini_profile_v1"
+  - "prompt_auto_v3_gpt-5-4-mini_profile_v1"
