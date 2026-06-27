@@ -1,30 +1,97 @@
 [
   {
-    "input_description": "Valentine's Day campaign for dental practice",
-    "event_name": "Valentine's Day",
-    "company_name": "Smile Dental Clinic",
-    "industry": "dental",
-    "tone_keywords": ["professional", "caring", "warm"],
+    "input_description": "Diwali campaign for Balaji Builders (gold + maroon palette)",
+    "event_name": "Diwali",
+    "company_name": "Balaji Builders",
+    "company_description": "Builders & Developers in Sambalpur. Tallest residential tower in western Odisha. Best place for your dream home. A construction consortium.",
+    "industry": "real estate",
+    "tone_keywords": ["luxury", "aspirational", "trustworthy", "premium"],
     "brand_colors": {
-      "primary": "#E91E63",
-      "accent": "#FFC107"
+      "primary": "#D4AF37",
+      "accent": "#800000"
     },
     "visual_style": "photorealistic",
-    "primary_audience": "families with children",
+    "primary_audience": "families and professionals seeking a premium dream home",
     "locations": [
       {
-        "city": "Austin",
-        "state": "Texas",
-        "country": "USA",
+        "city": "Sambalpur",
+        "state": "Odisha",
+        "country": "India",
         "is_primary": true
       }
     ],
     "language": "English",
     "context": [
-      "Event: Valentine's Day",
-      "Industry: dental",
-      "Tone: professional, caring, warm",
-      "brand_colors: #E91E63, #FFC107"
+      "Event: Diwali",
+      "Company: Balaji Builders — Builders & Developers, Sambalpur",
+      "USP: tallest residential tower in western Odisha",
+      "USP: best place for your dream home",
+      "USP: construction consortium",
+      "Industry: real estate",
+      "Tone: luxury, aspirational, premium",
+      "brand_colors: #D4AF37 (gold), #800000 (maroon)"
+    ]
+  },
+  {
+    "input_description": "Diwali campaign for Balaji Builders (gold + royal blue palette)",
+    "event_name": "Diwali",
+    "company_name": "Balaji Builders",
+    "company_description": "Builders & Developers in Sambalpur. Tallest residential tower in western Odisha. Best place for your dream home. A construction consortium.",
+    "industry": "real estate",
+    "tone_keywords": ["luxury", "aspirational", "trustworthy", "premium"],
+    "brand_colors": {
+      "primary": "#D4AF37",
+      "accent": "#1A237E"
+    },
+    "visual_style": "photorealistic",
+    "primary_audience": "families and professionals seeking a premium dream home",
+    "locations": [
+      {
+        "city": "Sambalpur",
+        "state": "Odisha",
+        "country": "India",
+        "is_primary": true
+      }
+    ],
+    "language": "English",
+    "context": [
+      "Event: Diwali",
+      "Company: Balaji Builders — Builders & Developers, Sambalpur",
+      "USP: tallest residential tower in western Odisha",
+      "USP: best place for your dream home",
+      "USP: construction consortium",
+      "Industry: real estate",
+      "Tone: luxury, aspirational, premium",
+      "brand_colors: #D4AF37 (gold), #1A237E (royal blue)"
+    ]
+  },
+  {
+    "input_description": "Diwali campaign for Balaji Builders (no brand colors — natural vibrant tones)",
+    "event_name": "Diwali",
+    "company_name": "Balaji Builders",
+    "company_description": "Builders & Developers in Sambalpur. Tallest residential tower in western Odisha. Best place for your dream home. A construction consortium.",
+    "industry": "real estate",
+    "tone_keywords": ["luxury", "aspirational", "trustworthy", "premium"],
+    "visual_style": "photorealistic",
+    "primary_audience": "families and professionals seeking a premium dream home",
+    "locations": [
+      {
+        "city": "Sambalpur",
+        "state": "Odisha",
+        "country": "India",
+        "is_primary": true
+      }
+    ],
+    "language": "English",
+    "context": [
+      "Event: Diwali",
+      "Company: Balaji Builders — Builders & Developers, Sambalpur",
+      "USP: tallest residential tower in western Odisha",
+      "USP: best place for your dream home",
+      "USP: construction consortium",
+      "Industry: real estate",
+      "Tone: luxury, aspirational, premium",
+      "brand_colors: none (natural vibrant tones)"
     ]
   }
 ]

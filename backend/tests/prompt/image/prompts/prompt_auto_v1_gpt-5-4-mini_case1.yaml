@@ -1,0 +1,104 @@
+campaign_spec:
+  event_name: Diwali
+  industry: real estate
+description: Auto-generated from image_prompt eval (prompt_v1 with gpt-5.4-mini)
+image_prompt: 'SCENE: A premium residential terrace in Sambalpur, Odisha, India, decorated
+  for Diwali at dusk; warm string lights, brass diyas, marigold garlands, subtle rangoli
+  patterns, distant city homes and a soft festive glow in the background.
+
+
+  SUBJECT: A welcoming multi-generational family with a professional couple standing
+  together on the terrace, holding diyas and smiling toward the viewer, with a modern
+  luxury home facade and balcony details behind them.
+
+
+  DETAILS: photorealistic; soft ambient twilight mixed with warm diya light, reflections
+  on polished stone and glass, rich textures in textiles and wood, eye-level framing
+  with a slight wide-angle feel, aspirational and trustworthy mood, palette influenced
+  by #D4AF37 and #800000.
+
+
+  TEXT: "Happy Diwali" "May this Diwali light the way to a home filled with prosperity,
+  warmth, and lasting memories. Discover your premium dream home with confidence and
+  trust."
+
+
+  CONSTRAINTS: #D4AF37 and #800000 as scene palette hints; no logos, no watermarks,
+  no company information; primary subjects within the central 85% of the frame; no
+  focal elements near the edges.'
+source_info:
+  evaluation_scores:
+    Brand Integration [GEval]:
+      reason: 'The output explicitly includes the brand hex codes #D4AF37 and #800000
+        in both the DETAILS and CONSTRAINTS, satisfying the requirement to mention
+        them. It uses them as palette and scene hints tied to ambient twilight, warm
+        diya light, and festive glow, which aligns with lighting/atmospheric references
+        rather than literal painted surfaces. It also avoids assigning those colors
+        to fixed objects or materials. The premium, trustworthy brand tone is translated
+        well through photorealistic luxury home details, aspirational family framing,
+        and a warm Diwali mood; only a minor limitation is that the color use is described
+        as palette influence rather than more clearly articulated atmospheric lighting
+        effects.'
+      score: 0.8622459331201855
+      success: true
+    Coherence [GEval]:
+      reason: 'The response is clear, direct, and easy to understand, with well-labeled
+        sections like SCENE, SUBJECT, DETAILS, TEXT, and CONSTRAINTS that improve
+        readability. It flows logically from setting to subjects to styling and restrictions,
+        and most phrases are natural. Minor awkwardness comes from dense prompt-style
+        wording such as ''palette influenced by #D4AF37 and #800000'' and ''primary
+        subjects within the central 85% of the frame,'' which feels technical rather
+        than fully natural, but it is still not confusing.'
+      score: 0.8096489834839673
+      success: true
+    Composition Quality [GEval]:
+      reason: 'The response mostly aligns with the criteria: it has a clear focal
+        point centered on one main group, the multi-generational family, with the
+        home facade as secondary context. It explicitly supports text use by including
+        a text block and avoiding focal elements near the edges, which suggests usable
+        overlay space. Mobile suitability is fairly strong because the family is eye-level,
+        smiling toward the viewer, and placed within the central 85% of the frame.
+        The main shortcoming is that the scene is visually busy with Diwali decor,
+        balcony details, city homes, and multiple people, which may reduce clarity
+        and overlay flexibility on small screens compared with a simpler 1-2 subject
+        composition.'
+      score: 0.8075858180021245
+      success: true
+    Prompt Structure [GEval]:
+      reason: 'The output strongly follows the required structure: it includes SCENE
+        with a clear environment and setting (premium residential terrace in Sambalpur,
+        Odisha at Diwali dusk), SUBJECT with a defined focal point (multi-generational
+        family and couple), DETAILS covering style and lighting well (photorealistic,
+        twilight/diya light) plus some technical/compositional specs (eye-level framing,
+        slight wide-angle). TEXT is present with quoted header and body text, and
+        CONSTRAINTS lists palette and composition restrictions. The main shortcoming
+        is that the technical specs in DETAILS are somewhat limited and not as explicit
+        as full production-style specifications.'
+      score: 0.9
+      success: true
+    Text Specification [GEval]:
+      reason: The TEXT section includes a clear greeting header with "Happy Diwali,"
+        followed by celebratory body copy about Diwali bringing prosperity, warmth,
+        and lasting memories. Both text strings are properly wrapped in quotes. The
+        output does not specify any font, text color, or placement styling in the
+        TEXT section; while palette hints appear elsewhere in DETAILS/CONSTRAINTS,
+        they are not applied as text styling.
+      score: 0.9939913349825991
+      success: true
+    Visual Specificity [GEval]:
+      reason: 'The response includes several concrete visual details useful for image
+        generation, such as brass diyas, marigold garlands, polished stone and glass,
+        wood and textile textures, and palette cues from #D4AF37 and #800000. Lighting
+        and atmosphere are also described specifically with dusk, ambient twilight,
+        warm diya light, reflections, and a soft festive glow. It is largely actionable,
+        with framing and composition constraints like central 85% placement and no
+        edge focal elements. However, some phrasing is still somewhat vague or non-visual
+        for generation, such as ''premium,'' ''luxury,'' ''aspirational and trustworthy
+        mood,'' and ''professional couple,'' which weakens strict alignment with the
+        evaluation steps.'
+      score: 0.7970687769248643
+      success: true
+  generated_at: '2026-06-25T15:54:08.715077+00:00'
+  model_name: gpt-5.4-mini
+  model_provider: openai
+  prompt_name: prompt_v1
