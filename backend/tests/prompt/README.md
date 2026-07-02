@@ -25,45 +25,45 @@ backend/tests/prompt/
 │   ├── custom_metrics.py        # Caption-specific metrics
 │   └── test_caption_evaluation.py  # Test runner
 │
+├── image_prompt/                  # Image prompt generation evaluation
+│   ├── config.yaml               # Prompt variants, models, metrics, cascade config
+│   ├── data/                     # Campaign specs + profiles (auto-generated specs)
+│   ├── prompts/                  # prompt_v*.yaml variants under test
+│   └── test_image_prompt_evaluation.py  # Cascades prompt_auto_* files to image/
+│
+├── image/                         # Image generation evaluation
+│   ├── config.yaml               # Image models, metrics, prompt_filter
+│   ├── prompts/                  # prompt_auto_* files from image_prompt eval
+│   ├── generated_images/         # Output images
+│   ├── custom_metrics.py         # Success, quality, and text placement metrics
+│   └── test_image_evaluation.py  # Test runner
+│
 └── conftest.py                   # Shared pytest fixtures
 ```
 
-## Dependency Conflict (IMPORTANT)
+## Dependencies (RESOLVED)
 
-There is a **dependency conflict** with DeepEval that needs to be resolved:
+The old DeepEval/openai dependency conflict is resolved: DeepEval 4.x supports
+`openai >=2.x`, so evals run in the main project venv — no separate environment needed.
 
-**Issue:** DeepEval requires `openai <2.0.0`, but this project uses `openai >=2.41.0`.
+## Running the Evals
 
-### Solutions
+Eval tests are gated behind the `RUN_LLM_EVAL` environment variable (they make real
+LLM API calls and cost money). Run the image prompt eval first — it cascades
+`prompt_auto_*` files into `image/prompts/` that the image eval consumes.
 
-#### Option 1: Wait for DeepEval Update (Recommended)
-Monitor DeepEval for updates that support openai 2.x:
-- Check: https://github.com/confident-ai/deepeval
-- The framework is ready to use once DeepEval updates their dependencies
-
-#### Option 2: Use OpenAI 1.x Temporarily
-If you need to run evaluations immediately:
-
-1. Create a separate virtual environment for prompt evaluation:
-```bash
-python -m venv prompt-eval-env
-source prompt-eval-env/bin/activate
-pip install "openai<2.0.0" "deepeval>=1.0.0" pyyaml pytest
+PowerShell (from `backend/`):
+```powershell
+$env:RUN_LLM_EVAL = "1"
+poetry run pytest -m eval tests/prompt/image_prompt/test_image_prompt_evaluation.py -v -s
+poetry run pytest -m eval tests/prompt/image/test_image_evaluation.py -v -s
 ```
 
-2. Run evaluations in that environment:
+Bash (from `backend/`):
 ```bash
-cd backend/tests/prompt/caption
-pytest test_caption_evaluation.py -v -s
+RUN_LLM_EVAL=1 poetry run pytest -m eval tests/prompt/image_prompt/test_image_prompt_evaluation.py -v -s
+RUN_LLM_EVAL=1 poetry run pytest -m eval tests/prompt/image/test_image_evaluation.py -v -s
 ```
-
-3. Switch back to main environment for application development
-
-#### Option 3: Alternative Evaluation Framework
-Adapt the framework to use an alternative evaluation library:
-- Replace DeepEval metrics with custom implementations
-- Use direct OpenAI API calls for evaluation
-- Framework structure (config-driven, comparison engine) remains the same
 
 ## Registry Pattern
 
@@ -149,7 +149,7 @@ metrics:
 4. **Reusability** - Share configs across caption, image_prompt, image features
 5. **Consistency** - Ensure same settings across evaluations
 
-## Usage (Once Dependencies Resolved)
+## Usage
 
 ### Running Caption Evaluation
 
@@ -362,26 +362,16 @@ metrics:
 
 ## Next Steps
 
-1. **Resolve dependency conflict** using one of the options above
+1. **Run an evaluation** (see "Running the Evals" above)
 
-2. **Run initial evaluation**:
-   ```bash
-   poetry run pytest tests/prompt/caption/test_caption_evaluation.py -v -s
-   ```
+2. **Review results**:
+   - Individual results: `tests/prompt/<feature>/results/prompt_v*_results.json`
+   - Comparison: `tests/prompt/<feature>/results/comparison_report.md`
 
-3. **Review results**:
-   - Individual results: `tests/prompt/caption/results/prompt_v*_results.json`
-   - Comparison: `tests/prompt/caption/results/comparison_report.md`
-
-4. **Iterate on prompts**:
+3. **Iterate on prompts**:
    - Modify existing prompts based on results
    - Add new variations
    - Re-run evaluation
-
-5. **Expand to other features**:
-   - Copy `caption/` structure for `image_prompt/`
-   - Copy `caption/` structure for `image/`
-   - Customize metrics for each feature
 
 ## Custom Metrics
 
@@ -438,9 +428,7 @@ Campaign specifications in `data/campaign_specs.json`:
 
 - ✅ Framework core components implemented
 - ✅ Caption evaluation setup complete
-- ✅ Three prompt variations created
 - ✅ Custom metrics implemented
-- ✅ Test runner created
-- ⚠️ Dependencies need resolution (see above)
-- ⬜ Image prompt evaluation (to be implemented)
-- ⬜ Image generation evaluation (to be implemented)
+- ✅ Dependencies resolved (DeepEval 4.x + openai 2.x in main venv)
+- ✅ Image prompt evaluation (cascades auto prompts to image eval)
+- ✅ Image generation evaluation (incl. vision-based text placement check)

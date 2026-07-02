@@ -188,7 +188,48 @@ text_specification:
     - "Verify TEXT section contains a header greeting"
     - "Check for body text that celebrates the event"
     - "Confirm text strings are wrapped in quotes"
-    - "Ensure no font, color, or placement styling is specified"
+    - "Ensure no font, color, or placement styling is specified for the header and body text"
+
+concept_originality:
+  type: "geval"
+  name: "Concept Originality"
+  criteria: >
+    The visual concept should not be the most predictable, literal depiction of the
+    event combined with the industry, while still being instantly readable as a
+    celebration of the event
+  threshold: 0.7
+  evaluation_steps:
+    - "Identify the event and industry from the input, then imagine the most obvious stock-photo scene for that pairing (e.g. a family celebrating in front of the company's product)"
+    - "Check whether the prompt's SCENE and SUBJECT avoid that obvious scene"
+    - "Assess whether the concept uses an unexpected perspective, scale, moment, or symbolic detail"
+    - "Verify the concept is still immediately recognizable as celebrating the event — original but not obscure or abstract"
+
+festive_not_promotional:
+  type: "geval"
+  name: "Festive Not Promotional"
+  criteria: >
+    The prompt should describe a festive greeting post, not an advertisement — the
+    company's products or services must not be showcased as the subject of the image
+  threshold: 0.7
+  evaluation_steps:
+    - "Check that the SUBJECT is a festive/celebratory focal point, not the company's product or service offering"
+    - "Verify the SCENE is not staged around showcasing what the company sells (e.g. new houses for a housing firm)"
+    - "Confirm there is no sales-oriented language such as offers, deals, buying, or calls to action in the rendered text"
+    - "Industry context appearing as subtle scene flavor is acceptable; the industry's product as the hero of the image is not"
+
+contact_text_placement:
+  type: "geval"
+  name: "Contact Text Placement"
+  criteria: >
+    The TEXT section should pin contact elements correctly: website and address along
+    the bottom edge, phone and email in the top right corner, while header and body
+    have no placement, font, or color instructions
+  threshold: 0.8
+  evaluation_steps:
+    - "If website and/or address are provided, verify the TEXT section places them as a line along the bottom edge of the frame"
+    - "If phone and/or email are provided, verify the TEXT section places them in the top right corner"
+    - "Verify the header and body text have no placement, font, size, or color instructions attached"
+    - "Verify the CONSTRAINTS section contains no text placement instructions — placement belongs in TEXT only"
 
 composition_quality:
   type: "geval"
@@ -217,6 +258,14 @@ visual_quality_score:
     min_width: 512
     min_height: 512
     min_variance: 100.0
+
+text_placement:
+  type: "custom"
+  name: "Text Placement"
+  class: "tests.prompt.image.custom_metrics.TextPlacementMetric"
+  threshold: 0.7
+  params:
+    judge_model: "gpt-4o"
 
 # Completeness Metrics
 completeness:

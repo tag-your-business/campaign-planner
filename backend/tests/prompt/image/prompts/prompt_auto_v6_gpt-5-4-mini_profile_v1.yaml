@@ -1,0 +1,145 @@
+campaign_spec:
+  event_name: Diwali
+  industry: real estate
+description: Auto-generated from image_prompt eval (prompt_v6 with gpt-5.4-mini)
+image_prompt: 'SCENE: A warm Diwali evening in Roorkee, Uttarakhand, with a quiet
+  residential lane suggested by simple boundary walls, a few potted marigolds, and
+  soft lantern glow after sunset. The atmosphere is festive, hopeful, and intimate,
+  with subtle hints of neighborhood homes and a calm sky.
+
+
+  SUBJECT: A symbolic house-shaped diya arrangement at the center of the frame, made
+  from small oil lamps and rangoli patterns, with a single pair of hands gently placing
+  a final diya nearby to suggest care and welcome.
+
+
+  DETAILS: flat vector art. Soft ambient glow from diyas and lanterns, clean shapes,
+  layered paper-like textures, gentle symmetry, and a slightly elevated overhead framing
+  so the diya-house motif reads instantly. The overall palette should be influenced
+  by #C8A2C8 and #006994 as tonal anchors, blended into the festive colors rather
+  than assigned to any single object. Mood is joyful, heartfelt, and aspirational,
+  with clear negative space reserved for text.
+
+
+  TEXT: "Happy Diwali" and "May your home shine with warmth, joy, and new beginnings
+  this Diwali." rendered as a grouped unit, with the image model deciding all styling
+  and placement. "www.abchousing.com | Civil Lines, Roorkee, Uttarakhand" rendered
+  as a single small line along the bottom edge of the frame. "+91 1332 123456 · hello@abchousing.com"
+  rendered small in the top right corner of the frame.
+
+
+  CONSTRAINTS: Palette hints only: #C8A2C8, #006994. No logos, no watermarks, no product
+  or service showcase as a focal element, nothing the company sells built or offered
+  should appear prominently. Keep all primary subjects within the central 85% of the
+  frame, with no focal elements near the edges. No extra text or decorative typography
+  anywhere else in the image.'
+source_info:
+  evaluation_scores:
+    Brand Integration [GEval]:
+      reason: 'The response explicitly includes the brand hex codes #C8A2C8 and #006994,
+        satisfying the color-reference requirement. It uses them appropriately as
+        palette and tonal anchors influencing the overall mood and ambient festive
+        treatment, not as literal paint or object colors. It also clearly states they
+        should be blended into the scene rather than assigned to any single object,
+        directly aligning with the prohibition on surface-color assignment. The warm,
+        hopeful, intimate Diwali setting and soft diya/lantern glow translate the
+        brand tone into fitting visual choices.'
+      score: 0.9939913349825993
+      success: true
+    Coherence [GEval]:
+      reason: 'The text is clear, direct, and easy to understand, with well-labeled
+        sections like SCENE, SUBJECT, DETAILS, TEXT, and CONSTRAINTS that improve
+        readability. It flows naturally from setting to composition to text placement,
+        and most instructions are specific, such as keeping primary subjects within
+        the central 85% and using #C8A2C8 and #006994 only as palette hints. The phrasing
+        is generally smooth, though a few dense lines—especially the long TEXT and
+        CONSTRAINTS sections—feel slightly packed and could be simpler.'
+      score: 0.8562176500885798
+      success: true
+    Composition Quality [GEval]:
+      reason: 'The output has a strong, clear focal point with 1-2 main subjects:
+        the central house-shaped diya arrangement and a single pair of hands placing
+        a diya. It explicitly reserves negative space for text and keeps added text
+        limited to the specified greeting, contact line at the top right, and website
+        line at the bottom edge, which supports overlay needs. The slightly elevated
+        overhead framing and central placement within the central 85% make it suitable
+        for mobile viewing and keep subjects in the central frame area. A minor weakness
+        is that placing text in the top right and bottom edge could slightly compete
+        with clean mobile readability, but overall it aligns well with the evaluation
+        criteria.'
+      score: 0.8985936372956754
+      success: true
+    Concept Originality [GEval]:
+      reason: The event is Diwali and the industry appears to be housing/real estate
+        from the company name and address. Instead of the obvious stock-photo scene
+        of a family celebrating Diwali in front of a house or property, the concept
+        uses a symbolic house-shaped diya arrangement with only a pair of hands, which
+        avoids direct product showcase and aligns with the constraint that nothing
+        the company sells should appear prominently. The overhead framing and house
+        motif add a mildly unexpected symbolic perspective, while still being immediately
+        readable as Diwali through diyas, rangoli, marigolds, lantern glow, and the
+        greeting text. It is original but not obscure; however, the house-shaped diya
+        idea is still fairly close to a predictable housing-themed symbol, so the
+        concept is not maximally surprising.
+      score: 0.8320821300824607
+      success: true
+    Contact Text Placement [GEval]:
+      reason: 'The output fully follows the checks: the website and address are correctly
+        placed as a single line along the bottom edge in the TEXT section, and the
+        phone number and email are placed in the top right corner. The header and
+        body text (''Happy Diwali'' and the greeting line) do not include any font,
+        size, color, or placement instructions beyond allowing the model to decide
+        styling and placement. The CONSTRAINTS section avoids text placement directions
+        and only includes general composition limits, palette hints, and content restrictions.'
+      score: 1.0
+      success: true
+    Festive Not Promotional [GEval]:
+      reason: 'The output mostly follows the criteria: the focal point is festive
+        and celebratory, centered on a Diwali diya arrangement rather than a housing
+        product or service, and the scene is a warm neighborhood setting rather than
+        a staged property showcase. It also avoids sales language, offers, or calls
+        to action, using only greeting text plus contact and location details. The
+        main weakness is that the house-shaped diya motif and the line ''May your
+        home shine...'' tie the celebration somewhat closely to the housing industry,
+        so the industry context is not entirely subtle even though it is not presented
+        as an actual house for sale.'
+      score: 0.8048141288149256
+      success: true
+    Prompt Structure [GEval]:
+      reason: 'The output fully follows all required sections: it has a clear SCENE
+        describing a Diwali evening in Roorkee with environment details, a distinct
+        SUBJECT focused on the house-shaped diya arrangement and hands, and a DETAILS
+        section covering style, lighting, framing, palette, and composition notes.
+        The TEXT section includes quoted header, body copy, website/location, and
+        contact line. The CONSTRAINTS section explicitly lists restrictions such as
+        palette hints, no logos/watermarks, no extra text, and central 85% composition
+        rules.'
+      score: 0.990465053510089
+      success: true
+    Text Specification [GEval]:
+      reason: The TEXT section includes a clear header greeting, "Happy Diwali," and
+        body text that celebrates the event with a festive message about warmth, joy,
+        and new beginnings. All text strings in the TEXT section are wrapped in quotes.
+        It also avoids specifying font and color styling for the header and body text,
+        but it does include placement/styling directions such as "rendered as a grouped
+        unit," which conflicts with the requirement to avoid placement styling for
+        the header and body.
+      score: 0.7563595389661357
+      success: false
+    Visual Specificity [GEval]:
+      reason: 'The response includes several concrete visual cues useful for image
+        generation, such as a quiet residential lane, boundary walls, potted marigolds,
+        small oil lamps, rangoli patterns, layered paper-like textures, and palette
+        anchors #C8A2C8 and #006994. Lighting is described somewhat concretely through
+        soft lantern glow after sunset and ambient diya light. However, it also relies
+        on vaguer emotional language like festive, hopeful, intimate, joyful, heartfelt,
+        and aspirational, which weakens precision. It avoids the banned praise words,
+        but some atmosphere and composition notes are more abstract than directly
+        visual, and the instruction to let the model decide text styling reduces actionability
+        slightly.'
+      score: 0.7562176500885798
+      success: true
+  generated_at: '2026-07-02T17:49:35.400006+00:00'
+  model_name: gpt-5.4-mini
+  model_provider: openai
+  prompt_name: prompt_v6

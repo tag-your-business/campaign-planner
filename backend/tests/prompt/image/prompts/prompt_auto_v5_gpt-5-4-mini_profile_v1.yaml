@@ -1,0 +1,138 @@
+campaign_spec:
+  event_name: Diwali
+  industry: real estate
+description: Auto-generated from image_prompt eval (prompt_v5 with gpt-5.4-mini)
+image_prompt: 'SCENE: A warm Diwali evening in Roorkee, Uttarakhand, with a compact
+  neighborhood street, a modest home facade, rangoli patterns on the ground, hanging
+  marigold garlands, oil lamps glowing in windows, and soft festive bokeh in the distance;
+  the atmosphere feels welcoming, community-centered, and hopeful.
+
+
+  SUBJECT: A joyful family of three standing in front of a modest new home, facing
+  the viewer, holding a small decorated diya tray together, with subtle visual cues
+  of home ownership and new beginnings around them.
+
+
+  DETAILS: Flat vector art with clean shapes, crisp outlines, and layered paper-cut-style
+  forms; the overall palette is gently influenced by #C8A2C8 and #006994 as tonal
+  accents across the scene; soft ambient evening light from diyas and warm string
+  lights, with simple textured gradients in the sky and walls; eye-level framing,
+  medium-wide composition, balanced and inviting, with an aspirational but grounded
+  festive mood.
+
+
+  TEXT: "Happy Diwali" "Wishing you light, warmth, and the comfort of a home to call
+  your own." "www.abchousing.com" "Civil Lines, Roorkee, Uttarakhand" "+91 1332 123456"
+  "hello@abchousing.com"
+
+
+  CONSTRAINTS: Use #C8A2C8 and #006994 only as scene palette hints; no logos, no watermarks;
+  primary subjects within the central 85% of the frame; no focal elements near the
+  edges; no depiction of luxury excess, no salesy advertising visuals, no product
+  showcase, no rendered text outside the specified text elements.'
+source_info:
+  evaluation_scores:
+    Brand Integration [GEval]:
+      reason: 'The response explicitly includes the brand hex codes #C8A2C8 and #006994,
+        satisfying the requirement to mention them. It largely uses them appropriately
+        as atmospheric or tonal guidance, stating they are ''tonal accents'' and ''scene
+        palette hints,'' reinforced by ambient diya and string-light references. It
+        also avoids clearly assigning those codes as literal paint colors to specific
+        surfaces, though mentioning gradients in the sky and walls makes the palette
+        application slightly less purely atmospheric. The visual choices strongly
+        match the intended brand tone through a warm, welcoming, community-centered,
+        aspirational but grounded Diwali scene in Roorkee without luxury excess or
+        sales-heavy elements.'
+      score: 0.899197656469117
+      success: true
+    Coherence [GEval]:
+      reason: 'The text is generally clear, direct, and easy to understand, with well-separated
+        sections like SCENE, SUBJECT, DETAILS, TEXT, and CONSTRAINTS that improve
+        readability. It flows logically from setting to visual details to restrictions,
+        and key test case specifics such as the Diwali setting in Roorkee, the family
+        of three, and the palette hints #C8A2C8 and #006994 are presented clearly.
+        However, some phrases are dense and prompt-like rather than natural, such
+        as the long constraint list and wording like ''layered paper-cut-style forms''
+        and ''subtle visual cues of home ownership,'' which slightly reduce smoothness
+        and natural flow.'
+      score: 0.755817192318174
+      success: true
+    Composition Quality [GEval]:
+      reason: The response maintains a clear focal point with one main subject group—the
+        family of three—in front of the home, which fits the 1–2 subject requirement.
+        It explicitly states a medium-wide, balanced composition and places primary
+        subjects within the central 85% with no focal elements near the edges, strongly
+        supporting central framing and mobile readability. It also includes a welcoming
+        background rather than many competing focal subjects. However, the composition
+        does not clearly reserve negative space for the multiple text overlays listed,
+        and the scene description includes several decorative elements that could
+        make overlay placement tighter on smaller mobile screens.
+      score: 0.8030828717233215
+      success: true
+    Concept Originality [GEval]:
+      reason: 'The event is Diwali and the likely industry is housing/real estate,
+        where the obvious stock scene would be a family celebrating in front of a
+        new home. The prompt largely uses that exact setup: a family of three standing
+        in front of a modest new home with cues of home ownership and festive diyas.
+        While it avoids luxury excess and keeps the mood grounded, it does not introduce
+        an unexpected perspective, scale, moment, or symbolic detail beyond standard
+        rangoli, marigolds, and lamps. It remains clearly recognizable as Diwali,
+        but the concept is conventional rather than original.'
+      score: 0.21824255238063564
+      success: false
+    Contact Text Placement [GEval]:
+      reason: 'The TEXT section includes the required website, address, phone, and
+        email content, but it does not specify their required placements: website/address
+        along the bottom edge and phone/email in the top right corner are missing.
+        It also fails the text-instruction checks because the TEXT section provides
+        no placement structure at all, while the CONSTRAINTS section correctly avoids
+        text placement instructions. Header and body text are listed without font,
+        size, or color instructions, which is a partial strength.'
+      score: 0.18807970779778826
+      success: false
+    Festive Not Promotional [GEval]:
+      reason: 'The output aligns partially: the scene is clearly festive and avoids
+        overt sales language, with only greeting text plus contact details and no
+        offers or calls to action. However, it weakens compliance because the subject
+        is a family posed in front of a modest new home with explicit ''home ownership
+        and new beginnings'' cues, and the text says ''the comfort of a home to call
+        your own,'' making the housing product a notable focal element rather than
+        just subtle industry flavor.'
+      score: 0.6674829094047702
+      success: false
+    Prompt Structure [GEval]:
+      reason: 'The output fully matches all required sections: it has a clear SCENE
+        describing the Diwali evening environment in Roorkee with setting details
+        like the street, home facade, rangoli, garlands, and lamps; a distinct SUBJECT
+        focused on a family of three and their role in front of the new home; a DETAILS
+        section covering style, lighting, palette, framing, and composition; a TEXT
+        section containing quoted header and body/contact text; and a CONSTRAINTS
+        section listing restrictions and composition rules such as central 85% placement,
+        edge avoidance, and no logos or extra rendered text.'
+      score: 1.0
+      success: true
+    Text Specification [GEval]:
+      reason: The TEXT section includes a clear greeting header, "Happy Diwali," followed
+        by celebratory body text wishing light, warmth, and home comfort, which fits
+        the event. All text entries in the TEXT section are wrapped in quotes. There
+        are no font, color, or placement instructions for the header or body text;
+        styling details appear only in SCENE/DETAILS and not as text formatting directives.
+      score: 0.9817574476193645
+      success: true
+    Visual Specificity [GEval]:
+      reason: 'The output uses several concrete visual details that are actionable
+        for image generation, including marigold garlands, rangoli patterns, oil lamps,
+        a modest home facade, flat vector art, crisp outlines, layered paper-cut-style
+        forms, and palette hints with #C8A2C8 and #006994. Lighting and atmosphere
+        are described fairly specifically through soft ambient evening light from
+        diyas, warm string lights, and festive bokeh. It also avoids the banned vague
+        praise words like ''stunning'' or ''cinematic.'' However, some phrasing remains
+        somewhat abstract or non-visual, such as ''hopeful,'' ''aspirational but grounded,''
+        and ''subtle visual cues of home ownership,'' which are less directly actionable
+        than the stronger concrete elements.'
+      score: 0.7970687769248644
+      success: true
+  generated_at: '2026-07-02T17:00:57.589835+00:00'
+  model_name: gpt-5.4-mini
+  model_provider: openai
+  prompt_name: prompt_v5

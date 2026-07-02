@@ -11,6 +11,7 @@ from deepeval.test_case import LLMTestCase
 from tests.prompt.framework.config_loader import EvaluationConfig
 from tests.prompt.image.custom_metrics import (
     ImageGenerationSuccessMetric,
+    TextPlacementMetric,
     VisualQualityScoreMetric,
 )
 
@@ -108,6 +109,7 @@ class TestImageEvaluation:
         # Initialize metrics
         success_metric = ImageGenerationSuccessMetric()
         quality_metric = VisualQualityScoreMetric()
+        placement_metric = TextPlacementMetric()
 
         all_results = []
 
@@ -158,6 +160,7 @@ class TestImageEvaluation:
                     # Evaluate metrics
                     success_score = success_metric.measure(test_case)
                     quality_score = quality_metric.measure(test_case)
+                    placement_score = placement_metric.measure(test_case)
 
                     result = {
                         "prompt_name": prompt_info["name"],
@@ -168,6 +171,7 @@ class TestImageEvaluation:
                         "scores": {
                             "image_generation_success": success_score,
                             "visual_quality_score": quality_score,
+                            "text_placement": placement_score,
                         },
                         "metrics_details": {
                             "success": {
@@ -178,6 +182,10 @@ class TestImageEvaluation:
                                 "score": quality_score,
                                 "reason": quality_metric.reason,
                             },
+                            "text_placement": {
+                                "score": placement_score,
+                                "reason": placement_metric.reason,
+                            },
                         },
                         "source_info": prompt_data.get("source_info", {}),
                     }
@@ -186,6 +194,9 @@ class TestImageEvaluation:
 
                     print(f"    Success: {success_score:.2f} - {success_metric.reason}")
                     print(f"    Quality: {quality_score:.2f} - {quality_metric.reason}")
+                    print(
+                        f"    Placement: {placement_score:.2f} - {placement_metric.reason}"
+                    )
 
                 except Exception as e:
                     print(f"    Error generating image: {e}")
@@ -198,6 +209,7 @@ class TestImageEvaluation:
                             "scores": {
                                 "image_generation_success": 0.0,
                                 "visual_quality_score": 0.0,
+                                "text_placement": 0.0,
                             },
                         }
                     )
@@ -229,7 +241,11 @@ class TestImageEvaluation:
             quality_avg = sum(
                 r["scores"]["visual_quality_score"] for r in all_results
             ) / len(all_results)
+            placement_avg = sum(
+                r["scores"]["text_placement"] for r in all_results
+            ) / len(all_results)
             print(f"Average success score: {success_avg:.2f}")
             print(f"Average quality score: {quality_avg:.2f}")
+            print(f"Average text placement score: {placement_avg:.2f}")
 
         assert len(all_results) > 0, "No prompts were evaluated"

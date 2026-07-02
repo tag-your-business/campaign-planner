@@ -11,8 +11,11 @@
 # Multiple prompts (tests each prompt with each model):
 prompts:
   # - "prompt_v1"
-  - "prompt_v2"
-  - "prompt_v3"
+  # - "prompt_v2"
+  # - "prompt_v3"
+  # - "prompt_v4"
+  # - "prompt_v5"
+  - "prompt_v6"
 
 # Model Configuration
 # Reference provider(s) from framework/providers.yaml
@@ -36,6 +39,9 @@ metrics:
   - "text_specification"        # GEval: header/body text properly quoted
   - "composition_quality"       # GEval: social media optimized composition
   - "coherence"                 # GEval: overall clarity and flow
+  - "concept_originality"       # GEval: rejects the obvious event+industry cliché
+  - "festive_not_promotional"   # GEval: greeting post, not a product ad
+  - "contact_text_placement"    # GEval: website/address bottom edge, phone/email top right
 
 # Image Evaluation Cascade
 # When true, generates prompt_auto_** files in image/prompts/ for downstream testing
