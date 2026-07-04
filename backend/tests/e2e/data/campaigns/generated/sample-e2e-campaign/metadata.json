@@ -2,7 +2,7 @@
   "id": "sample-e2e-campaign",
   "company_name": "E2E Test Company",
   "event_name": "E2E Test Event",
-  "status": "pending",
+  "status": "published",
   "platforms": [
     "facebook",
     "instagram"
@@ -10,20 +10,20 @@
   "platform_statuses": {
     "facebook": {
       "status": "published",
-      "post_id": "122106499941367407",
-      "published_at": "2026-07-04T22:01:19.678458"
+      "post_id": "122106519663367407",
+      "published_at": "2026-07-04T23:25:24.750129"
     },
     "instagram": {
-      "status": "failed",
-      "post_id": null,
-      "published_at": null
+      "status": "published",
+      "post_id": "18164189638396004",
+      "published_at": "2026-07-04T23:25:41.334410"
     }
   },
   "facebook_page_id": "PLACEHOLDER_UPDATE_IN_FIXTURE",
   "instagram_account_id": "PLACEHOLDER_UPDATE_IN_FIXTURE",
   "caption": "\ud83e\uddea This is an E2E test post. You can safely delete this after testing.",
   "image_path": "PLACEHOLDER_UPDATE_IN_FIXTURE",
-  "image_url": "https://scontent.fdel11-2.fna.fbcdn.net/v/t39.30808-6/740169770_122106499947367407_79518988741228705_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=eu_EbAIIIfUQ7kNvwGulp6E&_nc_oc=Adqx95QzuoBO25aa_58ZeHxalfQI2Pe_otLlCMBS0TE5bw4YAfYS6ZQYsQ5ljv-XHVvbS44R2zNSlMQn6olJ8fAh&_nc_zt=23&_nc_ht=scontent.fdel11-2.fna&edm=AMAeTUEEAAAA&_nc_gid=J7hu15VO2mASRkRHsc1zAQ&_nc_tpa=Q5bMBQE-6-FDlEDIUDD2_dj4Wk0WhNv7-93DJFrQDX6MP7N11wEJZjaP7eJILxwLFPQTrVRAoost2MAxOg&oh=00_AQDxwPoTQZnvcmRfPYAzvohx5M3P1GJMfzLNn3zAsNjkiQ&oe=6A4F17A1",
-  "generated_at": "2026-07-04T22:01:13.382262",
+  "image_url": "https://scontent.fdel93-1.fna.fbcdn.net/v/t39.30808-6/737827406_122106519669367407_3337066367419398575_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=J9OAPsgswXMQ7kNvwG2TXuN&_nc_oc=Adp5GEdXX-COGLn80g4Q7o_0cqYNBjYrOaZ-54cyXJl2oSIifr7bhGB9qFhKzALPqMKR3sVur8ZukbfPqeIqg6vN&_nc_zt=23&_nc_ht=scontent.fdel93-1.fna&edm=AMAeTUEEAAAA&_nc_gid=T7ny3xozlrobuKpoTNBm8g&_nc_tpa=Q5bMBQEpkG3o2e77fbKPeNcbxXM1573ZCxUBuXtK29aUVK4Z4hiYk5HNMjEU-1dl1EzkQNFjixJA2rZO-A&oh=00_AQBJk1Dm7L4Q1oyaRFm4BrBvwIVcaFJGV3-McCkRIw-upA&oe=6A4F354A",
+  "generated_at": "2026-07-04T23:25:18.955786",
   "scheduled_publish_date": "2026-07-04"
 }
