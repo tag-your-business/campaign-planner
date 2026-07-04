@@ -10,11 +10,11 @@
   "platform_statuses": {
     "facebook": {
       "status": "published",
-      "post_id": "122093631987367407",
-      "published_at": "2026-06-14T17:06:39.111231"
+      "post_id": "122106499941367407",
+      "published_at": "2026-07-04T22:01:19.678458"
     },
     "instagram": {
-      "status": "pending",
+      "status": "failed",
       "post_id": null,
       "published_at": null
     }
@@ -23,7 +23,7 @@
   "instagram_account_id": "PLACEHOLDER_UPDATE_IN_FIXTURE",
   "caption": "\ud83e\uddea This is an E2E test post. You can safely delete this after testing.",
   "image_path": "PLACEHOLDER_UPDATE_IN_FIXTURE",
-  "image_url": "https://scontent.fdel11-3.fna.fbcdn.net/v/t39.30808-6/722809123_122093631993367407_6679199809712913833_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=YxpCWxQJPCsQ7kNvwF9Ci-b&_nc_oc=AdoMYrY_ejPkzL3OZNUdOkKE_DINwE6nU_N-AoA8LctOgozl27QnlNqPS20o0BFwpK7KejeV_MMvePQ_t-e4rkOw&_nc_zt=23&_nc_ht=scontent.fdel11-3.fna&edm=AMAeTUEEAAAA&_nc_gid=tUlP580dXTo6q6SVUapFQQ&_nc_tpa=Q5bMBQEyH0i3R31oL_m9bvxTGpvzLsDuYfarIQDsnLD_IwYd41sX-i7Ci8SHafnnxMo293kLY2ipSMEUaA&oh=00_Af8kVqhAhDYiYGwrPPNGYaHFz9ioAf8R1F4IYPnajBmFqg&oe=6A3465B1",
-  "generated_at": "2026-06-14T17:06:33.939293",
-  "scheduled_publish_date": "2026-06-14"
+  "image_url": "https://scontent.fdel11-2.fna.fbcdn.net/v/t39.30808-6/740169770_122106499947367407_79518988741228705_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=eu_EbAIIIfUQ7kNvwGulp6E&_nc_oc=Adqx95QzuoBO25aa_58ZeHxalfQI2Pe_otLlCMBS0TE5bw4YAfYS6ZQYsQ5ljv-XHVvbS44R2zNSlMQn6olJ8fAh&_nc_zt=23&_nc_ht=scontent.fdel11-2.fna&edm=AMAeTUEEAAAA&_nc_gid=J7hu15VO2mASRkRHsc1zAQ&_nc_tpa=Q5bMBQE-6-FDlEDIUDD2_dj4Wk0WhNv7-93DJFrQDX6MP7N11wEJZjaP7eJILxwLFPQTrVRAoost2MAxOg&oh=00_AQDxwPoTQZnvcmRfPYAzvohx5M3P1GJMfzLNn3zAsNjkiQ&oe=6A4F17A1",
+  "generated_at": "2026-07-04T22:01:13.382262",
+  "scheduled_publish_date": "2026-07-04"
 }

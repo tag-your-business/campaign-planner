@@ -26,7 +26,9 @@ AI-powered campaign planner backend built with FastAPI.
    ```
    Edit `.env` and add your configuration:
    - `OPENAI_API_KEY` - Your OpenAI API key (required)
-   - `FACEBOOK_ACCESS_TOKEN` - For Facebook publishing (optional)
+   - `FACEBOOK_ACCESS_TOKEN` - For Facebook publishing (optional). Use a never-expiring
+     Page token, generated via `poetry run python get_facebook_page_token.py
+     <short-lived-token>` — see the script's docstring for details.
    - `INSTAGRAM_ACCESS_TOKEN` - For Instagram publishing (optional)
    - Other settings as needed
 

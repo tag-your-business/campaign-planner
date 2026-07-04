@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from app.api.v1.routes import campaigns, companies, events
 from app.core.config import settings
 from app.core.logging import setup_logging
+from app.features.publishing.utils import check_facebook_token_health
 from app.schedulers.generate_scheduler import run_generate_job
 from app.schedulers.publish_scheduler import run_publish_job
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -23,6 +24,8 @@ async def lifespan(app: FastAPI):
     # Startup
     setup_logging()
     logger.info("Starting Campaign Planner application")
+
+    await check_facebook_token_health()
 
     # Initialize and start scheduler
     scheduler = AsyncIOScheduler()
