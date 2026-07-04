@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from app.core.config import settings
 from app.features.publishing.service import PublisherService
 from app.features.publishing.utils import get_facebook_photo_url
 
@@ -42,13 +43,14 @@ def _should_run_e2e_tests() -> bool:
     if not RUN_E2E:
         return False
 
+    # Access tokens fall back to backend/.env (see conftest.e2e_credentials)
     required = [
-        "E2E_FACEBOOK_PAGE_ID",
-        "E2E_FACEBOOK_ACCESS_TOKEN",
-        "E2E_INSTAGRAM_ACCOUNT_ID",
-        "E2E_INSTAGRAM_ACCESS_TOKEN",
+        os.getenv("E2E_FACEBOOK_PAGE_ID"),
+        os.getenv("E2E_FACEBOOK_ACCESS_TOKEN") or settings.facebook_access_token,
+        os.getenv("E2E_INSTAGRAM_ACCOUNT_ID"),
+        os.getenv("E2E_INSTAGRAM_ACCESS_TOKEN") or settings.instagram_access_token,
     ]
-    return all(os.getenv(key) for key in required)
+    return all(required)
 
 
 @pytest.mark.e2e

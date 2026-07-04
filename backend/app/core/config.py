@@ -49,6 +49,8 @@ class Settings(BaseSettings):
     instagram_api_version: str = "v21.0"
     facebook_access_token: str = ""
     instagram_access_token: str = ""
+    facebook_app_id: str = ""
+    facebook_app_secret: str = ""
 
     # Retry settings
     max_retries: int = 3

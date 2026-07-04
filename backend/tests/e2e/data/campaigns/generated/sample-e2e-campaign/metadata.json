@@ -2,7 +2,7 @@
   "id": "sample-e2e-campaign",
   "company_name": "E2E Test Company",
   "event_name": "E2E Test Event",
-  "status": "pending",
+  "status": "published",
   "platforms": [
     "facebook",
     "instagram"
@@ -10,20 +10,20 @@
   "platform_statuses": {
     "facebook": {
       "status": "published",
-      "post_id": "122093631987367407",
-      "published_at": "2026-06-14T17:06:39.111231"
+      "post_id": "122106519663367407",
+      "published_at": "2026-07-04T23:25:24.750129"
     },
     "instagram": {
-      "status": "pending",
-      "post_id": null,
-      "published_at": null
+      "status": "published",
+      "post_id": "18164189638396004",
+      "published_at": "2026-07-04T23:25:41.334410"
     }
   },
   "facebook_page_id": "PLACEHOLDER_UPDATE_IN_FIXTURE",
   "instagram_account_id": "PLACEHOLDER_UPDATE_IN_FIXTURE",
   "caption": "\ud83e\uddea This is an E2E test post. You can safely delete this after testing.",
   "image_path": "PLACEHOLDER_UPDATE_IN_FIXTURE",
-  "image_url": "https://scontent.fdel11-3.fna.fbcdn.net/v/t39.30808-6/722809123_122093631993367407_6679199809712913833_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=YxpCWxQJPCsQ7kNvwF9Ci-b&_nc_oc=AdoMYrY_ejPkzL3OZNUdOkKE_DINwE6nU_N-AoA8LctOgozl27QnlNqPS20o0BFwpK7KejeV_MMvePQ_t-e4rkOw&_nc_zt=23&_nc_ht=scontent.fdel11-3.fna&edm=AMAeTUEEAAAA&_nc_gid=tUlP580dXTo6q6SVUapFQQ&_nc_tpa=Q5bMBQEyH0i3R31oL_m9bvxTGpvzLsDuYfarIQDsnLD_IwYd41sX-i7Ci8SHafnnxMo293kLY2ipSMEUaA&oh=00_Af8kVqhAhDYiYGwrPPNGYaHFz9ioAf8R1F4IYPnajBmFqg&oe=6A3465B1",
-  "generated_at": "2026-06-14T17:06:33.939293",
-  "scheduled_publish_date": "2026-06-14"
+  "image_url": "https://scontent.fdel93-1.fna.fbcdn.net/v/t39.30808-6/737827406_122106519669367407_3337066367419398575_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=J9OAPsgswXMQ7kNvwG2TXuN&_nc_oc=Adp5GEdXX-COGLn80g4Q7o_0cqYNBjYrOaZ-54cyXJl2oSIifr7bhGB9qFhKzALPqMKR3sVur8ZukbfPqeIqg6vN&_nc_zt=23&_nc_ht=scontent.fdel93-1.fna&edm=AMAeTUEEAAAA&_nc_gid=T7ny3xozlrobuKpoTNBm8g&_nc_tpa=Q5bMBQEpkG3o2e77fbKPeNcbxXM1573ZCxUBuXtK29aUVK4Z4hiYk5HNMjEU-1dl1EzkQNFjixJA2rZO-A&oh=00_AQBJk1Dm7L4Q1oyaRFm4BrBvwIVcaFJGV3-McCkRIw-upA&oe=6A4F354A",
+  "generated_at": "2026-07-04T23:25:18.955786",
+  "scheduled_publish_date": "2026-07-04"
 }

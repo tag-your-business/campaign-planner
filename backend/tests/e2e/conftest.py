@@ -31,11 +31,15 @@ def e2e_credentials() -> dict[str, str]:
     Raises:
         ValueError: If required credentials are missing
     """
+    # Tokens fall back to the app's own credentials in backend/.env, so a
+    # never-expiring Page token only needs to be configured in one place
     credentials = {
         "facebook_page_id": os.getenv("E2E_FACEBOOK_PAGE_ID", ""),
-        "facebook_access_token": os.getenv("E2E_FACEBOOK_ACCESS_TOKEN", ""),
+        "facebook_access_token": os.getenv("E2E_FACEBOOK_ACCESS_TOKEN", "")
+        or settings.facebook_access_token,
         "instagram_account_id": os.getenv("E2E_INSTAGRAM_ACCOUNT_ID", ""),
-        "instagram_access_token": os.getenv("E2E_INSTAGRAM_ACCESS_TOKEN", ""),
+        "instagram_access_token": os.getenv("E2E_INSTAGRAM_ACCESS_TOKEN", "")
+        or settings.instagram_access_token,
     }
 
     # Check if any credential is missing
@@ -43,7 +47,8 @@ def e2e_credentials() -> dict[str, str]:
     if missing:
         raise ValueError(
             f"Missing E2E credentials: {', '.join(missing)}. "
-            f"Please create {e2e_env_path} from .env.e2e.example and add your credentials."
+            f"Set them in {e2e_env_path} (see .env.e2e.example); access tokens fall back "
+            f"to FACEBOOK_ACCESS_TOKEN / INSTAGRAM_ACCESS_TOKEN in backend/.env."
         )
 
     return credentials
