@@ -202,7 +202,7 @@ See [LICENSE](LICENSE) for details.
 
 ## Authors
 
-- Abhay (abhay.30121997@gmail.com)
+- Abhay (eabhaytomar@gmail.com)
 - Gautam (gautamr347@gmail.com)
 
 ## Support
